@@ -1,4 +1,5 @@
 import React from 'react';
+import RecipeCard from "@/components/RecipeCard";
 
 export default function Hero() {
     return (
@@ -11,6 +12,7 @@ export default function Hero() {
             </div>
             <div className="bg-white p-8">
                 <h1>Trending Recipes</h1>
+                <RecipeCard/>
             </div>
         </div>
     );
