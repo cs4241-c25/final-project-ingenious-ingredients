@@ -1,3 +1,5 @@
+"use client";
+
 import {
     Card,
     CardHeader,
@@ -6,6 +8,7 @@ import {
     Typography,
     Button,
 } from "@material-tailwind/react";
+import React, { createContext } from 'react';
 
 export default function RecipeCard() {
     return (
