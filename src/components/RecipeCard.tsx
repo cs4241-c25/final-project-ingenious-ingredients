@@ -12,7 +12,7 @@ export default function RecipeCard() {
             <CardMedia
                 sx={{ height: 140 }}
                 image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjAMLedZRk2kc2Gg7NC0jRaHIjxa1-vf-b_A&s"
-                title="green iguana"
+                title="Delicious Cheeseburger"
             />
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
