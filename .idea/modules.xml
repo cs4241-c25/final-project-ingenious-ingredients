@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/finalproject.iml" filepath="$PROJECT_DIR$/.idea/finalproject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/webware_group_i_project.iml" filepath="$PROJECT_DIR$/.idea/webware_group_i_project.iml" />
     </modules>
   </component>
 </project>

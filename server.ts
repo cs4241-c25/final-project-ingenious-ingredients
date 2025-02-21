@@ -51,7 +51,6 @@ app.post('/postUser', async (req: Request, res: Response) => {
         res.status(500).send("Error when adding user to collection");
     }
 })
-
 const appRun = run();
 
 // Start the server
