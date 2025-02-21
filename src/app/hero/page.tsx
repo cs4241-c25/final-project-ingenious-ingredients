@@ -1,4 +1,5 @@
 import React from 'react';
+import RecipeCard from "@/components/RecipeCard";
 
 export default function Hero() {
     return (
@@ -10,29 +11,8 @@ export default function Hero() {
                 </div>
             </div>
             <div className="bg-white p-8">
-                <p>Your normal text goes here.</p>
-                <p>Your normal text goes here.</p>
-                <p>Your normal text goes here.</p>
-                <p>Your normal text goes here.</p>
-                <p>Your normal text goes here.</p>
-                <p>Your normal text goes here.</p>
-                <p>Your normal text goes here.</p>
-                <p>Your normal text goes here.</p>
-                <p>Your normal text goes here.</p>
-                <p>Your normal text goes here.</p>
-                <p>Your normal text goes here.</p>
-                <p>Your normal text goes here.</p>
-                <p>Your normal text goes here.</p>
-                <p>Your normal text goes here.</p>
-                <p>Your normal text goes here.</p>
-                <p>Your normal text goes here.</p>
-                <p>Your normal text goes here.</p>
-                <p>Your normal text goes here.</p>
-                <p>Your normal text goes here.</p>
-                <p>Your normal text goes here.</p>
-                <p>Your normal text goes here.</p>
-                <p>Your normal text goes here.</p>
-
+                <h1>Trending Recipes</h1>
+                <RecipeCard/>
             </div>
         </div>
     );
