@@ -1,31 +1,48 @@
 import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import AspectRatio from '@mui/joy/AspectRatio';
+import Card from '@mui/joy/Card';
+import CardContent from '@mui/joy/CardContent';
+import CardOverflow from '@mui/joy/CardOverflow';
+import Divider from '@mui/joy/Divider';
+import Typography from '@mui/joy/Typography';
 
-export default function RecipeCard() {
+export default function OverflowCard() {
     return (
-        <Card sx={{ maxWidth: 345 }}>
-            <CardMedia
-                sx={{ height: 140 }}
-                image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjAMLedZRk2kc2Gg7NC0jRaHIjxa1-vf-b_A&s"
-                title="Delicious Cheeseburger"
-            />
+        <Card variant="outlined" sx={{ width: 320 }} size="lg">
+            <CardOverflow>
+                <AspectRatio ratio="2">
+                    <img
+                        src="https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318"
+                        srcSet="https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318&dpr=2 2x"
+                        loading="lazy"
+                        alt=""
+                    />
+                </AspectRatio>
+            </CardOverflow>
             <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                    Cheeseburger
-                </Typography>
-                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                    Cheeseburgers are delicious, and we think that you should make one too.
-                </Typography>
+                <Typography level="title-md">Yosemite National Park</Typography>
+                <Typography level="body-sm">California</Typography>
             </CardContent>
-            <CardActions>
-                <Button size="small">Share</Button>
-                <Button size="small">Learn More</Button>
-            </CardActions>
+            <CardOverflow variant="soft" sx={{ bgcolor: 'background.level1' }}>
+                <Divider inset="context" />
+                <CardContent orientation="horizontal">
+                    <Typography
+                        level="body-xs"
+                        textColor="text.secondary"
+                        sx={{ fontWeight: 'md' }}
+                    >
+                        6.3k views
+                    </Typography>
+                    <Divider orientation="vertical" />
+                    <Typography
+                        level="body-xs"
+                        textColor="text.secondary"
+                        sx={{ fontWeight: 'md' }}
+                    >
+                        1 hour ago
+                    </Typography>
+                </CardContent>
+            </CardOverflow>
         </Card>
     );
 }
