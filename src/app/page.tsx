@@ -1,6 +1,8 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import React from 'react';
+import {PostTest} from "./postTest";
 
 export default function Home() {
   return (
@@ -52,7 +54,7 @@ export default function Home() {
         </div>
       </main>
 
-      <Link href="/hero">
+      <Link href="/hero" onClick={PostTest}>
         <span className="text-blue-500 hover:underline">Go to Hero Page</span>
       </Link>
 

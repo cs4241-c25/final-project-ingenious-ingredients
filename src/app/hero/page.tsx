@@ -1,5 +1,6 @@
 import React from 'react';
-import RecipeCard from "@/components/RecipeCard";
+import RecipeCard from "../../components/RecipeCard";
+
 
 export default function Hero() {
     return (
