@@ -1,3 +1,5 @@
+import {User} from "../../../Classes/User";
+
 export async function GetUser(username: string) {
 
     const json =  {
@@ -12,5 +14,8 @@ export async function GetUser(username: string) {
         headers: {"Content-Type": "application/json"}
     })
 
-    return await results.json();
+    const user = await results.json();
+
+    return new User(user.username, user.password, user.isPublic, user.favoritedRecipes);
+
 }

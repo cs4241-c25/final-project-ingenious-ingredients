@@ -105,18 +105,17 @@ app.post('/modifyPublicStatus', async (req: Request, res: Response) => {
 
 app.post('/postRecipe', async (req: Request, res: Response) => {
     console.log("Post Recipe Received");
-    console.log(req.body);
-    const currentDate = new Date();
+    console.log(req.body.recipe);
     const insert = {
-        steps: req.body.steps,
-        name: req.body.name,
-        creator: req.body.creator,
-        isPublic: req.body.isPublic,
-        likes: 0,
-        ingredients: req.body.ingredients,
-        prepTime: req.body.prepTime,
-        mealType: req.body.mealType,
-        postDate: `${currentDate.getDate()}/${currentDate.getMonth() + 1}/${currentDate.getFullYear()}`
+        steps: req.body.recipe.steps,
+        name: req.body.recipe.name,
+        creator: req.body.recipe.creator,
+        isPublic: req.body.recipe.isPublic,
+        likes: req.body.recipe.likes,
+        ingredients: req.body.recipe.ingredients,
+        prepTime: req.body.recipe.prepTime,
+        mealType: req.body.recipe.mealType,
+        postDate: req.body.recipe.postDate
     }
     try {
         let results;
@@ -129,6 +128,28 @@ app.post('/postRecipe', async (req: Request, res: Response) => {
     catch (error){
         console.error(error);
         res.status(205).send("Recipe could not be added to Collection");
+    }
+})
+
+app.post('/getRecipe', async (req: Request, res: Response) => {
+    console.log("Get Recipe Received");
+    try {
+        let results;
+        if (recipeCollection) {
+            results = await recipeCollection.findOne({username: req.body.username, creator: req.body.creator});
+        }
+        if (results){
+            console.log("Found Recipe");
+            res.status(201).send(results);
+        }
+        else {
+            console.log("Couldn't find recipe");
+            res.status(201).send("Couldn't find recipe");
+        }
+    }
+    catch (error){
+        console.error(error);
+        res.status(206).send("Error when searching for Recipe");
     }
 })
 

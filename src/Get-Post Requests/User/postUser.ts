@@ -1,8 +1,10 @@
-export async function PostUser(username: string, password: string, isPublic: boolean) : Promise<boolean> {
+import {User} from "../../../Classes/User";
+
+export async function PostUser(user: User) : Promise<boolean> {
     const newUser = {
-        username: username,
-        password: password,
-        isPublic: isPublic,
+        username: user.username,
+        password: user.password,
+        isPublic: user.isPublic,
         favoritedRecipes: null
     }
 
