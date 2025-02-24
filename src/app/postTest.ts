@@ -1,18 +1,9 @@
+import {PostUser} from "../Get-Post Requests/User/postUser";
+import {GetUser} from "../Get-Post Requests/User/getUser";
+import {ModifyPublic} from "../Get-Post Requests/User/modifyPublic";
+
 export async function PostTest() {
-    const newUser = {
-        username: "Bill",
-        password: "BillBob",
-        isPublic: false,
-        favoritedRecipes: null
-    }
-
-    const body = JSON.stringify(newUser);
-
-    const results = await fetch('http://localhost:3000/postUser', {
-        method: 'POST',
-        body,
-        headers: {"Content-Type": "application/json"}
-    })
-
-    console.log(results);
+    //console.log(await PostUser("Henry", "password", false));
+    //console.log(await GetUser("Henry"));
+    await ModifyPublic("Henry", true);
 }

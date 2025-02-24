@@ -1,0 +1,16 @@
+export async function GetUser(username: string) {
+
+    const json =  {
+        username: username
+    }
+
+    const body = JSON.stringify(json)
+
+    const results = await fetch('http://localhost:3000/getUser', {
+        method: 'POST',
+        body,
+        headers: {"Content-Type": "application/json"}
+    })
+
+    return await results.json();
+}
