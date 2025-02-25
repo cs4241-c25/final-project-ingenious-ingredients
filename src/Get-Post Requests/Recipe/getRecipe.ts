@@ -16,5 +16,14 @@ export async function GetRecipe(name: string, creator: string){
 
     const recipe = await results.json();
 
-    return new Recipe(recipe.steps, recipe.name, recipe.creator, recipe.isPublic, recipe.prepTime, recipe.mealType, recipe.likes, recipe.postDate, recipe.ingredients, recipe.tags);
+    return new Recipe(recipe.steps,
+                      recipe.name,
+                      recipe.creator,
+                      recipe.isPublic,
+                      recipe.prepTime,
+                      recipe.mealType,
+                      recipe.likes,
+                      recipe.postDate,
+                      recipe.ingredients,
+                      recipe.tags);
 }
