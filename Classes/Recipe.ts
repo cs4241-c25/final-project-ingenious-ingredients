@@ -11,14 +11,16 @@ export class Recipe{
     prepTime: number;
     mealType: string;
     postDate: Date;
+    tags: string[];
 
-    constructor(steps: Step[], name: string, creator: string, isPublic: boolean, prepTime: number, mealType: string, likes: number = 0, postDate: Date = null, ingredients: RecipeIngredient[] = null){
+    constructor(steps: Step[], name: string, creator: string, isPublic: boolean, prepTime: number, mealType: string, likes: number = 0, postDate: Date = null, ingredients: RecipeIngredient[] = null, tags: string[] = null){
         this.steps = steps;
         this.name = name;
         this.creator = creator;
         this.isPublic = isPublic;
         this.prepTime = prepTime;
         this.mealType = mealType;
+        this.tags = tags;
         if (postDate === null){
             this.postDate = new Date();
         }

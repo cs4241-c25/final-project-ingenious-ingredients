@@ -115,7 +115,8 @@ app.post('/postRecipe', async (req: Request, res: Response) => {
         ingredients: req.body.recipe.ingredients,
         prepTime: req.body.recipe.prepTime,
         mealType: req.body.recipe.mealType,
-        postDate: req.body.recipe.postDate
+        postDate: req.body.recipe.postDate,
+        tags: req.body.recipe.tags
     }
     try {
         let results;
