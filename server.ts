@@ -17,6 +17,7 @@ const url = "mongodb+srv://tabranchaud:tb@cluster0.h4cuw.mongodb.net/";
 const dbconnection = new MongoClient(url);
 let userCollection : Collection | null = null;
 let recipeCollection : Collection | null = null;
+let tagCollection : Collection | null = null;
 
 
 // Basic route handler
@@ -28,6 +29,7 @@ async function run() {
     await dbconnection.connect().then(() => console.log("Database Connected"));
     userCollection = await dbconnection.db("Ingredients").collection("Users");
     recipeCollection = await dbconnection.db("Ingredients").collection("Recipes");
+    tagCollection = await dbconnection.db("Ingredients").collection("Tags");
     //const results = await userCollection.insertOne({"username": "Admin", "password": "Admin", "public": true, "favoritedRecipes": null});
     //console.log(results);
 }
@@ -124,6 +126,12 @@ app.post('/postRecipe', async (req: Request, res: Response) => {
             results = await recipeCollection.insertOne(insert);
         }
         console.log(results);
+        for (let i = 0; i < insert.tags.length; i++){
+            const tag = await tagCollection.findOne({tag: insert.tags[i]});
+            if (tag === null){
+                await tagCollection.insertOne({tag: insert.tags[i]});
+            }
+        }
         res.status(201).send("Recipe Added to Collection");
     }
     catch (error){
@@ -151,6 +159,68 @@ app.post('/getRecipe', async (req: Request, res: Response) => {
     catch (error){
         console.error(error);
         res.status(206).send("Error when searching for Recipe");
+    }
+})
+
+app.post('/getTags', async (req: Request, res: Response) => {
+    console.log("Get Tags Received");
+    try {
+        let results;
+        const tagList : string[] = [];
+        if (tagCollection) {
+            results = await tagCollection.find().toArray();
+            for (let i = 0; i < results.length; i++){
+                tagList.push(results[i].tag);
+            }
+        }
+        console.log(tagList);
+        res.status(201).send(tagList);
+    }
+    catch (error){
+        console.error(error);
+        res.status(206).send("Could not retrieve tags");
+    }
+})
+
+app.post('/getRecipesByTag', async (req: Request, res: Response) => {
+    console.log("Get Recipes by Tag Received");
+    if (req.body.user){
+        try {
+            let results;
+            if (recipeCollection){
+                const query = {tags: {$all: req.body.tags}, creator: req.body.user};
+                results = await recipeCollection.find(query).toArray();
+            }
+            if (results){
+                console.log("Found Recipes");
+                res.status(201).send(results);
+            } else {
+                console.log("Couldn't find recipes");
+                res.status(201).send("Couldn't find recipes");
+            }
+        } catch (error) {
+        console.error(error);
+        res.status(206).send("Error when searching for Recipe");
+        }
+    }
+    else {
+        try {
+            let results;
+            if (recipeCollection) {
+                const query = {tags: {$all: req.body.tags}, isPublic: true};
+                results = await recipeCollection.find(query).toArray();
+            }
+            if (results) {
+                console.log("Found Recipes");
+                res.status(201).send(results);
+            } else {
+                console.log("Couldn't find recipes");
+                res.status(201).send("Couldn't find recipes");
+            }
+        } catch (error) {
+            console.error(error);
+            res.status(206).send("Error when searching for Recipe");
+        }
     }
 })
 

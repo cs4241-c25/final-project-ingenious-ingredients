@@ -7,6 +7,9 @@ import {Recipe} from "../../Classes/Recipe";
 import {PostRecipe} from "../Get-Post Requests/Recipe/postRecipe";
 import {GetRecipe} from "../Get-Post Requests/Recipe/getRecipe";
 import {User} from "../../Classes/User";
+import {tags} from "@emotion/styled/src/tags";
+import {GetTags} from "../Get-Post Requests/Tags/getTags";
+import {GetRecipesByTags} from "../Get-Post Requests/Recipe/getRecipesByTags";
 
 
 export async function PostTest() {
@@ -40,7 +43,7 @@ export async function PostTest() {
         //They take in a string as the Instructions someone would follow, and an array of the ingredients needed
 
         //Finally is putting them together into a Recipe object
-    const Recipe1 = new Recipe([step1, step2], "Eggs", "Me", true, 5, "Breakfast");
+    const Recipe1 = new Recipe([step1, step2], "Eggs", "Me", true, 5, "Breakfast", undefined, undefined, undefined, ["Easy", "Quick"]);
         //And then posting the Recipe
     console.log(await PostRecipe(Recipe1));
         //Posting a Recipe will return true if the recipe was created and false if there was an error
@@ -49,5 +52,13 @@ export async function PostTest() {
     console.log(await GetRecipe("Eggs", "Me"));
         //Returns the recipe as a Recipe Object
 
+
+        //Getting all tags in the database, returns a list of strings
+    await GetTags();
+
+        //Gets all recipes that have a all tags in a list, can also optionally take in a Username to return all
+        //Recipes that they have listed with those tags
+        //If no user is given then it will search all public recipes
+    await GetRecipesByTags(["Easy"]);
      */
 }
