@@ -1,6 +1,7 @@
 import React from 'react';
-import RecipeCard from "../../components/RecipeCard";
-
+import RecipeCard from "@/components/RecipeCard";
+import RecipeGrid from "@/components/RecipeGrid";
+import BrowseFilterTags from "@/components/BrowseFilterTags";
 
 export default function Hero() {
     return (
@@ -13,7 +14,8 @@ export default function Hero() {
             </div>
             <div className="bg-white p-8">
                 <h1>Trending Recipes</h1>
-                <RecipeCard/>
+                <RecipeGrid colNum={3}/>
+                <BrowseFilterTags/>
             </div>
         </div>
     );

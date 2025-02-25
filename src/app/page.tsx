@@ -2,7 +2,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from 'react';
+import RecipeGrid from "../components/RecipeGrid";
 import {PostTest} from "./postTest";
+import {PostUser} from "../Get-Post Requests/User/postUser";
 
 export default function Home() {
   return (
@@ -54,9 +56,9 @@ export default function Home() {
         </div>
       </main>
 
-      <Link href="/hero" onClick={PostTest}>
+      <a onClick={PostTest}>
         <span className="text-blue-500 hover:underline">Go to Hero Page</span>
-      </Link>
+      </a>
 
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
         <a
