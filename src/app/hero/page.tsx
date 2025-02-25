@@ -1,5 +1,4 @@
 import React from 'react';
-import RecipeCard from "@/components/RecipeCard";
 import RecipeGrid from "@/components/RecipeGrid";
 import BrowseFilterTags from "@/components/BrowseFilterTags";
 
