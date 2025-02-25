@@ -2,8 +2,7 @@ import React from 'react';
 import RecipeCard from "@/components/RecipeCard";
 import RecipeGrid from "@/components/RecipeGrid";
 
-
-const Page = () => {
+export default function Browse() {
     return (
         <div>
             <nav id={'replace w navbar'}/>
@@ -13,5 +12,3 @@ const Page = () => {
 
     );
 }
-
-export default Page;
