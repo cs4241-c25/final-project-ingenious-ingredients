@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from 'react';
+import RecipeGrid from "../components/RecipeGrid";
 import {PostTest} from "./postTest";
 import {PostUser} from "../Get-Post Requests/User/postUser";
 
