@@ -1,6 +1,6 @@
 # Final Project
 *Due at noon on the day of your team's assigned class presentation. Teams will be presenting
-during the last week of class on Tuesday, Thursday, and Friday (March 4, 6, 7)*
+during the last week of class on Thursday March 6 or Friday March 7)*
 
 For your final project, you'll implement a web application that exhibits understanding of the course materials.
 This project should provide an opportunity to both be creative and to pursue individual research and learning goals.
