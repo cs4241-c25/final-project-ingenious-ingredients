@@ -27,7 +27,6 @@ export default function RecipeCard({ recipe, image }: RecipeCardProps) {
         firstThreeIngredients += "...";
         return firstThreeIngredients;
     }
-
     function stylizedTags() {
         return recipe.tags.map((tag, index) => (
             <Chip key={index} label={tag} sx={{ margin: '2px' }} />
