@@ -41,10 +41,11 @@ const pages = ['Browse Recipes', 'Set Timer'];
         setAnchorElUser(null);
     };
 
+    const sticky = "sticky";
 
 
     return (
-        <AppBar id="mainBar" position = "sticky">
+        <AppBar id="mainBar" sx={{position: {sticky}}}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     {/*Below is the Icon for the Website (Commented Out*/}
