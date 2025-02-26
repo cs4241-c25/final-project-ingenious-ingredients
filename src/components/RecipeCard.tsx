@@ -6,6 +6,7 @@ import CardOverflow from '@mui/joy/CardOverflow';
 import Divider from '@mui/joy/Divider';
 import Typography from '@mui/joy/Typography';
 import '../app/globals.css';
+import {Chip} from "@mui/material";
 
 // TODO: image currently does not exist as a variable of class Recipe
 // TODO: tags should be chip components eventually
@@ -22,6 +23,12 @@ export default function RecipeCard({ name, creator, prepTime, image, likes, post
         }
         firstThreeIngredients += "...";
         return firstThreeIngredients;
+    }
+
+    function stylizedTags() {
+        return tags.map((tag, index) => (
+            <Chip key={index} label={tag} sx={{ margin: '2px' }} />
+        ));
     }
 
     return (
@@ -68,7 +75,7 @@ export default function RecipeCard({ name, creator, prepTime, image, likes, post
                             </Typography>
                         </CardContent>
                     </CardOverflow>
-                    <Typography level="body-sm">Tags: {tags}</Typography>
+                    <Typography level="body-sm">Tags: {stylizedTags()}</Typography>
                 </CardContent>
             </Card>
         </a>
