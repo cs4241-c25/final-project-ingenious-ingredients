@@ -1,6 +1,7 @@
 import React from 'react';
 import RecipeGrid from "@/components/RecipeGrid";
 import BrowseFilterTags from "@/components/BrowseFilterTags";
+import GetAllRecipes from "@/Get-Post Requests/Recipe/getAllRecipes"
 
 export default function Hero() {
     return (
@@ -13,7 +14,7 @@ export default function Hero() {
             </div>
             <div className="bg-white p-8">
                 <h1>Trending Recipes</h1>
-                {/*<RecipeGrid colNum={3}/>*/}
+                <RecipeGrid colNum={3} recipes={GetAllRecipes()}/>
                 {/*<BrowseFilterTags/>*/}
                 {/* add a view more... button */}
             </div>
