@@ -25,6 +25,10 @@ app.get('/home', (req : Request , res : Response ) => {
     res.send("Send");
 })
 
+app.get("/recipes", (req: Request, res: Response) => {
+    res.send("Send");
+})
+
 async function run() {
     await dbconnection.connect().then(() => console.log("Database Connected"));
     userCollection = await dbconnection.db("Ingredients").collection("Users");
