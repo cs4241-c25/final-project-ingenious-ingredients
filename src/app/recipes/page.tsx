@@ -5,7 +5,7 @@ import RecipeGrid from "@/components/RecipeGrid";
 import {GetAllRecipes} from "@/Get-Post Requests/Recipe/getAllRecipes";
 import {Recipe} from "../../../Classes/Recipe";
 
-export default function Browse() {
+export default function Recipes() {
     const [recipes, setRecipes] = useState<Recipe[]>([]);
 
     useEffect(() => {
