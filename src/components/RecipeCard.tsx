@@ -6,23 +6,49 @@ import CardOverflow from '@mui/joy/CardOverflow';
 import Divider from '@mui/joy/Divider';
 import Typography from '@mui/joy/Typography';
 import '../app/globals.css';
+import {Chip} from "@mui/material";
+import {Recipe} from "../../Classes/Recipe";
+import Link from "next/link";
 
-export default function RecipeCard() {
+interface RecipeCardProps {
+    recipe: Recipe;
+    image: string;
+}
+
+export default function RecipeCard({ recipe, image }: RecipeCardProps) {
+
+    if (!recipe) return null;
+    function getFirstThreeIngredients() {
+        let firstThreeIngredients = '';
+        for (let i = 0; i < 3; i++) {
+            firstThreeIngredients += recipe.ingredients[i].name;
+            firstThreeIngredients += ", ";
+        }
+        firstThreeIngredients += "...";
+        return firstThreeIngredients;
+    }
+    function stylizedTags() {
+        return recipe.tags.map((tag, index) => (
+            <Chip key={index} label={tag} sx={{ margin: '2px' }} />
+        ));
+    }
+
     return (
-        <a href="https://example.com" className="recipe-card-link">
+        <Link href={`../app/recipes/${recipe.slug}`}>
             <Card variant="outlined" sx={{width: 320}} size="lg">
                 <CardOverflow>
                     <AspectRatio ratio="2">
                         <img
-                            srcSet="https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318&dpr=2 2x"
+                            srcSet={image}
                             loading="lazy"
-                            alt=""
+                            alt={recipe.name}
                         />
                     </AspectRatio>
                 </CardOverflow>
                 <CardContent>
-                    <Typography level="title-md">Yosemite National Park</Typography>
-                    <Typography level="body-sm">California</Typography>
+                    <Typography level="title-lg">{recipe.name}</Typography>
+                    <Typography level="body-md">By: {recipe.creator}</Typography>
+                    <Typography level="body-sm">Ingredients: {getFirstThreeIngredients()}</Typography>
                     <CardOverflow variant="soft" sx={{bgcolor: 'background.level1'}}>
                         <Divider inset="context"/>
                         <CardContent orientation="horizontal">
@@ -31,7 +57,7 @@ export default function RecipeCard() {
                                 textColor="text.secondary"
                                 sx={{fontWeight: 'md'}}
                             >
-                                6.3k views
+                                {recipe.likes} likes
                             </Typography>
                             <Divider orientation="vertical"/>
                             <Typography
@@ -39,12 +65,23 @@ export default function RecipeCard() {
                                 textColor="text.secondary"
                                 sx={{fontWeight: 'md'}}
                             >
-                                1 hour ago
+                                {recipe.postDate.toDateString()}
+                            </Typography>
+                            <Divider orientation="vertical"/>
+                            <Typography
+                                level="body-xs"
+                                textColor="text.secondary"
+                                sx={{fontWeight: 'md'}}
+                            >
+                                Takes {recipe.prepTime}
                             </Typography>
                         </CardContent>
                     </CardOverflow>
+                    <Typography level="body-sm">Tags: {stylizedTags()}</Typography>
                 </CardContent>
             </Card>
-        </a>
-);
+        </Link>
+    );
 }
+
+
