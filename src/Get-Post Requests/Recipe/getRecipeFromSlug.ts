@@ -7,7 +7,7 @@ export async function GetRecipeFromSlug(slug){
 
     const body = JSON.stringify(json);
 
-    const results = await fetch('http://localhost:3000/getRecipe', {
+    const results = await fetch('http://localhost:3000/getRecipeFromSlug', {
         method: 'POST',
         body,
         headers: {"Content-Type": "application/json"}
