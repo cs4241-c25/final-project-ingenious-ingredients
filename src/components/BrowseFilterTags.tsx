@@ -2,8 +2,9 @@
 
 import * as React from "react";
 import {Chip, TextField, Autocomplete} from "@mui/material";
+import GetTags from "../../Get-Post Requests/Tag/getTags";
 
-const availableTags = ["Vegetarian", "Vegan", "Gluten-Free", "Dairy-Free", "Spicy", "Quick"];
+const availableTags = GetTags();
 
 export default function FilterTags() {
     const [selectedTags, setSelectedTags] = React.useState<string[]>([]);
