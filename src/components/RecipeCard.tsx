@@ -8,6 +8,7 @@ import Typography from '@mui/joy/Typography';
 import '../app/globals.css';
 import {Chip} from "@mui/material";
 import {Recipe} from "../../Classes/Recipe";
+import Link from "next/link";
 
 interface RecipeCardProps {
     recipe: Recipe;
@@ -17,8 +18,6 @@ interface RecipeCardProps {
 export default function RecipeCard({ recipe, image }: RecipeCardProps) {
 
     if (!recipe) return null;
-
-
     function getFirstThreeIngredients() {
         let firstThreeIngredients = '';
         for (let i = 0; i < 3; i++) {
@@ -28,7 +27,6 @@ export default function RecipeCard({ recipe, image }: RecipeCardProps) {
         firstThreeIngredients += "...";
         return firstThreeIngredients;
     }
-
     function stylizedTags() {
         return recipe.tags.map((tag, index) => (
             <Chip key={index} label={tag} sx={{ margin: '2px' }} />
@@ -36,7 +34,7 @@ export default function RecipeCard({ recipe, image }: RecipeCardProps) {
     }
 
     return (
-        <a href="https://example.com" className="recipe-card-link">
+        <Link href={`/browse/${slug}`}>
             <Card variant="outlined" sx={{width: 320}} size="lg">
                 <CardOverflow>
                     <AspectRatio ratio="2">
@@ -82,7 +80,7 @@ export default function RecipeCard({ recipe, image }: RecipeCardProps) {
                     <Typography level="body-sm">Tags: {stylizedTags()}</Typography>
                 </CardContent>
             </Card>
-        </a>
+        </Link>
     );
 }
 
