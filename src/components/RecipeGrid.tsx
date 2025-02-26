@@ -8,7 +8,7 @@ interface RecipeGridProps {
 
 const RecipeGrid: React.FC<RecipeGridProps> = ({colNum}) => {
 
-    //need to make a populate RecipeCard function && make a populate items funct.
+    // TODO: need to make a populate RecipeCard function && make a populate items funct.
     const items = [RecipeCard, RecipeCard, RecipeCard, RecipeCard, RecipeCard, RecipeCard, RecipeCard];
 
     return (
