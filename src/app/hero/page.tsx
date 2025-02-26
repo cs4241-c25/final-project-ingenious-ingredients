@@ -15,6 +15,7 @@ export default function Hero() {
                 <h1>Trending Recipes</h1>
                 {/*<RecipeGrid colNum={3}/>*/}
                 {/*<BrowseFilterTags/>*/}
+                {/* add a view more... button */}
             </div>
         </div>
     );
