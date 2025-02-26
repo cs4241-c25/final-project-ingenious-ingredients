@@ -25,5 +25,7 @@ export async function GetRecipe(name: string, creator: string){
                       recipe.likes,
                       recipe.postDate,
                       recipe.ingredients,
-                      recipe.tags);
+                      recipe.tags,
+                      // recipe.slug
+    );
 }
