@@ -2,20 +2,47 @@ import * as React from 'react';
 import RecipeCard from "./RecipeCard";
 import Grid2 from "@mui/material/Grid2";
 
+import {Recipe} from "../../Classes/Recipe";
+import {Step} from "../../Classes/Step";
+import {RecipeIngredient} from "../../Classes/RecipeIngredient";
+
 interface RecipeGridProps {
     colNum: number
 }
 
+// TODO: make this component take in number of recipes to display (optional), this would be in case on the heros page for example it wouldnt list all the recipes on the site.
+
 const RecipeGrid: React.FC<RecipeGridProps> = ({colNum}) => {
 
-    // TODO: need to make a populate RecipeCard function && make a populate items funct.
-    const items = [RecipeCard, RecipeCard, RecipeCard, RecipeCard, RecipeCard, RecipeCard, RecipeCard];
+    let ingredient1 = new RecipeIngredient("beef", 1, "lb");
+    let ingredient2 = new RecipeIngredient("cheese", 1, "slice");
+    let ingredient3 = new RecipeIngredient("lettuce", 1, "leaf");
+    let step1 = new Step("Cook the beef", [ingredient1]);
+    let step2 = new Step("Put the cheese on the beef", [ingredient1, ingredient2]);
+    let step3 = new Step("Put the lettuce on the cheese", [ingredient3]);
+
+    let Cheeseburger = new Recipe([step1, step2, step3], "Cheeseburger", "Andrew", true, 30, "lunch", 23, "February 1, 2025", [ingredient1, ingredient2, ingredient3], ["delicious", "yummy", "cool"]);
+    let Pizza = new Recipe([step1, step2, step3], "Pizza", "John", true, 20, "dinner", 50, "March 1, 2025", [ingredient1, ingredient2, ingredient3], ["tasty", "cheesy"]);
+    let Salad = new Recipe([step1, step2, step3], "Salad", "Jane", true, 10, "lunch", 15, "April 1, 2025", [ingredient1, ingredient2, ingredient3], ["healthy", "fresh"]);
+
+    const recipes = [Cheeseburger, Pizza, Salad];
+
+    function getTopRecipes(recipes: Recipe[]) {
+        return recipes
+            .sort((a, b) => b.likes - a.likes)
+            // .slice(0, 10);         // Trending recipes might only be the top 10 recipes
+    }
+
+    const topRecipes = getTopRecipes(recipes);
 
     return (
         <Grid2 container spacing={3} columns={colNum} sx={{ width: '100%', margin: "auto", padding: 2, justifyContent: "center"}}>
-            {items.map((item, index) => (
+            {topRecipes.map((recipe, index) => (
                 <Grid2 sx={{xs: 6, sm: 4, md: 3, justifyContent: "center"}} key={index} component="div">
-                    <RecipeCard name={"Cheeseburger"} creator={"Andrew"} prepTime={"30 minutes"} image={"https://upload.wikimedia.org/wikipedia/commons/4/4d/Cheeseburger.jpg"} likes={23} postDate={"February 1, 2025"} ingredients={["beef", "cheese", "lettuce"]} tags={["delicious", "yummy", "cool"]}/>
+                    <RecipeCard
+                        recipe={recipe}
+                        image={"https://upload.wikimedia.org/wikipedia/commons/4/4d/Cheeseburger.jpg"}
+                    />
                 </Grid2>
             ))}
         </Grid2>

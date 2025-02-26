@@ -7,26 +7,30 @@ import Divider from '@mui/joy/Divider';
 import Typography from '@mui/joy/Typography';
 import '../app/globals.css';
 import {Chip} from "@mui/material";
+import {Recipe} from "../../Classes/Recipe";
 
-// TODO: image currently does not exist as a variable of class Recipe
-// TODO: tags should be chip components eventually
-// TODO: link needs to bring you to the appropriate recipe slug
-export default function RecipeCard({ name, creator, prepTime, image, likes, postDate, ingredients, tags }) {
+interface RecipeCardProps {
+    recipe: Recipe;
+    image: string;
+}
+
+export default function RecipeCard({ recipe, image }: RecipeCardProps) {
+
+    if (!recipe) return null;
+
 
     function getFirstThreeIngredients() {
         let firstThreeIngredients = '';
         for (let i = 0; i < 3; i++) {
-            firstThreeIngredients += ingredients[i];
-            if (i !== 2) {
-                firstThreeIngredients += ", ";
-            }
+            firstThreeIngredients += recipe.ingredients[i].name;
+            firstThreeIngredients += ", ";
         }
         firstThreeIngredients += "...";
         return firstThreeIngredients;
     }
 
     function stylizedTags() {
-        return tags.map((tag, index) => (
+        return recipe.tags.map((tag, index) => (
             <Chip key={index} label={tag} sx={{ margin: '2px' }} />
         ));
     }
@@ -39,13 +43,13 @@ export default function RecipeCard({ name, creator, prepTime, image, likes, post
                         <img
                             srcSet={image}
                             loading="lazy"
-                            alt={name}
+                            alt={recipe.name}
                         />
                     </AspectRatio>
                 </CardOverflow>
                 <CardContent>
-                    <Typography level="title-lg">{name}</Typography>
-                    <Typography level="body-md">By: {creator}</Typography>
+                    <Typography level="title-lg">{recipe.name}</Typography>
+                    <Typography level="body-md">By: {recipe.creator}</Typography>
                     <Typography level="body-sm">Ingredients: {getFirstThreeIngredients()}</Typography>
                     <CardOverflow variant="soft" sx={{bgcolor: 'background.level1'}}>
                         <Divider inset="context"/>
@@ -55,7 +59,7 @@ export default function RecipeCard({ name, creator, prepTime, image, likes, post
                                 textColor="text.secondary"
                                 sx={{fontWeight: 'md'}}
                             >
-                                {likes} likes
+                                {recipe.likes} likes
                             </Typography>
                             <Divider orientation="vertical"/>
                             <Typography
@@ -63,7 +67,7 @@ export default function RecipeCard({ name, creator, prepTime, image, likes, post
                                 textColor="text.secondary"
                                 sx={{fontWeight: 'md'}}
                             >
-                                {postDate}
+                                {recipe.postDate}
                             </Typography>
                             <Divider orientation="vertical"/>
                             <Typography
@@ -71,7 +75,7 @@ export default function RecipeCard({ name, creator, prepTime, image, likes, post
                                 textColor="text.secondary"
                                 sx={{fontWeight: 'md'}}
                             >
-                                Takes {prepTime}
+                                Takes {recipe.prepTime}
                             </Typography>
                         </CardContent>
                     </CardOverflow>
@@ -79,5 +83,7 @@ export default function RecipeCard({ name, creator, prepTime, image, likes, post
                 </CardContent>
             </Card>
         </a>
-);
+    );
 }
+
+
