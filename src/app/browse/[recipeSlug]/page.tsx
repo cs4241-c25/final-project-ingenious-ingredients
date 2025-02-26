@@ -1,22 +1,21 @@
 // import { notFound } from 'next/navigation';
-//
-// // import { getRecipe } from ...
+// import { GetRecipe } from "@/Get-Post Requests/Recipe/getRecipe";
 //
 // export async function generateMetadata({ params }) {
-//     const recipe = getRecipe(params.recipeSlug);
+//     const recipe = GetRecipe(params.recipe);
 //
 //     if (!recipe) {
 //         notFound();
 //     }
 //
 //     return {
-//         title: recipe.title,
+//         title: recipe.name,
 //         description: recipe.summary,
 //     };
 // }
 //
 // export default function RecipeDetailsPage({ params }) {
-//     const recipe = getRecipe(params.mealRecipe);
+//     const recipe = GetRecipe(params.recipe, params.recipe);
 //
 //     if (!recipe) {
 //         notFound();
@@ -26,27 +25,25 @@
 //
 //     return (
 //         <>
-//             <header className={classes.header}>
-//                 <div className={classes.image}>
+//             <header>
+//                 <div>
 //                     <Image
-//                         src={`https://maxschwarzmueller-nextjs-demo-users-image.s3.amazonaws.com/${meal.image}`}
-//                         alt={recipe.title}
+//                         src={`https://maxschwarzmueller-nextjs-demo-users-image.s3.amazonaws.com/${recipe.image}`}
+//                         alt={recipe.name}
 //                         fill
 //                     />
 //                 </div>
-//                 <div className={classes.headerText}>
-//                     <h1>{recipe.title}</h1>
-//                     <p className={classes.creator}>
-//                         by <a href={`mailto:${recipe.creator_email}`}>{recipe.creator}</a>
+//                 <div>
+//                     <h1>{recipe.name}</h1>
+//                     <p>
+//                         by {recipe.creator}
 //                     </p>
-//                     <p className={classes.summary}>{recipe.summary}</p>
 //                 </div>
 //             </header>
 //             <main>
 //                 <p
-//                     className={classes.instructions}
 //                     dangerouslySetInnerHTML={{
-//                         __html: recipe.instructions,
+//                         __html: recipe.steps,
 //                     }}
 //                 ></p>
 //             </main>
