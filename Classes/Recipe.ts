@@ -23,7 +23,7 @@ export class Recipe{
         this.isPublic = isPublic;
         this.prepTime = prepTime;
         this.mealType = mealType;
-        // this.slug = slugify(name, {lower: true});   // NOTE: something should be done to ensure that this slug is unique
+        // this.slug = slugify(name, {lower: true});   // NOTE: something should be done to ensure that this slug is unique, also slug should not be chosen by user
         this.tags = tags;
         if (postDate === null){
             this.postDate = new Date();

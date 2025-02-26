@@ -118,7 +118,8 @@ app.post('/postRecipe', async (req: Request, res: Response) => {
         prepTime: req.body.recipe.prepTime,
         mealType: req.body.recipe.mealType,
         postDate: req.body.recipe.postDate,
-        tags: req.body.recipe.tags
+        tags: req.body.recipe.tags,
+        // slug: req.body.recipe.slug
     }
     try {
         let results;
