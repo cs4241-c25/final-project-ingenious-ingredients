@@ -16,8 +16,8 @@ interface RecipeCardProps {
 }
 
 export default function RecipeCard({ recipe, image }: RecipeCardProps) {
-
     if (!recipe) return null;
+
     function getFirstThreeIngredients() {
         let firstThreeIngredients = '';
         for (let i = 0; i < 3; i++) {
@@ -33,8 +33,9 @@ export default function RecipeCard({ recipe, image }: RecipeCardProps) {
         ));
     }
 
+    // <Link href={`../app/recipes/${recipe.slug}`}>   NEED TO ADD THIS!
+
     return (
-        <Link href={`../app/recipes/${recipe.slug}`}>
             <Card variant="outlined" sx={{width: 320}} size="lg">
                 <CardOverflow>
                     <AspectRatio ratio="2">
@@ -80,7 +81,6 @@ export default function RecipeCard({ recipe, image }: RecipeCardProps) {
                     <Typography level="body-sm">Tags: {stylizedTags()}</Typography>
                 </CardContent>
             </Card>
-        </Link>
     );
 }
 
