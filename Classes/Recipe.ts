@@ -14,14 +14,16 @@ export class Recipe {
     postDate: Date;
     tags: string[];
     slug: string;
+    image: string;
 
-    constructor(steps: Step[], name: string, creator: string, isPublic: boolean, prepTime: number, mealType: string, likes: number = 0, postDate: Date | string = null, ingredients: RecipeIngredient[] = null, tags: string[] = null, slug: string = null) {
+    constructor(steps: Step[], name: string, creator: string, isPublic: boolean, prepTime: number, mealType: string, likes: number = 0, postDate: Date | string = null, ingredients: RecipeIngredient[] = null, tags: string[] = null, slug: string = null, image: string) {
         this.steps = steps;
         this.name = name;
         this.creator = creator;
         this.isPublic = isPublic;
         this.prepTime = prepTime;
         this.mealType = mealType;
+        this.image = image;
         const slugVal = name + "-" + creator;
         this.slug = slugify(slugVal, { lower: true });
         this.tags = tags;
