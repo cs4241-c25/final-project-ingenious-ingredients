@@ -33,9 +33,9 @@ export default function RecipeCard({ recipe, image }: RecipeCardProps) {
         ));
     }
 
-    // <Link href={`../app/recipes/${recipe.slug}`}>   NEED TO ADD THIS!
 
     return (
+        <Link href={`../app/recipes/${recipe.slug}`}>   NEED TO ADD THIS!
             <Card variant="outlined" sx={{width: 320}} size="lg">
                 <CardOverflow>
                     <AspectRatio ratio="2">
@@ -81,6 +81,7 @@ export default function RecipeCard({ recipe, image }: RecipeCardProps) {
                     <Typography level="body-sm">Tags: {stylizedTags()}</Typography>
                 </CardContent>
             </Card>
+        </Link>
     );
 }
 
