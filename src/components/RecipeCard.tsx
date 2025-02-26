@@ -65,7 +65,7 @@ export default function RecipeCard({ recipe, image }: RecipeCardProps) {
                                 textColor="text.secondary"
                                 sx={{fontWeight: 'md'}}
                             >
-                                {recipe.postDate}
+                                {recipe.postDate.toDateString()}
                             </Typography>
                             <Divider orientation="vertical"/>
                             <Typography
