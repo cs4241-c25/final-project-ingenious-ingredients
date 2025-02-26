@@ -5,8 +5,12 @@ import RecipeCard from "@/components/RecipeCard";
 import NavBar from "@/components/NavBar";
 import TemptNav from "@/components/TemptNav";
 import SignInDD from "@/components/SignInDD";
+import GetAllRecipes from "@/Get-Post Requests/Recipe/getAllRecipes";
 
 export default function Hero() {
+
+    let recipes = GetAllRecipes();
+
     return (
         <div>
             <NavBar/>
@@ -19,7 +23,7 @@ export default function Hero() {
             </div>
             <div className="bg-white p-8">
                 <h1>Trending Recipes</h1>
-                {/*<RecipeGrid colNum={3}/>*/}
+                {<RecipeGrid colNum={3} recipes={recipes}/>
                 {/*<BrowseFilterTags/>*/}
                 <RecipeCard/>
                 <RecipeCard/>

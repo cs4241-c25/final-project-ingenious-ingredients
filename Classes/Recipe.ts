@@ -24,7 +24,7 @@ export class Recipe{
         this.prepTime = prepTime;
         this.mealType = mealType;
         const slugVal = name + "-" + creator;
-        this.slug = slugify(slugVal, {lower: true});   // NOTE: something should be done to ensure that this slug is unique
+        this.slug = slugify(slugVal, {lower: true});   
         this.tags = tags;
         if (postDate === null){
             this.postDate = new Date();

@@ -1,6 +1,6 @@
 import { Recipe } from "../../../Classes/Recipe";
 
-export async function GetAllRecipes(): Promise<Recipe[]> {
+export default async function GetAllRecipes(): Promise<Recipe[]> {
     const results = await fetch('http://localhost:3000/getAllRecipes', {
         method: 'GET',
         headers: { "Content-Type": "application/json" }
