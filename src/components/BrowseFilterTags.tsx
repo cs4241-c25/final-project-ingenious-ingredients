@@ -2,12 +2,22 @@
 
 import * as React from "react";
 import {Chip, TextField, Autocomplete} from "@mui/material";
-import GetTags from "../../Get-Post Requests/Tag/getTags";
+import GetTags from "../Get-Post Requests/Tags/getTags";
 
 const availableTags = GetTags();
 
 export default function FilterTags() {
     const [selectedTags, setSelectedTags] = React.useState<string[]>([]);
+    const [availableTags, setAvailableTags] = React.useState<string[]>([]);
+
+    React.useEffect(() => {
+        async function fetchTags() {
+            const tags = await GetTags();
+            setAvailableTags(tags);
+        }
+        fetchTags();
+    }, []);
+
 
     return (
         <Autocomplete
