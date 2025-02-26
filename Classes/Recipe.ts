@@ -1,5 +1,6 @@
 import {Step} from "./Step";
 import {RecipeIngredient} from "./RecipeIngredient";
+// import slugify from "slugify";
 
 export class Recipe{
     steps: Step[];
@@ -12,6 +13,7 @@ export class Recipe{
     mealType: string;
     postDate: Date;
     tags: string[];
+    // slug: string;
 
     // TODO: Prep time should include hours and minutes (e.g. 1 hour 30 minutes)
     constructor(steps: Step[], name: string, creator: string, isPublic: boolean, prepTime: number, mealType: string, likes: number = 0, postDate: Date = null, ingredients: RecipeIngredient[] = null, tags: string[] = null){
@@ -21,6 +23,7 @@ export class Recipe{
         this.isPublic = isPublic;
         this.prepTime = prepTime;
         this.mealType = mealType;
+        // this.slug = slugify(name, {lower: true});
         this.tags = tags;
         if (postDate === null){
             this.postDate = new Date();
