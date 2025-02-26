@@ -10,6 +10,7 @@ import {User} from "../../Classes/User";
 import {tags} from "@emotion/styled/src/tags";
 import {GetTags} from "../Get-Post Requests/Tags/getTags";
 import {GetRecipesByTags} from "../Get-Post Requests/Recipe/getRecipesByTags";
+import {GetRecipeFromSlug} from "@/Get-Post Requests/Recipe/getRecipeFromSlug";
 
 
 export async function PostTest() {
@@ -47,10 +48,13 @@ export async function PostTest() {
         //And then posting the Recipe
     console.log(await PostRecipe(Recipe1));
         //Posting a Recipe will return true if the recipe was created and false if there was an error
-
         //Getting a Recipe -> Requires the Recipe name and the creator
     console.log(await GetRecipe("Eggs", "Me"));
         //Returns the recipe as a Recipe Object
+
+        //Getting a Recipe from slug -> Takes in a string that has the recipe name attached to the creator
+    console.log(await GetRecipeFromSlug("eggs-me"));
+        //Returns the recipe as a recipe object
 
 
         //Getting all tags in the database, returns a list of strings
@@ -60,5 +64,7 @@ export async function PostTest() {
         //Recipes that they have listed with those tags
         //If no user is given then it will search all public recipes
     await GetRecipesByTags(["Easy"]);
+
      */
+
 }
