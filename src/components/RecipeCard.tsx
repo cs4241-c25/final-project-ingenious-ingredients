@@ -63,7 +63,7 @@ export default function RecipeCard({ name, creator, prepTime, image, likes, post
                                 textColor="text.secondary"
                                 sx={{fontWeight: 'md'}}
                             >
-                                Posted {postDate}
+                                {postDate}
                             </Typography>
                             <Divider orientation="vertical"/>
                             <Typography
