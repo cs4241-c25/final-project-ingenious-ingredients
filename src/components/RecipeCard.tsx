@@ -7,22 +7,39 @@ import Divider from '@mui/joy/Divider';
 import Typography from '@mui/joy/Typography';
 import '../app/globals.css';
 
-export default function RecipeCard() {
+// TODO: image currently does not exist as a variable of class Recipe
+// TODO: tags should be chip components eventually
+// TODO: link needs to bring you to the appropriate recipe slug
+export default function RecipeCard({ name, creator, prepTime, image, likes, postDate, ingredients, tags }) {
+
+    function getFirstThreeIngredients() {
+        let firstThreeIngredients = '';
+        for (let i = 0; i < 3; i++) {
+            firstThreeIngredients += ingredients[i];
+            if (i !== 2) {
+                firstThreeIngredients += ", ";
+            }
+        }
+        firstThreeIngredients += "...";
+        return firstThreeIngredients;
+    }
+
     return (
         <a href="https://example.com" className="recipe-card-link">
             <Card variant="outlined" sx={{width: 320}} size="lg">
                 <CardOverflow>
                     <AspectRatio ratio="2">
                         <img
-                            srcSet="https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318&dpr=2 2x"
+                            srcSet={image}
                             loading="lazy"
-                            alt=""
+                            alt={name}
                         />
                     </AspectRatio>
                 </CardOverflow>
                 <CardContent>
-                    <Typography level="title-md">Yosemite National Park</Typography>
-                    <Typography level="body-sm">California</Typography>
+                    <Typography level="title-lg">{name}</Typography>
+                    <Typography level="body-md">By: {creator}</Typography>
+                    <Typography level="body-sm">Ingredients: {getFirstThreeIngredients()}</Typography>
                     <CardOverflow variant="soft" sx={{bgcolor: 'background.level1'}}>
                         <Divider inset="context"/>
                         <CardContent orientation="horizontal">
@@ -31,7 +48,7 @@ export default function RecipeCard() {
                                 textColor="text.secondary"
                                 sx={{fontWeight: 'md'}}
                             >
-                                6.3k views
+                                {likes} likes
                             </Typography>
                             <Divider orientation="vertical"/>
                             <Typography
@@ -39,10 +56,19 @@ export default function RecipeCard() {
                                 textColor="text.secondary"
                                 sx={{fontWeight: 'md'}}
                             >
-                                1 hour ago
+                                Posted {postDate}
+                            </Typography>
+                            <Divider orientation="vertical"/>
+                            <Typography
+                                level="body-xs"
+                                textColor="text.secondary"
+                                sx={{fontWeight: 'md'}}
+                            >
+                                Takes {prepTime}
                             </Typography>
                         </CardContent>
                     </CardOverflow>
+                    <Typography level="body-sm">Tags: {tags}</Typography>
                 </CardContent>
             </Card>
         </a>
