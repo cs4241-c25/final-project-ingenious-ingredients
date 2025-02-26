@@ -1,6 +1,6 @@
 import {Step} from "./Step";
 import {RecipeIngredient} from "./RecipeIngredient";
-// import slugify from "slugify";
+import slugify from "slugify";
 
 export class Recipe{
     steps: Step[];
@@ -13,17 +13,18 @@ export class Recipe{
     mealType: string;
     postDate: Date;
     tags: string[];
-    // slug: string;
+    slug: string;
 
     // TODO: Prep time should include hours and minutes (e.g. 1 hour 30 minutes)
-    constructor(steps: Step[], name: string, creator: string, isPublic: boolean, prepTime: number, mealType: string, likes: number = 0, postDate: Date = null, ingredients: RecipeIngredient[] = null, tags: string[] = null){
+    constructor(steps: Step[], name: string, creator: string, isPublic: boolean, prepTime: number, mealType: string, likes: number = 0, postDate: Date = null, ingredients: RecipeIngredient[] = null, tags: string[] = null, slug : string = null){
         this.steps = steps;
         this.name = name;
         this.creator = creator;
         this.isPublic = isPublic;
         this.prepTime = prepTime;
         this.mealType = mealType;
-        // this.slug = slugify(name, {lower: true});   // NOTE: something should be done to ensure that this slug is unique, also slug should not be chosen by user
+        const slugVal = name + "-" + creator;
+        this.slug = slugify(slugVal, {lower: true});   
         this.tags = tags;
         if (postDate === null){
             this.postDate = new Date();

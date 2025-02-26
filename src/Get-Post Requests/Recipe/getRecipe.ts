@@ -26,6 +26,6 @@ export async function GetRecipe(name: string, creator: string){
                       recipe.postDate,
                       recipe.ingredients,
                       recipe.tags,
-                      // recipe.slug
+                      recipe.slug
     );
 }
