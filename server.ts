@@ -167,6 +167,26 @@ app.post('/getRecipe', async (req: Request, res: Response) => {
     }
 })
 
+app.get('/getAllRecipes', async (req: Request, res: Response) => {
+    console.log("Get All Recipes Received");
+    try {
+        let results;
+        if (recipeCollection) {
+            results = await recipeCollection.find({ isPublic: true }).toArray();
+        }
+        if (results) {
+            console.log("Found Recipes");
+            res.status(200).send(results);
+        } else {
+            console.log("Couldn't find recipes");
+            res.status(404).send("Couldn't find recipes");
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error when searching for recipes");
+    }
+});
+
 app.post('/getRecipeFromSlug', async (req: Request, res: Response) => {
     console.log("Get Recipe Received");
     try {

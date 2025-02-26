@@ -23,13 +23,14 @@ export default function RecipeDetailsPage({ params }) {
 
     return (
         <>
+            // navbar
             <header>
                 <div>
-                    <Image
-                        src={`https://maxschwarzmueller-nextjs-demo-users-image.s3.amazonaws.com/${recipe.image}`}
-                        alt={recipe.name}
-                        fill
-                    />
+                    {/*<Image*/}
+                    {/*    src={`https://maxschwarzmueller-nextjs-demo-users-image.s3.amazonaws.com/${recipe.image}`}*/}
+                    {/*    alt={recipe.name}*/}
+                    {/*    fill*/}
+                    {/*/>*/}
                 </div>
                 <div>
                     <h1>{recipe.name}</h1>

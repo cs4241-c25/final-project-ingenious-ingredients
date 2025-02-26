@@ -15,7 +15,7 @@ export async function GetRecipeFromSlug(slug: string): Promise<Recipe> {
 
     const recipe = await results.json();
 
-    return new Recipe(
+    return new Recipe (
         recipe.steps,
         recipe.name,
         recipe.creator,
@@ -26,6 +26,6 @@ export async function GetRecipeFromSlug(slug: string): Promise<Recipe> {
         recipe.postDate,
         recipe.ingredients,
         recipe.tags,
-        // recipe.slug
+        recipe.slug
     );
 }

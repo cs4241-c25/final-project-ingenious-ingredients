@@ -6,6 +6,10 @@ export default async function GetAllRecipes(): Promise<Recipe[]> {
         headers: { "Content-Type": "application/json" }
     });
 
+    if (!results.ok) {
+        throw new Error(`HTTP error! status: ${results.status}`);
+    }
+
     const recipeList: Recipe[] = [];
     const list = await results.json();
     for (let i = 0; i < list.length; i++) {
@@ -19,7 +23,8 @@ export default async function GetAllRecipes(): Promise<Recipe[]> {
             list[i].likes,
             list[i].postDate,
             list[i].ingredients,
-            list[i].tags
+            list[i].tags,
+            list[i].slug
         ));
     }
 
