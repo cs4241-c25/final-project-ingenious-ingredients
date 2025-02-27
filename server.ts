@@ -123,7 +123,8 @@ app.post('/postRecipe', async (req: Request, res: Response) => {
         mealType: req.body.recipe.mealType,
         postDate: req.body.recipe.postDate,
         tags: req.body.recipe.tags,
-        slug: req.body.recipe.slug
+        slug: req.body.recipe.slug,
+        image: req.body.recipe.image
     }
     try {
         let results;
