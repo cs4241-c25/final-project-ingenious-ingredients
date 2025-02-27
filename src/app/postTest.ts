@@ -8,9 +8,10 @@ import {PostRecipe} from "../Get-Post Requests/Recipe/postRecipe";
 import {GetRecipe} from "../Get-Post Requests/Recipe/getRecipe";
 import {User} from "../../Classes/User";
 import {tags} from "@emotion/styled/src/tags";
-import {GetTags} from "../Get-Post Requests/Tags/getTags";
+import GetTags from "../Get-Post Requests/Tags/getTags";
 import {GetRecipesByTags} from "../Get-Post Requests/Recipe/getRecipesByTags";
 import {GetRecipeFromSlug} from "@/Get-Post Requests/Recipe/getRecipeFromSlug";
+import {LikeRecipe} from "@/Get-Post Requests/Recipe/likeRecipe";
 
 
 export async function PostTest() {
@@ -22,7 +23,6 @@ export async function PostTest() {
     const newUser = new User("Henry", "henryPassword", true);
     console.log(await PostUser(newUser));
         //If the user was added correctly, the PostUser function will return true, if not it will return false
-
         //Getting a User
     console.log(await GetUser("Henry"));
         //Searches for a user by username and returns them as a User object
@@ -65,6 +65,9 @@ export async function PostTest() {
         //If no user is given then it will search all public recipes
     await GetRecipesByTags(["Easy"]);
 
-     */
 
+        //Adds a like to the recipe found by the given Slug and adds the slug to the user's favoritedRecipes list
+    await LikeRecipe("Henry", "eggs-me");
+        //Returns true if the function was successful, returns false if there was an error with either step
+     */
 }
