@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { GetRecipe } from "@/Get-Post Requests/Recipe/getRecipe";
 import { GetRecipeFromSlug } from "@/Get-Post Requests/Recipe/getRecipeFromSlug";
+import {Recipe} from "../../../Classes/Recipe";
 
 export async function generateMetadata({ params }) {
     const recipe = GetRecipe(params.recipe);
@@ -14,12 +15,18 @@ export async function generateMetadata({ params }) {
 
 export default function RecipeDetailsPage({ params }) {
     const recipe = GetRecipeFromSlug(params.slug);
-    if (!recipe) { notFound() }
+    const recipeSteps = recipe.steps;
+
+    if (!recipe) {
+        return <p>Recipe not found or steps are missing.</p>;
+    }
+
+    console.log("these are the recipe steps: " + recipe.steps);
 
     // convert recipe steps into a more readable format
-    let formattedSteps = recipe.steps.map((step, index) => (
-        <li key={index}>{step}</li>
-    ));
+    // let formattedSteps = recipe.steps.map((step, index) => (
+    //     <li key={index}>{step}</li>
+    // ));
 
     return (
         <>
@@ -41,7 +48,8 @@ export default function RecipeDetailsPage({ params }) {
             </header>
             <main>
                 <ol>
-                    {formattedSteps}
+                    {/*{formattedSteps}*/}
+                    hi
                 </ol>
             </main>
         </>

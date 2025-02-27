@@ -194,20 +194,18 @@ app.post('/getRecipeFromSlug', async (req: Request, res: Response) => {
         if (recipeCollection) {
             results = await recipeCollection.findOne({slug: req.body.slug});
         }
-        if (results){
+        if (results) {
             console.log("Found Recipe");
-            res.status(201).send(results);
-        }
-        else {
+            res.status(201).json(results);
+        } else {
             console.log("Couldn't find recipe");
-            res.status(201).send("Couldn't find recipe");
+            res.status(404).json({ error: "Couldn't find recipe" });
         }
-    }
-    catch (error){
+    } catch (error) {
         console.error(error);
-        res.status(206).send("Error when searching for Recipe");
+        res.status(500).json({ error: "Error when searching for Recipe" });
     }
-})
+});
 
 app.post('/getTags', async (req: Request, res: Response) => {
     console.log("Get Tags Received");
