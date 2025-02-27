@@ -16,7 +16,7 @@ import SignInDD from "@/components/SignInDD";
 import {Recipe} from "../../Classes/Recipe";
 import {redirect} from "next/navigation";
 
-const pages = ['Browse Recipes', 'Set Timer'];
+const pages = ['Browse Recipes'];
 
 
 // type stickOrNot = {
@@ -43,6 +43,7 @@ const NavBar: React.FC<NavBarProps> = ({stickOrNah}) => {
     };
 
     const handleCloseNavMenu = () => {
+        redirect("/recipes");
         setAnchorElNav(null);
     };
 
@@ -61,7 +62,7 @@ const NavBar: React.FC<NavBarProps> = ({stickOrNah}) => {
 
 
     return (
-        <AppBar id="mainBar" sx={{position: {stickOrNah}}}>
+        <AppBar id="mainBar" sx={{position: 'sticky'}}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     {/*Below is the Icon for the Website (Commented Out*/}
@@ -70,7 +71,7 @@ const NavBar: React.FC<NavBarProps> = ({stickOrNah}) => {
                         variant="h6"
                         noWrap
                         component="a"
-                        href="#"
+                        href="/hero"
                         sx={{
                             mr: 2,
                             display: {xs: 'none', md: 'flex'},
@@ -112,17 +113,11 @@ const NavBar: React.FC<NavBarProps> = ({stickOrNah}) => {
                             onClose={handleCloseNavMenu}
                             sx={{display: {xs: 'block', md: 'none'}}}
                         >
-                            {/*{pages.map((page) => (*/}
-                            {/*    <MenuItem key={page} onClick={handleCloseNavMenu}>*/}
-                            {/*        <Typography id="navItems" sx={{textAlign: 'center'}}>{page}</Typography>*/}
-                            {/*    </MenuItem>*/}
-                            {/*))}*/}
-                                <MenuItem onClick={toRecipes}>
-                                    <Typography id="navItems" sx={{textAlign: 'center'}}> Browse Recipes</Typography>
+                            {pages.map((page) => (
+                                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                                    <Typography id="navItems" sx={{textAlign: 'center'}}>{page}</Typography>
                                 </MenuItem>
-                                <MenuItem onClick={handleCloseNavMenu}>
-                                    <Typography id="navItems" sx={{textAlign: 'center'}}> Set Timer</Typography>
-                                </MenuItem>
+                            ))}
                         </Menu>
                     </Box>
                     <AdbIcon sx={{display: {xs: 'flex', md: 'none'}, mr: 1}}/>

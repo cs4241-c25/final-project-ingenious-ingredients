@@ -32,7 +32,7 @@ function SignInDD() {
     };
 
     const toAuthor = (event: React.MouseEvent<HTMLElement>) => {
-        redirect("/my-author");
+        redirect("/author");
     };
 
     const toMealPlan = (event: React.MouseEvent<HTMLElement>) => {
