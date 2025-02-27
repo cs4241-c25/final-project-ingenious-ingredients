@@ -270,6 +270,23 @@ app.post('/getRecipesByTag', async (req: Request, res: Response) => {
     }
 })
 
+app.post('/likeRecipe', async (req: Request, res: Response) => {
+    console.log("Like Recipes Received");
+    try {
+        if (userCollection){
+            const userResult = await userCollection.findOneAndUpdate({username: req.body.username}, {$addToSet: {favoritedRecipes: req.body.slug}});
+        }
+        if (recipeCollection) {
+            const recipeResult = await recipeCollection.findOneAndUpdate({slug: req.body.slug}, {$inc: {likes: 1}});
+        }
+        res.status(201).send("Like Recipe and Added to User favorite list");
+    }
+    catch (error){
+        console.error(error);
+        res.status(207).send(error);
+    }
+})
+
 const appRun = run();
 
 // Start the server
