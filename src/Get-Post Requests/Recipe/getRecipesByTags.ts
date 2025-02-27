@@ -20,6 +20,7 @@ export async function GetRecipesByTags(tags: string[], user: string = null,) {
             recipeList.push(new Recipe(list[i].steps, list[i].name, list[i].creator, list[i].isPublic, list[i].prepTime, list[i].mealType, list[i].likes, list[i].postDate, list[i].ingredients, list[i].tags))
         }
         console.log(recipeList);
+        return(recipeList);
     }
     else {
         const json = {
@@ -41,5 +42,6 @@ export async function GetRecipesByTags(tags: string[], user: string = null,) {
             recipeList.push(new Recipe(list[i].steps, list[i].name, list[i].creator, list[i].isPublic, list[i].prepTime, list[i].mealType, list[i].likes, list[i].postDate, list[i].ingredients, list[i].tags))
         }
         console.log(recipeList);
+        return(recipeList);
     }
 }
