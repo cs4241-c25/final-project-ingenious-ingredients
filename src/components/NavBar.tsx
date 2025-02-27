@@ -13,16 +13,25 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import SignInDD from "@/components/SignInDD";
+import {Recipe} from "../../Classes/Recipe";
+import {redirect} from "next/navigation";
 
-const pages = ['Browse Recipes', 'Set Timer'];
+const pages = ['Browse Recipes'];
 
 
 // type stickOrNot = {
 //     navType: string
 // }
 
+
+interface NavBarProps {
+    stickOrNah: string
+}
+
+
+
     // function NavBar(props: stickOrNot) {
-    function NavBar() {
+const NavBar: React.FC<NavBarProps> = ({stickOrNah}) => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -34,6 +43,7 @@ const pages = ['Browse Recipes', 'Set Timer'];
     };
 
     const handleCloseNavMenu = () => {
+        redirect("/recipes");
         setAnchorElNav(null);
     };
 
@@ -41,11 +51,18 @@ const pages = ['Browse Recipes', 'Set Timer'];
         setAnchorElUser(null);
     };
 
-    const sticky = "sticky";
+    const toRecipes = (event: React.MouseEvent<HTMLElement>) => {
+        redirect("/recipes");
+    };
+
+    const toTimer = (event: React.MouseEvent<HTMLElement>) => {
+        //redirect("/recipes");
+    };
+
 
 
     return (
-        <AppBar id="mainBar" sx={{position: {sticky}}}>
+        <AppBar id="mainBar" sx={{position: 'sticky'}}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     {/*Below is the Icon for the Website (Commented Out*/}
@@ -54,7 +71,7 @@ const pages = ['Browse Recipes', 'Set Timer'];
                         variant="h6"
                         noWrap
                         component="a"
-                        href="#app-bar-with-responsive-menu"
+                        href="/hero"
                         sx={{
                             mr: 2,
                             display: {xs: 'none', md: 'flex'},
