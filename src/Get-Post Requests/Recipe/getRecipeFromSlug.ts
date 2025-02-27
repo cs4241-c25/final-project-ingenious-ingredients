@@ -1,6 +1,6 @@
-import {Recipe} from "../../../Classes/Recipe";
+import {Recipe} from "@/Classes/Recipe";
 
-export async function GetRecipeFromSlug(slug){
+export async function GetRecipeFromSlug(slug: string): Promise<Recipe> {
     const json = {
         slug: slug
     }
@@ -15,7 +15,8 @@ export async function GetRecipeFromSlug(slug){
 
     const recipe = await results.json();
 
-    return new Recipe(recipe.steps,
+    return new Recipe (
+        recipe.steps,
         recipe.name,
         recipe.creator,
         recipe.isPublic,

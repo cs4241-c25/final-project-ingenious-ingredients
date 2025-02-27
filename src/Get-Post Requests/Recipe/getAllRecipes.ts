@@ -1,10 +1,14 @@
 import { Recipe } from "../../../Classes/Recipe";
 
-export async function GetAllRecipes(): Promise<Recipe[]> {
+export default async function GetAllRecipes(): Promise<Recipe[]> {
     const results = await fetch('http://localhost:3000/getAllRecipes', {
         method: 'GET',
         headers: { "Content-Type": "application/json" }
     });
+
+    if (!results.ok) {
+        throw new Error(`HTTP error! status: ${results.status}`);
+    }
 
     const recipeList: Recipe[] = [];
     const list = await results.json();
@@ -19,7 +23,8 @@ export async function GetAllRecipes(): Promise<Recipe[]> {
             list[i].likes,
             list[i].postDate,
             list[i].ingredients,
-            list[i].tags
+            list[i].tags,
+            list[i].slug
         ));
     }
 

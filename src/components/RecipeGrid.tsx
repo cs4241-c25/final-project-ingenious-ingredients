@@ -26,7 +26,7 @@ const RecipeGrid: React.FC<RecipeGridProps> = ({recipes, colNum, maxRecipes}) =>
     // let Salad = new Recipe([step1, step2, step3], "Salad", "Jane", true, 10, "lunch", 15, "April 1, 2025", [ingredient1, ingredient2, ingredient3], ["healthy", "fresh"]);
     // const recipes = [Cheeseburger, Pizza, Salad];
 
-    function getTopRecipes(recipes) {
+    function getTopRecipes(recipes: Recipe[]) {
         if (!maxRecipes) {
             return recipes.sort((a, b) => b.likes - a.likes);
         }
