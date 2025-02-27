@@ -4,8 +4,8 @@ import React, {useEffect, useState} from 'react';
 import RecipeGrid from "@/components/RecipeGrid";
 import GetAllRecipes from "@/Get-Post Requests/Recipe/getAllRecipes";
 import {Recipe} from "../../../Classes/Recipe";
-import BrowseFilterTags from "@/components/BrowseFilterTags";
 import NavBar from "@/components/NavBar";
+import BrowseFilterTags from "@/components/BrowseFilterTags";
 import {GetRecipesByTags} from "@/Get-Post Requests/Recipe/getRecipesByTags";
 
 export default function Recipes() {
@@ -28,7 +28,7 @@ export default function Recipes() {
 
     return (
         <>
-            <NavBar></NavBar>
+            <NavBar stickOrNah={"sticky"}/>
 
             <div id="page-background"
                  style={{
