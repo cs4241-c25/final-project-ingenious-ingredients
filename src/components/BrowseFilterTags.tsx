@@ -4,9 +4,11 @@ import * as React from "react";
 import {Chip, TextField, Autocomplete} from "@mui/material";
 import GetTags from "../Get-Post Requests/Tags/getTags";
 
-const availableTags = GetTags();
+interface FilterTagsProps {
+    onTagsChange: (tags: string[]) => void;
+}
 
-export default function FilterTags() {
+export default function FilterTags({onTagsChange}: FilterTagsProps) {
     const [selectedTags, setSelectedTags] = React.useState<string[]>([]);
     const [availableTags, setAvailableTags] = React.useState<string[]>([]);
 
@@ -18,6 +20,11 @@ export default function FilterTags() {
         fetchTags();
     }, []);
 
+    const handleTagsChange = (event: any, newValue: string[]) => {
+        setSelectedTags(newValue);
+        onTagsChange(newValue);
+    }
+
 
     return (
         <Autocomplete
@@ -25,7 +32,7 @@ export default function FilterTags() {
             multiple
             options={availableTags}
             value={selectedTags}
-            onChange={(event, newValue) => setSelectedTags(newValue)}
+            onChange={handleTagsChange}
             renderTags={(value, getTagProps) =>
                 value.map((option, index) => (
                     <Chip label={option} {...getTagProps({index})} />
