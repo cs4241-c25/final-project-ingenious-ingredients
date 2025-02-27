@@ -47,7 +47,7 @@ export default function RecipeCard({ recipe, image }: RecipeCardProps) {
     }
 
     return (
-        <Link href={`../app/recipes/${recipe.slug}`}>
+        <Link href={`/recipes/${recipe.slug}`}>
             <Card variant="outlined" sx={{ width: 320 }} size="lg">
                 <CardOverflow>
                     <AspectRatio ratio="2">
