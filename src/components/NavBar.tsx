@@ -13,6 +13,8 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import SignInDD from "@/components/SignInDD";
+import {Recipe} from "../../Classes/Recipe";
+import {redirect} from "next/navigation";
 
 const pages = ['Browse Recipes', 'Set Timer'];
 
@@ -21,8 +23,15 @@ const pages = ['Browse Recipes', 'Set Timer'];
 //     navType: string
 // }
 
+
+interface NavBarProps {
+    stickOrNah: string
+}
+
+
+
     // function NavBar(props: stickOrNot) {
-    function NavBar() {
+const NavBar: React.FC<NavBarProps> = ({stickOrNah}) => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -41,11 +50,18 @@ const pages = ['Browse Recipes', 'Set Timer'];
         setAnchorElUser(null);
     };
 
-    const sticky = "sticky";
+    const toRecipes = (event: React.MouseEvent<HTMLElement>) => {
+        redirect("/recipes");
+    };
+
+    const toTimer = (event: React.MouseEvent<HTMLElement>) => {
+        //redirect("/recipes");
+    };
+
 
 
     return (
-        <AppBar id="mainBar" sx={{position: {sticky}}}>
+        <AppBar id="mainBar" sx={{position: {stickOrNah}}}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     {/*Below is the Icon for the Website (Commented Out*/}
@@ -54,7 +70,7 @@ const pages = ['Browse Recipes', 'Set Timer'];
                         variant="h6"
                         noWrap
                         component="a"
-                        href="#app-bar-with-responsive-menu"
+                        href="#"
                         sx={{
                             mr: 2,
                             display: {xs: 'none', md: 'flex'},
@@ -96,11 +112,17 @@ const pages = ['Browse Recipes', 'Set Timer'];
                             onClose={handleCloseNavMenu}
                             sx={{display: {xs: 'block', md: 'none'}}}
                         >
-                            {pages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography id="navItems" sx={{textAlign: 'center'}}>{page}</Typography>
+                            {/*{pages.map((page) => (*/}
+                            {/*    <MenuItem key={page} onClick={handleCloseNavMenu}>*/}
+                            {/*        <Typography id="navItems" sx={{textAlign: 'center'}}>{page}</Typography>*/}
+                            {/*    </MenuItem>*/}
+                            {/*))}*/}
+                                <MenuItem onClick={toRecipes}>
+                                    <Typography id="navItems" sx={{textAlign: 'center'}}> Browse Recipes</Typography>
                                 </MenuItem>
-                            ))}
+                                <MenuItem onClick={handleCloseNavMenu}>
+                                    <Typography id="navItems" sx={{textAlign: 'center'}}> Set Timer</Typography>
+                                </MenuItem>
                         </Menu>
                     </Box>
                     <AdbIcon sx={{display: {xs: 'flex', md: 'none'}, mr: 1}}/>
