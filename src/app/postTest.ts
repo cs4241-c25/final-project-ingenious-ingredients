@@ -14,6 +14,7 @@ import {GetRecipeFromSlug} from "@/Get-Post Requests/Recipe/getRecipeFromSlug";
 import {LikeRecipe} from "@/Get-Post Requests/Recipe/likeRecipe";
 import {CheckForSlug} from "@/Get-Post Requests/Recipe/checkForSlug";
 import {CheckIfUserExists} from "@/Get-Post Requests/User/checkIfUserExists";
+import {GetRecipesByUser} from "@/Get-Post Requests/Recipe/getRecipesByUser";
 
 
 export async function PostTest() {
@@ -79,5 +80,9 @@ export async function PostTest() {
         //Checks if a Username already exists in the database
     console.log(await CheckIfUserExists("Henry"));
         //Returns true if a user already exists, false if not
+
+        //Gets all recipes given a username
+    console.log(await GetRecipesByUser("Me"));
+        //Returns a list of recipes, or an empty list if no recipes are found
      */
 }
