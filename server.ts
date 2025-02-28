@@ -91,6 +91,25 @@ app.post('/getUser', async (req: Request, res: Response) => {
     }
 })
 
+app.post('/checkIfUserExists', async (req: Request, res: Response) => {
+    console.log("Check if User Exists Received");
+    try {
+        if (userCollection) {
+            const result = await userCollection.findOne({username: req.body.username});
+            if (result === null) {
+                res.status(201).send(false)
+            }
+            else{
+                res.status(201).send(true)
+            }
+        }
+    }
+    catch (error){
+        console.error(error);
+        res.status(209).send(error)
+    }
+})
+
 app.post('/modifyPublicStatus', async (req: Request, res: Response) => {
     console.log("Modify User's Public Status Received");
     try {
@@ -225,6 +244,25 @@ app.post('/getTags', async (req: Request, res: Response) => {
     catch (error){
         console.error(error);
         res.status(206).send("Could not retrieve tags");
+    }
+})
+
+app.post('/checkForSlug', async (req: Request, res: Response) => {
+    console.log("Check For Slug Received");
+    try {
+        if (recipeCollection) {
+            let result = await recipeCollection.findOne({slug: req.body.slug});
+            if (result === null){
+                res.status(201).send(true);
+            }
+            else {
+                res.status(201).send(false)
+            }
+        }
+    }
+    catch (error){
+        console.error(error);
+        res.status(208).send(error);
     }
 })
 

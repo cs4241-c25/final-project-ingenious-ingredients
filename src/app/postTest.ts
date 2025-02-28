@@ -12,6 +12,8 @@ import GetTags from "../Get-Post Requests/Tags/getTags";
 import {GetRecipesByTags} from "../Get-Post Requests/Recipe/getRecipesByTags";
 import {GetRecipeFromSlug} from "@/Get-Post Requests/Recipe/getRecipeFromSlug";
 import {LikeRecipe} from "@/Get-Post Requests/Recipe/likeRecipe";
+import {CheckForSlug} from "@/Get-Post Requests/Recipe/checkForSlug";
+import {CheckIfUserExists} from "@/Get-Post Requests/User/checkIfUserExists";
 
 
 export async function PostTest() {
@@ -69,5 +71,13 @@ export async function PostTest() {
         //Adds a like to the recipe found by the given Slug and adds the slug to the user's favoritedRecipes list
     await LikeRecipe("Henry", "eggs-me");
         //Returns true if the function was successful, returns false if there was an error with either step
+
+        //Checks if a Recipe with the given slug exists in the database
+    console.log(await CheckForSlug("eggs-me"));
+        //Returns true if there is no recipe with the slug, false if there is
+
+        //Checks if a Username already exists in the database
+    console.log(await CheckIfUserExists("Henry"));
+        //Returns true if a user already exists, false if not
      */
 }
