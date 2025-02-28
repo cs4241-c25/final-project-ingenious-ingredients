@@ -44,7 +44,8 @@ app.post('/postUser', async (req: Request, res: Response) => {
         username: req.body.username,
         password: req.body.password,
         isPublic: req.body.isPublic,
-        favoritedRecipes: null
+        favoritedRecipes: req.body.favoritedRecipes,
+        aboutMe: req.body.aboutMe
     }
     try {
         let results;
