@@ -1,10 +1,10 @@
 import { notFound } from 'next/navigation';
 import { GetRecipe } from "@/Get-Post Requests/Recipe/getRecipe";
 import { GetRecipeFromSlug } from "@/Get-Post Requests/Recipe/getRecipeFromSlug";
-import {Recipe} from "../../../Classes/Recipe";
+import {Recipe} from "../../../../Classes/Recipe";
 
 export async function generateMetadata({ params }) {
-    const recipe = GetRecipe(params.recipe);
+    const recipe = Recipe | null = await GetRecipe(params.recipe.name, params.recipe.creator);
     if (!recipe) { notFound(); }
 
     return {
