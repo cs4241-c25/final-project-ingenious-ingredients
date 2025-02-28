@@ -308,6 +308,20 @@ app.post('/getRecipesByTag', async (req: Request, res: Response) => {
     }
 })
 
+app.post('/getRecipesByUser', async (req: Request, res: Response) => {
+    console.log("Get Recipes by User Received");
+    try {
+        if (recipeCollection) {
+            const results = await recipeCollection.find({creator: req.body.username}).toArray();
+            res.status(201).send(results);
+        }
+    }
+    catch (error){
+        console.error(error);
+        res.status(210).send(error);
+    }
+})
+
 app.post('/likeRecipe', async (req: Request, res: Response) => {
     console.log("Like Recipes Received");
     try {
