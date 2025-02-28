@@ -12,10 +12,9 @@ import Link from "next/link";
 
 interface RecipeCardProps {
     recipe: Recipe;
-    image: string;
 }
 
-export default function RecipeCard({ recipe, image }: RecipeCardProps) {
+export default function RecipeCard({ recipe }: RecipeCardProps) {
     if (!recipe) return null;
 
     function getFirstThreeIngredients() {
@@ -52,7 +51,7 @@ export default function RecipeCard({ recipe, image }: RecipeCardProps) {
                 <CardOverflow>
                     <AspectRatio ratio="2">
                         <img
-                            srcSet={image}
+                            srcSet={recipe.image}
                             loading="lazy"
                             alt={recipe.name}
                         />

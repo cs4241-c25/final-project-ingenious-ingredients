@@ -40,7 +40,6 @@ const RecipeGrid: React.FC<RecipeGridProps> = ({recipes, colNum, maxRecipes}) =>
                 <Grid2 sx={{xs: 6, sm: 4, md: 3, justifyContent: "center"}} key={index} component="div">
                     <RecipeCard
                         recipe={recipe}
-                        image={"https://upload.wikimedia.org/wikipedia/commons/4/4d/Cheeseburger.jpg"}
                     />
                 </Grid2>
             ))}
