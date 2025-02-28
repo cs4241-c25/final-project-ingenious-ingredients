@@ -20,15 +20,15 @@ import {ModifyRecipe} from "@/Get-Post Requests/Recipe/modifyRecipe";
 
 export async function PostTest() {
 
-    /*
+/*
         //Example function calls to current endpoints
 
         //Creating and Posting a User
-    const newUser = new User("Henry", "henryPassword", true);
+    const newUser = new User("Jeff", "JeffPassword", true, undefined, "I am very cool");
     console.log(await PostUser(newUser));
         //If the user was added correctly, the PostUser function will return true, if not it will return false
         //Getting a User
-    console.log(await GetUser("Henry"));
+    console.log(await GetUser("Jeff"));
         //Searches for a user by username and returns them as a User object
 
         //Modifying a Users Public status
