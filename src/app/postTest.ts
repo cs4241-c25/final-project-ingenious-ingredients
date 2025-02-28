@@ -8,9 +8,13 @@ import {PostRecipe} from "../Get-Post Requests/Recipe/postRecipe";
 import {GetRecipe} from "../Get-Post Requests/Recipe/getRecipe";
 import {User} from "../../Classes/User";
 import {tags} from "@emotion/styled/src/tags";
-import {GetTags} from "../Get-Post Requests/Tags/getTags";
+import GetTags from "../Get-Post Requests/Tags/getTags";
 import {GetRecipesByTags} from "../Get-Post Requests/Recipe/getRecipesByTags";
 import {GetRecipeFromSlug} from "@/Get-Post Requests/Recipe/getRecipeFromSlug";
+import {LikeRecipe} from "@/Get-Post Requests/Recipe/likeRecipe";
+import {CheckForSlug} from "@/Get-Post Requests/Recipe/checkForSlug";
+import {CheckIfUserExists} from "@/Get-Post Requests/User/checkIfUserExists";
+import {GetRecipesByUser} from "@/Get-Post Requests/Recipe/getRecipesByUser";
 
 
 export async function PostTest() {
@@ -22,7 +26,6 @@ export async function PostTest() {
     const newUser = new User("Henry", "henryPassword", true);
     console.log(await PostUser(newUser));
         //If the user was added correctly, the PostUser function will return true, if not it will return false
-
         //Getting a User
     console.log(await GetUser("Henry"));
         //Searches for a user by username and returns them as a User object
@@ -65,6 +68,21 @@ export async function PostTest() {
         //If no user is given then it will search all public recipes
     await GetRecipesByTags(["Easy"]);
 
-     */
 
+        //Adds a like to the recipe found by the given Slug and adds the slug to the user's favoritedRecipes list
+    await LikeRecipe("Henry", "eggs-me");
+        //Returns true if the function was successful, returns false if there was an error with either step
+
+        //Checks if a Recipe with the given slug exists in the database
+    console.log(await CheckForSlug("eggs-me"));
+        //Returns true if there is no recipe with the slug, false if there is
+
+        //Checks if a Username already exists in the database
+    console.log(await CheckIfUserExists("Henry"));
+        //Returns true if a user already exists, false if not
+
+        //Gets all recipes given a username
+    console.log(await GetRecipesByUser("Me"));
+        //Returns a list of recipes, or an empty list if no recipes are found
+     */
 }

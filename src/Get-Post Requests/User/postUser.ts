@@ -5,7 +5,7 @@ export async function PostUser(user: User) : Promise<boolean> {
         username: user.username,
         password: user.password,
         isPublic: user.isPublic,
-        favoritedRecipes: null
+        favoritedRecipes: user.favoritedRecipes
     }
 
     const body = JSON.stringify(newUser)
@@ -21,6 +21,5 @@ export async function PostUser(user: User) : Promise<boolean> {
     console.log(res)
 
     return res === "User added to collection";
-
 
 }
