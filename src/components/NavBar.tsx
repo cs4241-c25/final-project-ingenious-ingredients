@@ -62,7 +62,7 @@ const NavBar: React.FC<NavBarProps> = ({stickOrNah}) => {
 
 
     return (
-        <AppBar id="mainBar" sx={{position: 'sticky'}}>
+        <nav id="mainBar" >
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     {/*Below is the Icon for the Website (Commented Out*/}
@@ -152,7 +152,7 @@ const NavBar: React.FC<NavBarProps> = ({stickOrNah}) => {
                     <SignInDD/>
                 </Toolbar>
             </Container>
-        </AppBar>
+        </nav>
     );
 }
 export default NavBar;

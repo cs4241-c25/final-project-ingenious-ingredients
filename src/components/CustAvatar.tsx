@@ -2,6 +2,9 @@ import React from 'react';
 import UserNotFound from '@/photos/user_not_found.png';
 import Avatar from '@mui/material/Avatar';
 
+interface MyComponentProps {
+    userName: string,
+}
 const CustAvatar: React.FC<MyComponentProps> = ({ userName }) => {
 
     function stringToColor(string: string) {

@@ -16,20 +16,19 @@ export default function Author() {
     return (
         <div>
             <NavBar stickOrNah={"sticky"}/>
-            <div className="bg-white p-8">
+            <div className="page-background">
                 <h1 id="pageTitle">{storageName}'s Page</h1>
                 <br/>
                 <br/>
 
 
-                <Stack direction="row" spacing={35} id="authorName">
+                <Stack direction="row" id="authorName">
                     <div></div>
                     <div>
                         <CustAvatar userName={storageName}/>
                     </div>
                     <div id="authorDescrip">
                         <TextField
-                            id="test2"
                             label="About Me"
                             multiline
                             rows={5}
