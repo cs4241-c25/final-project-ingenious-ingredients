@@ -14,18 +14,6 @@ interface RecipeGridProps {
 
 const RecipeGrid: React.FC<RecipeGridProps> = ({recipes, colNum, maxRecipes}) => {
 
-    // let ingredient1 = new RecipeIngredient("beef", 1, "lb");
-    // let ingredient2 = new RecipeIngredient("cheese", 1, "slice");
-    // let ingredient3 = new RecipeIngredient("lettuce", 1, "leaf");
-    // let step1 = new Step("Cook the beef", [ingredient1]);
-    // let step2 = new Step("Put the cheese on the beef", [ingredient1, ingredient2]);
-    // let step3 = new Step("Put the lettuce on the cheese", [ingredient3]);
-    //
-    // let Cheeseburger = new Recipe([step1, step2, step3], "Cheeseburger", "Andrew", true, 30, "lunch", 23, "February 1, 2025", [ingredient1, ingredient2, ingredient3], ["delicious", "yummy", "cool"]);
-    // let Pizza = new Recipe([step1, step2, step3], "Pizza", "John", true, 20, "dinner", 50, "March 1, 2025", [ingredient1, ingredient2, ingredient3], ["tasty", "cheesy"]);
-    // let Salad = new Recipe([step1, step2, step3], "Salad", "Jane", true, 10, "lunch", 15, "April 1, 2025", [ingredient1, ingredient2, ingredient3], ["healthy", "fresh"]);
-    // const recipes = [Cheeseburger, Pizza, Salad];
-
     function getTopRecipes(recipes: Recipe[]) {
         if (!maxRecipes) {
             return recipes.sort((a, b) => b.likes - a.likes);
