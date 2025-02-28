@@ -15,6 +15,7 @@ import {LikeRecipe} from "@/Get-Post Requests/Recipe/likeRecipe";
 import {CheckForSlug} from "@/Get-Post Requests/Recipe/checkForSlug";
 import {CheckIfUserExists} from "@/Get-Post Requests/User/checkIfUserExists";
 import {GetRecipesByUser} from "@/Get-Post Requests/Recipe/getRecipesByUser";
+import {ModifyRecipe} from "@/Get-Post Requests/Recipe/modifyRecipe";
 
 
 export async function PostTest() {
@@ -47,7 +48,7 @@ export async function PostTest() {
         //They take in a string as the Instructions someone would follow, and an array of the ingredients needed
 
         //Finally is putting them together into a Recipe object
-    const Recipe1 = new Recipe([step1, step2], "Eggs", "Me", true, 5, "Breakfast", undefined, undefined, undefined, ["Easy", "Quick"]);
+    const Recipe1 = new Recipe([step1, step2], "Eggs", "You", true, 5, "Breakfast", undefined, undefined, undefined, ["Easy"], undefined, undefined);
         //And then posting the Recipe
     console.log(await PostRecipe(Recipe1));
         //Posting a Recipe will return true if the recipe was created and false if there was an error
@@ -84,5 +85,9 @@ export async function PostTest() {
         //Gets all recipes given a username
     console.log(await GetRecipesByUser("Me"));
         //Returns a list of recipes, or an empty list if no recipes are found
+
+        //Modifies a recipe, Takes in a new recipe object to change the old recipe into using the recipe's slug
+    console.log(await ModifyRecipe(Recipe1, "eggs-me"));
+        //Returns true if the operation was successful, false if not
      */
 }
