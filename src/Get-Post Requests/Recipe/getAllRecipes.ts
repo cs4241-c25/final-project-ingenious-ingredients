@@ -24,7 +24,8 @@ export default async function GetAllRecipes(): Promise<Recipe[]> {
             list[i].postDate,
             list[i].ingredients,
             list[i].tags,
-            list[i].slug
+            list[i].slug,
+            list[i].image
         ));
     }
 

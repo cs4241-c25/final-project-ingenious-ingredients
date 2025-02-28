@@ -91,6 +91,25 @@ app.post('/getUser', async (req: Request, res: Response) => {
     }
 })
 
+app.post('/checkIfUserExists', async (req: Request, res: Response) => {
+    console.log("Check if User Exists Received");
+    try {
+        if (userCollection) {
+            const result = await userCollection.findOne({username: req.body.username});
+            if (result === null) {
+                res.status(201).send(false)
+            }
+            else{
+                res.status(201).send(true)
+            }
+        }
+    }
+    catch (error){
+        console.error(error);
+        res.status(209).send(error)
+    }
+})
+
 app.post('/modifyPublicStatus', async (req: Request, res: Response) => {
     console.log("Modify User's Public Status Received");
     try {
@@ -123,7 +142,8 @@ app.post('/postRecipe', async (req: Request, res: Response) => {
         mealType: req.body.recipe.mealType,
         postDate: req.body.recipe.postDate,
         tags: req.body.recipe.tags,
-        slug: req.body.recipe.slug
+        slug: req.body.recipe.slug,
+        image: req.body.recipe.image
     }
     try {
         let results;
@@ -227,6 +247,25 @@ app.post('/getTags', async (req: Request, res: Response) => {
     }
 })
 
+app.post('/checkForSlug', async (req: Request, res: Response) => {
+    console.log("Check For Slug Received");
+    try {
+        if (recipeCollection) {
+            let result = await recipeCollection.findOne({slug: req.body.slug});
+            if (result === null){
+                res.status(201).send(true);
+            }
+            else {
+                res.status(201).send(false)
+            }
+        }
+    }
+    catch (error){
+        console.error(error);
+        res.status(208).send(error);
+    }
+})
+
 app.post('/getRecipesByTag', async (req: Request, res: Response) => {
     console.log("Get Recipes by Tag Received");
     if (req.body.user){
@@ -266,6 +305,23 @@ app.post('/getRecipesByTag', async (req: Request, res: Response) => {
             console.error(error);
             res.status(206).send("Error when searching for Recipe");
         }
+    }
+})
+
+app.post('/likeRecipe', async (req: Request, res: Response) => {
+    console.log("Like Recipes Received");
+    try {
+        if (userCollection){
+            const userResult = await userCollection.findOneAndUpdate({username: req.body.username}, {$addToSet: {favoritedRecipes: req.body.slug}});
+        }
+        if (recipeCollection) {
+            const recipeResult = await recipeCollection.findOneAndUpdate({slug: req.body.slug}, {$inc: {likes: 1}});
+        }
+        res.status(201).send("Like Recipe and Added to User favorite list");
+    }
+    catch (error){
+        console.error(error);
+        res.status(207).send(error);
     }
 })
 

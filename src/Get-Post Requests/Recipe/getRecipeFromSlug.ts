@@ -32,6 +32,7 @@ export async function GetRecipeFromSlug(slug: string): Promise<Recipe | null> {
         recipe.postDate,
         recipe.ingredients,
         recipe.tags,
-        recipe.slug
+        recipe.slug,
+        recipe.image
     );
 }

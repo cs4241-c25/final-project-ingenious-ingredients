@@ -1,12 +1,10 @@
-import {Recipe} from "./Recipe";
-
 export class User{
     username: string;
     password: string;
     isPublic: boolean;
-    favoritedRecipes: Recipe[];
+    favoritedRecipes: string[];
 
-    constructor(username: string, password: string, isPublic: boolean, favoritedRecipes: Recipe[] = null){
+    constructor(username: string, password: string, isPublic: boolean, favoritedRecipes: string[] = []){
         this.username = username;
         this.password = password;
         this.isPublic = isPublic;
