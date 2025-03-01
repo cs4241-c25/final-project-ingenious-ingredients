@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import SocialButtons from "@/components/SocialButtons";
 import Stack from "@mui/material/Stack";
+import {black} from "next/dist/lib/picocolors";
 
 
 export default function Author() {
@@ -22,24 +23,26 @@ export default function Author() {
                 <br/>
 
 
-                <Stack direction="row" id="authorName">
-                    <div></div>
-                    <div>
-                        <CustAvatar userName={storageName}/>
-                    </div>
-                    <div id="authorDescrip">
-                        <TextField
-                            label="About Me"
-                            multiline
-                            rows={5}
-                            defaultValue={description}
-                            variant="filled"
-                            sx={{width: 500}}
-                        />
-                        <SocialButtons/>
+                <div >
+                    <div id="authorNameDescrip">
+                        <div id="authorName">
+                            <CustAvatar userName={storageName}/>
+                        </div>
+                        <div id="authorDescrip">
+                            <TextField
+                                label="About Me"
+                                multiline
+                                disabled
+                                rows={5}
+                                defaultValue={description}
+                                variant="filled"
+                                sx={{width: 650}}
+                            />
+                            <SocialButtons/>
+                        </div>
                     </div>
 
-                </Stack>
+                </div>
 
 
                 <br/>
