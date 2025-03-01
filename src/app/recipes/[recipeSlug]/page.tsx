@@ -58,11 +58,6 @@ export default async function RecipeDetailsPage({ params }) {
                         {recipe.steps.map((step, index) => (
                             <li key={index}>
                                 <p>{step.instruction}</p>
-                                {/*<ul>*/}
-                                {/*    {step.ingredients.map((ingredient, i) => (*/}
-                                {/*        <li key={i}>{ingredient.name}</li>*/}
-                                {/*    ))}*/}
-                                {/*</ul>*/}
                             </li>
                         ))}
                     </ul>
