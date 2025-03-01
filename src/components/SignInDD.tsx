@@ -11,7 +11,6 @@ import MenuItem from '@mui/material/MenuItem';
 import { redirect } from 'next/navigation'
 import CustAvatar from "@/components/CustAvatar";
 import NavAvatar from "@/components/NavAvatar";
-import {signOut, useSession} from "next-auth/react";
 
 
 const settings = ['Your Page', 'Your Recipes', 'Your Pantry', 'Your Meal Plan', 'Logout'];
@@ -46,17 +45,19 @@ function SignInDD() {
         redirect("/my-recipes");
     };
     const logOut = (event: React.MouseEvent<HTMLElement>) => {
-        signOut();
+        localStorage.setItem("loggedInUser", "");
+        redirect(`/hero`);
     };
 
     const signIn = (event: React.MouseEvent<HTMLElement>) => {
-        redirect("/api/auth/signin");
+        localStorage.setItem("loggedInUser", "Henry");
+        redirect("/author");
     };
 
 
-    const {data: session} = useSession();
 
-    if(!session){
+
+    if(localStorage.getItem("loggedInUser") === ""){
         return (
             <MenuItem onClick={signIn}>
                 <Typography sx={{textAlign: 'center'}}>SignIn</Typography>
@@ -68,7 +69,7 @@ function SignInDD() {
             <Box sx={{flexGrow: 0}}>
                 <Tooltip title="Open settings">
                     <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
-                        <NavAvatar userName={session?.user?.name} />
+                        <NavAvatar userName={localStorage.getItem("loggedInUser")} />
                     </IconButton>
                 </Tooltip>
                 <Menu

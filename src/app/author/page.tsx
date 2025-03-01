@@ -11,12 +11,9 @@ import {black} from "next/dist/lib/picocolors";
 import {GetUser} from "@/Get-Post Requests/User/getUser";
 import GetTags from "@/Get-Post Requests/Tags/getTags";
 import {User} from "../../../Classes/User";
-import {getSession} from "next-auth/react";
 
 
 export default function Author() {
-
-    const {data: session} = getSession();
 
     const [user, setUser] = React.useState<User>(null);
     const [storageName, setStorageName] = React.useState("");
@@ -24,7 +21,7 @@ export default function Author() {
 
     React.useEffect(() => {
         async function fetchUser() {
-            const user = await GetUser(session?.user?.name);
+            const user = await GetUser(localStorage.getItem("loggedInUser"));
             setUser(user);
             setStorageName(user.username);
             setDescription(user.aboutMe);
