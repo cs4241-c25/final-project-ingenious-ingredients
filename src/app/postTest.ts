@@ -16,6 +16,7 @@ import {CheckForSlug} from "@/Get-Post Requests/Recipe/checkForSlug";
 import {CheckIfUserExists} from "@/Get-Post Requests/User/checkIfUserExists";
 import {GetRecipesByUser} from "@/Get-Post Requests/Recipe/getRecipesByUser";
 import {ModifyRecipe} from "@/Get-Post Requests/Recipe/modifyRecipe";
+import {ModifyAboutMe} from "@/Get-Post Requests/User/modifyAboutMe";
 
 
 export async function PostTest() {
@@ -89,5 +90,9 @@ export async function PostTest() {
         //Modifies a recipe, Takes in a new recipe object to change the old recipe into using the recipe's slug
     console.log(await ModifyRecipe(Recipe1, "eggs-me"));
         //Returns true if the operation was successful, false if not
-     */
+
+        //Modify a users about me, takes in the username and the new about me to set
+    console.log(await ModifyAboutMe("ThomasBranchaud", "I AM a good cook!"));
+        //Returns true if a connection was made to the database, not if the user was found
+ */
 }
