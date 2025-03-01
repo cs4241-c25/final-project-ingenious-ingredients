@@ -5,9 +5,9 @@ import CardContent from '@mui/joy/CardContent';
 import CardOverflow from '@mui/joy/CardOverflow';
 import Divider from '@mui/joy/Divider';
 import Typography from '@mui/joy/Typography';
-import '../app/globals.css';
+import '../../app/globals.css';
 import { Chip } from "@mui/material";
-import { Recipe } from "../../Classes/Recipe";
+import { Recipe } from "../../../Classes/Recipe";
 import Link from "next/link";
 
 interface RecipeCardProps {

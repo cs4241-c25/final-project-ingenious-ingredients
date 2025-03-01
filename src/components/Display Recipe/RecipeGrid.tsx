@@ -2,9 +2,9 @@ import * as React from 'react';
 import RecipeCard from "./RecipeCard";
 import Grid2 from "@mui/material/Grid2";
 
-import {Recipe} from "../../Classes/Recipe";
-import {Step} from "../../Classes/Step";
-import {RecipeIngredient} from "../../Classes/RecipeIngredient";
+import {Recipe} from "../../../Classes/Recipe";
+import {Step} from "../../../Classes/Step";
+import {RecipeIngredient} from "../../../Classes/RecipeIngredient";
 
 interface RecipeGridProps {
     colNum: number,
