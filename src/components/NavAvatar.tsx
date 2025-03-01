@@ -5,7 +5,7 @@ import Avatar from '@mui/material/Avatar';
 interface MyComponentProps {
     userName: string,
 }
-const CustAvatar: React.FC<MyComponentProps> = ({ userName }) => {
+const NavAvatar: React.FC<MyComponentProps> = ({ userName }) => {
 
     function stringToColor(string: string) {
         let hash = 0;
@@ -36,10 +36,9 @@ const CustAvatar: React.FC<MyComponentProps> = ({ userName }) => {
     }
 
     return (
-        <div id = "custAvatarOrientation">
-            <Avatar id="authorImage" {...stringAvatar(userName)} />
-            <h1>{userName}</h1>
+        <div>
+            <Avatar id="navImage" {...stringAvatar(userName)} />
         </div>
     )
 }
-export default CustAvatar;
+export default NavAvatar;
