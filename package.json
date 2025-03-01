@@ -19,6 +19,7 @@
     "@mui/material": "^6.4.6",
     "@mui/material-nextjs": "^6.4.3",
     "@mui/system": "^6.4.6",
+    "@mui/x-data-grid": "^7.27.2",
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "mongodb": "^6.13.0",

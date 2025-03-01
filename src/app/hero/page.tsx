@@ -1,11 +1,11 @@
 "use client";
 
-import RecipeGrid from "@/components/RecipeGrid";
-import BrowseFilterTags from "@/components/BrowseFilterTags";
+import RecipeGrid from "@/components/Display Recipe/RecipeGrid";
+import BrowseFilterTags from "@/components/Display Recipe/BrowseFilterTags";
 import GetAllRecipes from "@/Get-Post Requests/Recipe/getAllRecipes"
 import {Recipe} from "../../../Classes/Recipe";
 import React, { useEffect, useState } from 'react';
-import RecipeCard from "@/components/RecipeCard";
+import RecipeCard from "@/components/Display Recipe/RecipeCard";
 import {GetRecipe} from "@/Get-Post Requests/Recipe/getRecipe";
 import NavBar from "@/components/NavBar";
 

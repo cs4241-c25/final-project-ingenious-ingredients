@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import {Chip, TextField, Autocomplete} from "@mui/material";
-import GetTags from "../Get-Post Requests/Tags/getTags";
+import GetTags from "../../Get-Post Requests/Tags/getTags";
 
 interface FilterTagsProps {
     onTagsChange: (tags: string[]) => void;
