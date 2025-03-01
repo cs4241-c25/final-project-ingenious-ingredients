@@ -11,7 +11,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { redirect } from 'next/navigation'
 import CustAvatar from "@/components/CustAvatar";
 import NavAvatar from "@/components/NavAvatar";
-import {signOut, useSession} from "next-auth/react";
+import {signOut, signIn, useSession} from "next-auth/react";
 
 
 const settings = ['Your Page', 'Your Recipes', 'Your Pantry', 'Your Meal Plan', 'Logout'];
@@ -49,8 +49,8 @@ function SignInDD() {
         signOut({callbackUrl: '/hero'});
     };
 
-    const signIn = (event: React.MouseEvent<HTMLElement>) => {
-        redirect("/api/auth/signin");
+    const logIn = (event: React.MouseEvent<HTMLElement>) => {
+        redirect('/api/auth/signin');
     };
 
 
@@ -58,7 +58,7 @@ function SignInDD() {
 
     if(!session){
         return (
-            <MenuItem onClick={signIn}>
+            <MenuItem onClick={logIn}>
                 <Typography sx={{textAlign: 'center'}}>Sign In</Typography>
             </MenuItem>
         )

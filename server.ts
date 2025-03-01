@@ -129,6 +129,23 @@ app.post('/modifyPublicStatus', async (req: Request, res: Response) => {
     }
 })
 
+app.post('/modifyAboutMe', async (req: Request, res: Response) => {
+    console.log("Modify AboutMe Received");
+    try {
+        if (userCollection) {
+            const result = await userCollection.findOneAndUpdate({username: req.body.username}, {$set: {aboutMe: req.body.aboutMe}});
+            res.status(201).send(true)
+        }
+        else {
+            res.status(201).send(false)
+        }
+    }
+    catch (error){
+        console.error(error);
+        res.status(212).send(error);
+    }
+})
+
 app.post('/postRecipe', async (req: Request, res: Response) => {
     console.log("Post Recipe Received");
     console.log(req.body.recipe);
