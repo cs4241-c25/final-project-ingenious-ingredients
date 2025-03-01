@@ -1,6 +1,6 @@
 import {RecipeIngredient} from "./RecipeIngredient";
 
-export class RecipeStep{
+export class Step{
     instruction: string;
     ingredients: RecipeIngredient[];
 

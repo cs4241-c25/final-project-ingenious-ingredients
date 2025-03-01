@@ -1,9 +1,9 @@
-import { RecipeStep } from "./Step";
+import { Step } from "./Step";
 import { RecipeIngredient } from "./RecipeIngredient";
 import slugify from "slugify";
 
 export class Recipe {
-    steps: RecipeStep[];
+    steps: Step[];
     name: string;
     creator: string;
     isPublic: boolean;
@@ -16,7 +16,7 @@ export class Recipe {
     slug: string;
     image: string;
 
-    constructor(steps: RecipeStep[], name: string, creator: string, isPublic: boolean, prepTime: number, mealType: string, likes: number = 0, postDate: Date | string = null, ingredients: RecipeIngredient[] = null, tags: string[] = null, slug: string = null, image: string) {
+    constructor(steps: Step[], name: string, creator: string, isPublic: boolean, prepTime: number, mealType: string, likes: number = 0, postDate: Date | string = null, ingredients: RecipeIngredient[] = null, tags: string[] = null, slug: string = null, image: string) {
         this.steps = steps;
         this.name = name;
         this.creator = creator;
