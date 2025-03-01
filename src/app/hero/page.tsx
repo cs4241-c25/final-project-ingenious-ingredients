@@ -8,10 +8,16 @@ import React, { useEffect, useState } from 'react';
 import RecipeCard from "@/components/Display Recipe/RecipeCard";
 import {GetRecipe} from "@/Get-Post Requests/Recipe/getRecipe";
 import NavBar from "@/components/NavBar";
+import {useSession} from "next-auth/react";
+import {CheckIfUserExists} from "@/Get-Post Requests/User/checkIfUserExists";
+import {PostUser} from "@/Get-Post Requests/User/postUser";
+import {User} from "../../../Classes/User";
 
 export default function Hero() {
 
     const [recipes, setRecipes] = useState<Recipe[]>([]);
+
+    const {data: session} = useSession();
 
     useEffect(() => {
         async function fetchRecipes() {
@@ -19,6 +25,18 @@ export default function Hero() {
             setRecipes(fetchedRecipes);
         }
         fetchRecipes();
+        async  function checkUser(){
+            console.log("Here");
+            if (session) {
+                console.log("Here2");
+                const result = await CheckIfUserExists(session?.user?.name);
+                console.log(result);
+                if (result === false) {
+                    await PostUser(new User(session?.user?.name, null, true));
+                }
+            }
+        }
+        checkUser();
     }, []);
     
     return (
