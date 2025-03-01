@@ -1,3 +1,4 @@
+"use client";
 import NavBar from "@/components/NavBar";
 import React from "react";
 import CustAvatar from "@/components/CustAvatar";
@@ -6,41 +7,69 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import SocialButtons from "@/components/SocialButtons";
 import Stack from "@mui/material/Stack";
+import {black} from "next/dist/lib/picocolors";
+import {GetUser} from "@/Get-Post Requests/User/getUser";
+import GetTags from "@/Get-Post Requests/Tags/getTags";
+import {User} from "../../../Classes/User";
 
 
 export default function Author() {
 
-    let storageName = "Andrew"
-    let description = "Oh Yeah, this is very nice"
+    const [user, setUser] = React.useState<User>(null);
+    const [storageName, setStorageName] = React.useState("");
+    const [description, setDescription] = React.useState("");
+
+    React.useEffect(() => {
+        async function fetchUser() {
+            const user = await GetUser(localStorage.getItem("loggedInUser"));
+            setUser(user);
+            setStorageName(user.username);
+            setDescription(user.aboutMe);
+            console.log(user.username);
+        }
+        fetchUser();
+    }, []);
+
+
+    if(user){
+        let storageName = user.username;
+        let description = user.aboutMe;
+        console.log(storageName, description);
+    }
+    console.log(storageName, description);
 
     return (
         <div>
             <NavBar stickOrNah={"sticky"}/>
-            <div className="bg-white p-8">
+            <div className="page-background">
                 <h1 id="pageTitle">{storageName}'s Page</h1>
                 <br/>
                 <br/>
 
 
-                <Stack direction="row" spacing={35} id="authorName">
-                    <div></div>
-                    <div>
-                        <CustAvatar userName={storageName}/>
+                <div>
+                    <div id="authorNameDescrip">
+                        <div id="authorName">
+                            <CustAvatar userName={storageName}/>
+                        </div>
+                        <div id="authorDescrip">
+                            <TextField
+                                label="About Me"
+                                multiline
+                                disabled
+                                rows={5}
+                                defaultValue={description}
+                                variant="filled"
+                                sx={{
+                                    width: 650,
+                                    backgroundColor: '#F2D6C7',
+                                    color: 'black',
+                                }}
+                            />
+                            <SocialButtons/>
+                        </div>
                     </div>
-                    <div id="authorDescrip">
-                        <TextField
-                            id="test2"
-                            label="About Me"
-                            multiline
-                            rows={5}
-                            defaultValue={description}
-                            variant="filled"
-                            sx={{width: 500}}
-                        />
-                        <SocialButtons/>
-                    </div>
-
-                </Stack>
+                </div>
 
 
                 <br/>
@@ -48,6 +77,7 @@ export default function Author() {
                 <br/>
                 <Divider id="divide" orientation="horizontal" flexItem/>
                 <h1>My Recipes</h1>
+
 
                 {/*<RecipeGrid colNum={3}/>*/}
                 {/*<BrowseFilterTags/>*/}
