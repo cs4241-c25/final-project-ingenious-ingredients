@@ -14,7 +14,9 @@ import Typography from '@mui/material/Typography';
 import Button from "@mui/material/Button";
 import {Recipe} from "../../../Classes/Recipe";
 import {RecipeIngredient} from "../../../Classes/RecipeIngredient";
-import {Step} from "../../../Classes/Step";
+import {RecipeStep} from "../../../Classes/Step";
+import {ToggleButtonGroup} from "@mui/material";
+import {ToggleButton} from "@mui/material";
 
 type Step = {
     instruction: string;
@@ -87,7 +89,7 @@ export default function CreateRecipe() {
             return new RecipeIngredient(name, Number(amount), unitOfMeasure);
         });
 
-        const stepsArray = formData.steps.split('.').map(step => new Step(
+        const stepsArray = formData.steps.split('.').map(step => new RecipeStep(
             step.trim(),
             [] // Add an empty ingredients array or populate it as needed
         ));
@@ -108,6 +110,14 @@ export default function CreateRecipe() {
         );
         const result = await PostRecipe(recipe);
         console.log(result);
+    };
+
+    const [time, setTime] = React.useState<string | null>('left');
+    const handleTime = (
+        event: React.MouseEvent<HTMLElement>,
+        newTime: string | null,
+    ) => {
+        setTime(newTime);
     };
 
     return (
@@ -176,6 +186,19 @@ export default function CreateRecipe() {
                         <TextField id="name" label="Recipe Title" name="name" variant="outlined" onChange={handleChange} required />
                         <br />
                         <TextField id="prepTime" label="Prep Time" name="prepTime" variant="outlined" onChange={handleChange} required />
+                        <ToggleButtonGroup
+                            value={time}
+                            exclusive
+                            onChange={handleTime}
+                            aria-label="text alignment"
+                        >
+                            <ToggleButton value="minutes" aria-label="left aligned">
+                                Minutes
+                            </ToggleButton>
+                            <ToggleButton value="hours" aria-label="centered">
+                                Hours
+                            </ToggleButton>
+                        </ToggleButtonGroup>
                         <br />
                         <TextField id="mealType" label="Meal Type" name="mealType" variant="outlined" onChange={handleChange} required />
                         <br />
