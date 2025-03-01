@@ -2,7 +2,7 @@ import {PostUser} from "../Get-Post Requests/User/postUser";
 import {GetUser} from "../Get-Post Requests/User/getUser";
 import {ModifyPublic} from "../Get-Post Requests/User/modifyPublic";
 import {RecipeIngredient} from "../../Classes/RecipeIngredient";
-import {Step} from "../../Classes/Step";
+import {RecipeStep} from "../../Classes/Step";
 import {Recipe} from "../../Classes/Recipe";
 import {PostRecipe} from "../Get-Post Requests/Recipe/postRecipe";
 import {GetRecipe} from "../Get-Post Requests/Recipe/getRecipe";
@@ -43,8 +43,8 @@ export async function PostTest() {
         //Ingredients for a recipe use the RecipeIngredient class
 
         //Next is creating Steps using the ingredients
-    const step1 = new Step("Add an Egg and Cheese", [egg1, cheese]);
-    const step2 = new Step("Add more Egg", [egg2]);
+    const step1 = new RecipeStep("Add an Egg and Cheese", [egg1, cheese]);
+    const step2 = new RecipeStep("Add more Egg", [egg2]);
         //They take in a string as the Instructions someone would follow, and an array of the ingredients needed
 
         //Finally is putting them together into a Recipe object
