@@ -16,6 +16,6 @@ export async function GetUser(username: string) {
 
     const user = await results.json();
 
-    return new User(user.username, user.password, user.isPublic, user.favoritedRecipes);
+    return new User(user.username, user.password, user.isPublic, user.favoritedRecipes, user.aboutMe);
 
 }
