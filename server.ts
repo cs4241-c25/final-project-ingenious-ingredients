@@ -44,7 +44,8 @@ app.post('/postUser', async (req: Request, res: Response) => {
         username: req.body.username,
         password: req.body.password,
         isPublic: req.body.isPublic,
-        favoritedRecipes: null
+        favoritedRecipes: req.body.favoritedRecipes,
+        aboutMe: req.body.aboutMe
     }
     try {
         let results;
@@ -336,6 +337,33 @@ app.post('/likeRecipe', async (req: Request, res: Response) => {
     catch (error){
         console.error(error);
         res.status(207).send(error);
+    }
+})
+
+app.post('/modifyRecipe', async (req: Request, res: Response) => {
+    console.log("Modify Recipe Received");
+    try {
+        if (recipeCollection) {
+            const num = await recipeCollection.findOne({slug: req.body.slug});
+            const results = await recipeCollection.findOneAndReplace({slug: req.body.slug}, {
+                steps: req.body.recipe.steps,
+                name: req.body.recipe.name,
+                creator: req.body.recipe.creator,
+                isPublic: req.body.recipe.isPublic,
+                likes: num.likes,
+                ingredients: req.body.recipe.ingredients,
+                prepTime: req.body.recipe.prepTime,
+                mealType: req.body.recipe.mealType,
+                postDate: req.body.recipe.postDate,
+                tags: req.body.recipe.tags,
+                slug: req.body.recipe.slug,
+                image: req.body.recipe.image
+            }, {upsert: true});
+        }
+        res.status(201).send(true);
+    } catch (error) {
+        console.error(error);
+        res.status(211).send(false);
     }
 })
 

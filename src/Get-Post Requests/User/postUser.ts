@@ -5,7 +5,8 @@ export async function PostUser(user: User) : Promise<boolean> {
         username: user.username,
         password: user.password,
         isPublic: user.isPublic,
-        favoritedRecipes: user.favoritedRecipes
+        favoritedRecipes: user.favoritedRecipes,
+        aboutMe: user.aboutMe
     }
 
     const body = JSON.stringify(newUser)
