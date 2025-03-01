@@ -46,7 +46,7 @@ function SignInDD() {
         redirect("/my-recipes");
     };
     const logOut = (event: React.MouseEvent<HTMLElement>) => {
-        signOut();
+        signOut({callbackUrl: '/hero'});
     };
 
     const signIn = (event: React.MouseEvent<HTMLElement>) => {
@@ -59,7 +59,7 @@ function SignInDD() {
     if(!session){
         return (
             <MenuItem onClick={signIn}>
-                <Typography sx={{textAlign: 'center'}}>SignIn</Typography>
+                <Typography sx={{textAlign: 'center'}}>Sign In</Typography>
             </MenuItem>
         )
     }

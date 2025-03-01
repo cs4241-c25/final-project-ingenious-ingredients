@@ -11,12 +11,12 @@ import {black} from "next/dist/lib/picocolors";
 import {GetUser} from "@/Get-Post Requests/User/getUser";
 import GetTags from "@/Get-Post Requests/Tags/getTags";
 import {User} from "../../../Classes/User";
-import {getSession} from "next-auth/react";
+import {useSession} from "next-auth/react";
 
 
 export default function Author() {
 
-    const {data: session} = getSession();
+    const {data: session} = useSession();
 
     const [user, setUser] = React.useState<User>(null);
     const [storageName, setStorageName] = React.useState("");
