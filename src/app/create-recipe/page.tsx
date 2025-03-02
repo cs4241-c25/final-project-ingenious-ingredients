@@ -43,16 +43,14 @@ export default function CreateRecipe() {
 
     const [formData, setFormData] = useState({
         name: '',
-        creator: 'me', // get this from the user's session
         prepTime: '',
-        postDate: new Date(),
         mealType: '',
         ingredients: '',
         tags: '',
         steps: '',
         image: '',
-        likes: undefined,
-        slug: undefined,
+        likes: 2,
+        slug: "",
         isPublic: false
     });
 
@@ -92,8 +90,8 @@ export default function CreateRecipe() {
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         setFormData({
-            ...formData,
-            [name]: type === 'checkbox' ? checked : value
+            ...formData, // Spread the existing formData
+            [name]: type === 'checkbox' ? checked : value // Update the changed field
         });
     };
 
@@ -109,20 +107,19 @@ export default function CreateRecipe() {
             [] // Add an empty ingredients array or populate it as needed
         ));
 
-        const recipe = new Recipe(
-            formData.name,
-            formData.creator,
-            user.username,
-            Number(formData.prepTime),
-            formData.postDate,
-            formData.mealType,
-            ingredientsArray,
-            formData.tags.split(',').map(tag => tag.trim()),
+        const recipe = new Recipe (
             stepsArray, // Ensure steps is an array of RecipeStep objects
-            formData.image,
+            formData.name,
+            user.username,
+            formData.isPublic,
+            Number(formData.prepTime),
+            formData.mealType,
             formData.likes,
+            new Date().toISOString().split('T')[0],
+            ingredientsArray,
+            formData.tags ? formData.tags.split(',').map(tag => tag.trim()) : [],
             formData.slug,
-            formData.isPublic
+            formData.image,
         );
         const result = await PostRecipe(recipe);
         console.log(result);
