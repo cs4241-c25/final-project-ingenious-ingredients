@@ -18,6 +18,7 @@ const dbconnection = new MongoClient(url);
 let userCollection : Collection | null = null;
 let recipeCollection : Collection | null = null;
 let tagCollection : Collection | null = null;
+let ingredientCollection : Collection | null = null;
 
 
 // Basic route handler
@@ -34,6 +35,7 @@ async function run() {
     userCollection = await dbconnection.db("Ingredients").collection("Users");
     recipeCollection = await dbconnection.db("Ingredients").collection("Recipes");
     tagCollection = await dbconnection.db("Ingredients").collection("Tags");
+    ingredientCollection = await dbconnection.db("Ingredients").collection("Ingredients");
     //const results = await userCollection.insertOne({"username": "Admin", "password": "Admin", "public": true, "favoritedRecipes": null});
     //console.log(results);
 }
@@ -381,6 +383,48 @@ app.post('/modifyRecipe', async (req: Request, res: Response) => {
     } catch (error) {
         console.error(error);
         res.status(211).send(false);
+    }
+})
+
+app.post('/postIngredient', async (req: Request, res: Response) => {
+    console.log("Post Ingredient Received");
+    const insert = {
+        name: req.body.ingredient.name,
+        amount: req.body.ingredient.amount,
+        unitOfMeasure: req.body.ingredient.unitOfMeasure,
+        buyDate: req.body.ingredient.buyDate,
+        username: req.body.ingredient.username
+    }
+    try {
+        if (ingredientCollection) {
+            const result = await ingredientCollection.findOne({name: insert.name, buyDate: insert.buyDate});
+            if (result === null){
+                const add = await ingredientCollection.insertOne(insert);
+                res.status(201).send("Added New Ingredient");
+            }
+            else {
+                const combine = await ingredientCollection.findOneAndUpdate({name: insert.name}, {$inc: {amount: insert.amount}});
+                res.status(201).send("Combined with pre-existing Ingredient");
+            }
+        }
+    }
+    catch (error){
+        console.error(error);
+        res.status(213).send(error);
+    }
+})
+
+app.post('/getIngredientsByUser', async (req: Request, res: Response) => {
+    console.log("Get Ingredients By User Received");
+    try {
+        if (ingredientCollection) {
+            const result = await ingredientCollection.find({username: req.body.username}).toArray();
+            res.status(201).send(result);
+        }
+    }
+    catch (error){
+        console.error(error);
+        res.status(214).send(error);
     }
 })
 

@@ -1,11 +1,11 @@
 export class PantryIngredient{
     name: string;
-    amount: string;
+    amount: number;
     unitOfMeasure: string;
     buyDate: string;
     username: string;
 
-    constructor(name: string, amount: string, unitOfMeasure: string, username: string){
+    constructor(name: string, amount: number, unitOfMeasure: string, username: string, buyDate : string = null){
         this.name = name;
         this.amount = amount;
         this.unitOfMeasure = unitOfMeasure;

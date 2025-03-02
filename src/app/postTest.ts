@@ -17,6 +17,9 @@ import {CheckIfUserExists} from "@/Get-Post Requests/User/checkIfUserExists";
 import {GetRecipesByUser} from "@/Get-Post Requests/Recipe/getRecipesByUser";
 import {ModifyRecipe} from "@/Get-Post Requests/Recipe/modifyRecipe";
 import {ModifyAboutMe} from "@/Get-Post Requests/User/modifyAboutMe";
+import {PantryIngredient} from "../../Classes/PantryIngredient";
+import {PostIngredient} from "@/Get-Post Requests/PantryIngredient/postIngredient";
+import {GetIngredientsByUser} from "@/Get-Post Requests/PantryIngredient/getIngredientsByUser";
 
 
 export async function PostTest() {
@@ -94,5 +97,20 @@ export async function PostTest() {
         //Modify a users about me, takes in the username and the new about me to set
     console.log(await ModifyAboutMe("ThomasBranchaud", "I AM a good cook!"));
         //Returns true if a connection was made to the database, not if the user was found
+
+    const newIng = new PantryIngredient("Eggs", 3, "Eggs", "ThomasBranchaud");
+    const ing2 = new PantryIngredient("Cheese", 10, "Slices", "ThomasBranchaud");
+    const ing3 = new PantryIngredient("Eggs", 1, "Eggs", "ThomasBranchaud");
+
+        //Adding new Pantry Ingredients, takes in a Pantry Ingredient
+    console.log(await PostIngredient(newIng));
+    console.log(await PostIngredient(ing2));
+    console.log(await PostIngredient(ing3));
+        //Returns either "Added New Ingredient" if a new entry was made or "Combined with Pre-existing Ingredient" if it was combined with another entry
+
+        //Get Ingredients that are associated with a given username
+    console.log(await GetIngredientsByUser("ThomasBranchaud"));
+        //Returns a list of PantryIngredients
+
  */
 }
