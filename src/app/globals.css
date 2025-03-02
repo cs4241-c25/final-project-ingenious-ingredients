@@ -57,14 +57,20 @@ body {
 #sidebar {
   min-width: 250px;
   max-width: 300px;
-  background-color: #f5f5f5;
+  background-color: #F2D6C7;
   padding: 1rem;
   border-radius: 8px;
+  outline-color: #F06449;
+  outline-width: 5px;
 }
 
 #main-browse-content {
   flex: 1;
   padding: 1rem;
+  background-color: #F2D6C7;
+  border-radius: 8px;
+  outline-color: #F06449;
+  outline-width: 50px;
 }
 
 #pageTitle {

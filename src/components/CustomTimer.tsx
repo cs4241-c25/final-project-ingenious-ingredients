@@ -10,7 +10,6 @@ import {useEffect, useState} from 'react';
 import {clearInterval, setInterval} from "worker-timers";
 import MenuItem from "@mui/material/MenuItem";
 import {TextField, Typography,} from "@mui/material";
-import {TextFields} from "@mui/icons-material";
 
 //testing if works move to global once it works
 const Container = styled(Box)({
