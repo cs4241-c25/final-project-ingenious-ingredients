@@ -177,9 +177,7 @@ export default function CreateRecipe() {
                         <br />
                         <TextField id="image" label="Image URL" name="image" variant="outlined" onChange={handleChange} />
                         <br />
-                        <TextField id="image" label="Image URL" name="image" variant="outlined" onChange={handleChange} required />
-                        <br />
-                        <label htmlFor="isPublic">Share Recipe?</label>
+                        <label htmlFor="isPublic">Would you like this recipe to be public?</label>
                         <Switch name="isPublic" onChange={handleChange} />
                     </div>
                 )}
