@@ -7,6 +7,7 @@ import {Recipe} from "../../../Classes/Recipe";
 import BrowseFilterTags from "@/components/Display Recipe/BrowseFilterTags";
 import NavBar from "@/components/NavBar";
 import {GetRecipesByTags} from "@/Get-Post Requests/Recipe/getRecipesByTags";
+import {Box} from "@material-ui/core";
 
 export default function Recipes() {
     const [recipes, setRecipes] = useState<Recipe[]>([]);
@@ -37,13 +38,19 @@ export default function Recipes() {
                      gap: "3rem",
                      display: "flex"}}>
 
-                <aside id="sidebar">
+                <Box id="sidebar" sx={{display: "flex", flexDirection: "column",
+                    bgcolor: "#F2D6C7", padding: "2rem", borderTop: "8px solid #F06449",
+                    borderLeft: "3px solid #F06449", borderRight: "3px solid #F06449", borderBottom: "8px solid #F06449",
+                    borderRadius: "0.3rem"}}>
                     <BrowseFilterTags onTagsChange={setSelectedTags}/>
-                </aside>
+                </Box>
 
-                <section id="main-browse-content">
+                <Box id="main-browse-content" sx={{display: "flex", flexDirection: "column",
+                    bgcolor: "#F2D6C7", padding: "2rem", borderTop: "8px solid #F06449",
+                    borderLeft: "3px solid #F06449", borderRight: "3px solid #F06449", borderBottom: "8px solid #F06449",
+                    borderRadius: "0.3rem"}}>
                     <RecipeGrid colNum={3} recipes={recipes} />
-                </section>
+                </Box>
             </div>
         </>
     );
