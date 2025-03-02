@@ -127,3 +127,13 @@ body {
   justify-content: center;
   padding-left: 10%;
 }
+
+#changeDescripButton {
+  display: flex;
+  flex-direction: row;
+}
+
+#editDescripButton {
+  padding-left: 15px;
+  justify-content: right;
+}

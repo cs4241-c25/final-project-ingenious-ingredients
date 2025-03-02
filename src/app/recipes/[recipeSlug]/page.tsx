@@ -33,7 +33,7 @@ export default async function RecipeDetailsPage({ params }) {
                 </div>
                 <div className={classes.recipeHeaderRight}>
                     <h1 className={classes.recipeName}>{recipe.name}</h1>
-                    <Link href={`/author`}>
+                    <Link href={`/authors/${recipe.creator}`}>
                         <p>by {recipe.creator}</p>
                     </Link>
                     <p>Prep Time: {recipe.prepTime}</p>
