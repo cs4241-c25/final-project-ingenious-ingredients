@@ -68,7 +68,7 @@ export default function Home() {
             </div>
           </main>
 
-          <button onClick={() => signIn()}>
+          <button onClick={PostTest}>
             <span className="text-blue-500 hover:underline">Sign In</span>
           </button>
 
