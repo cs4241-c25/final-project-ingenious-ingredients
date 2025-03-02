@@ -90,6 +90,19 @@ export default function CreateRecipe() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Check if required fields are filled
+        const missingFields = [];
+        if (!formData.name) missingFields.push('name');
+        if (!formData.prepTime) missingFields.push('prep time');
+        if (selectedTags.length === 0) missingFields.push('tags');
+        if (!formData.steps) missingFields.push('steps');
+
+        if (missingFields.length > 0) {
+            alert(`Please fill in all required fields: ${missingFields.join(', ')}.`);
+            return;
+        }
+
         const ingredientsArray = formData.ingredients.split(',').map(ingredient => {
             const [name, amount, unitOfMeasure] = ingredient.trim().split(' ');
             return new RecipeIngredient(name, Number(amount), unitOfMeasure);
@@ -160,11 +173,9 @@ export default function CreateRecipe() {
                             </ToggleButton>
                         </ToggleButtonGroup>
                         <br />
-                        <TextField id="mealType" label="Meal Type" name="mealType" variant="outlined" onChange={handleChange} required />
-                        <br />
                         <SelectTags onTagsChange={setSelectedTags} />
                         <br />
-                        <TextField id="steps" label="Steps" name="steps" variant="outlined" onChange={handleChange} required />
+                        <TextField id="image" label="Image URL" name="image" variant="outlined" onChange={handleChange} />
                         <br />
                         <TextField id="image" label="Image URL" name="image" variant="outlined" onChange={handleChange} required />
                         <br />
