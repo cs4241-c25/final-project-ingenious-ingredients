@@ -109,10 +109,10 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
                         </CardContent>
                     </CardOverflow>
                     <Grid container spacing={.5}>
-                        <Grid size={6}>
+                        <Grid size={9.5}>
                             <Typography level="body-sm">Tags: {stylizedTags()}</Typography>
                         </Grid>
-                        <Grid size={2}>
+                        <Grid size={1}>
                             <LikeRecipeButton recipe={recipe} session={session} onClick={(e) => { e.preventDefault(); e.stopPropagation(); }} />
                         </Grid>
                     </Grid>
