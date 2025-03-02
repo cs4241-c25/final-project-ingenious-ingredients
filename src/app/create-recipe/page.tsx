@@ -6,32 +6,23 @@ import NavBar from "../../components/NavBar";
 import { PostRecipe } from "@/Get-Post Requests/Recipe/postRecipe";
 import { TextField } from "@mui/material";
 import InputIngredient from "@/components/Create Recipe/InputIngredient";
-import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepButton from '@mui/material/StepButton';
 import Typography from '@mui/material/Typography';
 import Button from "@mui/material/Button";
-import {Recipe} from "../../../Classes/Recipe";
-import {RecipeIngredient} from "../../../Classes/RecipeIngredient";
-import {RecipeStep} from "../../../Classes/Step";
-import {ToggleButtonGroup} from "@mui/material";
-import {ToggleButton} from "@mui/material";
-import {useSession} from "next-auth/react";
-import {User} from "../../../Classes/User";
-import {GetUser} from "@/Get-Post Requests/User/getUser";
+import { Recipe } from "../../../Classes/Recipe";
+import { RecipeIngredient } from "../../../Classes/RecipeIngredient";
+import { RecipeStep } from "../../../Classes/Step";
+import { ToggleButtonGroup } from "@mui/material";
+import { ToggleButton } from "@mui/material";
+import { useSession } from "next-auth/react";
+import { User } from "../../../Classes/User";
+import { GetUser } from "@/Get-Post Requests/User/getUser";
 import SelectTags from "@/components/Create Recipe/SelectTags";
-
-type Step = {
-    instruction: string;
-    ingredients: { name: string; amount: number; unitOfMeasure: string }[];
-};
+import RecipeStepper from "@/components/Create Recipe/RecipeStepper";
 
 const steps = ['Recipe Details', 'Ingredients and Steps', 'Review & Submit'];
 
 export default function CreateRecipe() {
-
-    const {data: session} = useSession();
+    const { data: session } = useSession();
     const [user, setUser] = React.useState<User>(null);
 
     React.useEffect(() => {
@@ -43,7 +34,6 @@ export default function CreateRecipe() {
     }, []);
 
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
-
     const [formData, setFormData] = useState({
         name: '',
         prepTime: '',
@@ -93,8 +83,8 @@ export default function CreateRecipe() {
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         setFormData({
-            ...formData, // Spread the existing formData
-            [name]: type === 'checkbox' ? checked : value // Update the changed field
+            ...formData,
+            [name]: type === 'checkbox' ? checked : value
         });
     };
 
@@ -141,62 +131,15 @@ export default function CreateRecipe() {
         <div>
             <NavBar stickOrNah={"sticky"} />
             <h1>Create Recipe</h1>
-            <Box sx={{ width: '100%' }}>
-                <Stepper nonLinear activeStep={activeStep}>
-                    {steps.map((label, index) => (
-                        <Step key={label} completed={completed[index]}>
-                            <StepButton color="inherit" onClick={handleStep(index)}>
-                                {label}
-                            </StepButton>
-                        </Step>
-                    ))}
-                </Stepper>
-                <div>
-                    {allStepsCompleted() ? (
-                        <React.Fragment>
-                            <Typography sx={{ mt: 2, mb: 1 }}>
-                                All steps completed - you&apos;re finished
-                            </Typography>
-                            <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                                <Box sx={{ flex: '1 1 auto' }} />
-                                <Button onClick={handleReset}>Reset</Button>
-                            </Box>
-                        </React.Fragment>
-                    ) : (
-                        <React.Fragment>
-                            <Typography sx={{ mt: 2, mb: 1, py: 1 }}>
-                                Step {activeStep + 1}
-                            </Typography>
-                            <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                                <Button
-                                    color="inherit"
-                                    disabled={activeStep === 0}
-                                    onClick={handleBack}
-                                    sx={{ mr: 1 }}
-                                >
-                                    Back
-                                </Button>
-                                <Box sx={{ flex: '1 1 auto' }} />
-                                <Button onClick={handleNext} sx={{ mr: 1 }}>
-                                    Next
-                                </Button>
-                                {activeStep !== steps.length &&
-                                    (completed[activeStep] ? (
-                                        <Typography variant="caption" sx={{ display: 'inline-block' }}>
-                                            Step {activeStep + 1} already completed
-                                        </Typography>
-                                    ) : (
-                                        <Button onClick={handleComplete}>
-                                            {completedSteps() === totalSteps() - 1
-                                                ? 'Finish'
-                                                : 'Complete Step'}
-                                        </Button>
-                                    ))}
-                            </Box>
-                        </React.Fragment>
-                    )}
-                </div>
-            </Box>
+            <RecipeStepper
+                activeStep={activeStep}
+                completed={completed}
+                handleStep={handleStep}
+                handleNext={handleNext}
+                handleBack={handleBack}
+                handleComplete={handleComplete}
+                handleReset={handleReset}
+            />
             <form onSubmit={handleSubmit}>
                 {activeStep === 0 && (
                     <div>
@@ -219,7 +162,7 @@ export default function CreateRecipe() {
                         <br />
                         <TextField id="mealType" label="Meal Type" name="mealType" variant="outlined" onChange={handleChange} required />
                         <br />
-                        <SelectTags  onTagsChange={setSelectedTags}/>
+                        <SelectTags onTagsChange={setSelectedTags} />
                         <br />
                         <TextField id="steps" label="Steps" name="steps" variant="outlined" onChange={handleChange} required />
                         <br />
