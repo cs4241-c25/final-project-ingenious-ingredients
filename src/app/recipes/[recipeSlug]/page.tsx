@@ -24,6 +24,7 @@ export default async function RecipeDetailsPage({ params }) {
         return <p>Recipe not found or steps are missing.</p>;
     }
 
+    // TODO: It might look nicer for the properties of the recipe to be displayed as chips
     return (
         <div>
             <NavBar stickOrNah={"sticky"}/>
