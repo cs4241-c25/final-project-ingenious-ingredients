@@ -10,7 +10,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #ffffff; /* Changed this value temporarily because my browser is set to dark mode and it sucks to look at the screen.*/
-    --foreground: #ededed;
+    --foreground: #000000;
   }
 }
 
@@ -35,6 +35,7 @@ body {
 
 #mainBar {
   background-color: #F04D51;
+  color: white;
   position: sticky;
   top: 0;
   z-index: 1000;

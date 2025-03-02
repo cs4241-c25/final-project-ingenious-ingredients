@@ -12,6 +12,7 @@ import {GetUser} from "@/Get-Post Requests/User/getUser";
 import GetTags from "@/Get-Post Requests/Tags/getTags";
 import {User} from "../../../../Classes/User";
 import {useSession} from "next-auth/react";
+import {ModifyAboutMe} from "@/Get-Post Requests/User/modifyAboutMe";
 
 
 export default function Author() {
@@ -43,8 +44,8 @@ export default function Author() {
 
     const handleChange = (event, id) => {
         const updatedValue = event.target.value;
+        ModifyAboutMe(id, updatedValue);
 
-        console.log(updatedValue);
     };
 
     return (
@@ -62,12 +63,12 @@ export default function Author() {
                             <CustAvatar userName={storageName}/>
                         </div>
                         <div id="authorDescrip" onBlur={(event) => handleChange(event, storageName)}>
+                            <p color ="black ">About Me</p>
                             <TextField
-                                label="About Me"
+
                                 multiline
                                 rows={5}
                                 defaultValue={description}
-                                variant="filled"
                                 sx={{
                                     width: 650,
                                     backgroundColor: '#F2D6C7',

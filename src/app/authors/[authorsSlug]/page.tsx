@@ -63,13 +63,12 @@ export default async function Author({ params }) {
                             <CustAvatar userName={user.username}/>
                         </div>
                         <div id="authorDescrip">
+                            <p color="black ">About Me</p>
                             <TextField
-                                label="About Me"
                                 multiline
-                                disabled
                                 rows={5}
                                 defaultValue={user.aboutMe}
-                                variant="filled"
+                                disabled
                                 sx={{
                                     width: 650,
                                     backgroundColor: '#F2D6C7',
