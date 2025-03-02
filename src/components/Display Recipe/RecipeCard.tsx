@@ -14,6 +14,7 @@ import {SessionProvider} from "next-auth/react";
 import {useSession} from "next-auth/react";
 import {User} from "../../../Classes/User";
 import {GetUser} from "@/Get-Post Requests/User/getUser";
+import Grid from '@mui/material/Grid2';
 
 interface RecipeCardProps {
     recipe: Recipe;
@@ -69,7 +70,7 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
                 <CardOverflow>
                     <AspectRatio ratio="2">
                         <img
-                            srcSet={recipe.image}
+                            srcSet={recipe.image || "https://t3.ftcdn.net/jpg/01/39/36/90/360_F_139369055_cEuu2JfR1qX8hFEcLb00PZos03g0ci24.jpg"}
                             loading="lazy"
                             alt={recipe.name}
                         />
@@ -107,8 +108,14 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
                             </Typography>
                         </CardContent>
                     </CardOverflow>
-                    <Typography level="body-sm">Tags: {stylizedTags()}</Typography>
-                    <LikeRecipeButton recipe={recipe} session={session} onClick={(e) => { e.preventDefault(); e.stopPropagation(); }} />
+                    <Grid container spacing={.5}>
+                        <Grid size={6}>
+                            <Typography level="body-sm">Tags: {stylizedTags()}</Typography>
+                        </Grid>
+                        <Grid size={2}>
+                            <LikeRecipeButton recipe={recipe} session={session} onClick={(e) => { e.preventDefault(); e.stopPropagation(); }} />
+                        </Grid>
+                    </Grid>
                 </CardContent>
             </Card>
         </Link>
