@@ -1,14 +1,49 @@
+"use client";
+
+import RecipeGrid from "@/components/Display Recipe/RecipeGrid";
+import GetAllRecipes from "@/Get-Post Requests/Recipe/getAllRecipes"
+import {Recipe} from "../../../Classes/Recipe";
+import React, { useEffect, useState } from 'react';
 import NavBar from "@/components/NavBar";
-import React, {JSX} from "react";
+import {useSession} from "next-auth/react";
+import {CheckIfUserExists} from "@/Get-Post Requests/User/checkIfUserExists";
+import {PostUser} from "@/Get-Post Requests/User/postUser";
+import {User} from "../../../Classes/User";
+import TrendingRecipeSection from "@/components/Hero/TrendingRecipeSection";
+import ImageParallax from "@/components/Hero/ImageParallax";
 
 export default function MyPantryPage() {
+    // const [recipes, setRecipes] = useState<Recipe[]>([]);
+    //
+    // const {data: session} = useSession();
+    //
+    // useEffect(() => {
+    //     async function fetchRecipes() {
+    //         const fetchedRecipes = await GetAllRecipes();
+    //         setRecipes(fetchedRecipes);
+    //     }
+    //     fetchRecipes();
+    //     async  function checkUser(){
+    //         console.log("Here");
+    //         if (session) {
+    //             console.log("Here2");
+    //             const result = await CheckIfUserExists(session?.user?.name);
+    //             console.log(result);
+    //             if (result === false) {
+    //                 await PostUser(new User(session?.user?.name, null, true));
+    //             }
+    //         }
+    //     }
+    //     checkUser();
+    // }, []);
+
     return (
         <div>
-            <NavBar stickOrNah={"sticky"}/>
-            <div className="bg-white caret-black p-8">
-                <h1>My Pantry</h1>
-                {/*<RecipeGrid colNum={3}/>*/}
-                {/*<BrowseFilterTags/>*/}
+            <NavBar stickOrNah={'static'}/>
+
+
+            <div className="bg-white p-8">
+                <TrendingRecipeSection/>
             </div>
         </div>
     );
