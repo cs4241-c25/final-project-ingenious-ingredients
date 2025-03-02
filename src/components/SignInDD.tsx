@@ -35,7 +35,7 @@ function SignInDD() {
     };
 
     const toAuthor = (event: React.MouseEvent<HTMLElement>) => {
-        redirect("/author");
+        redirect(`/authors/me`);
     };
 
     const toMealPlan = (event: React.MouseEvent<HTMLElement>) => {
