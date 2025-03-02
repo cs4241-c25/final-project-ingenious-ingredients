@@ -17,6 +17,9 @@ import {RecipeIngredient} from "../../../Classes/RecipeIngredient";
 import {RecipeStep} from "../../../Classes/Step";
 import {ToggleButtonGroup} from "@mui/material";
 import {ToggleButton} from "@mui/material";
+import {useSession} from "next-auth/react";
+import {User} from "../../../Classes/User";
+import {GetUser} from "@/Get-Post Requests/User/getUser";
 
 type Step = {
     instruction: string;
@@ -26,6 +29,18 @@ type Step = {
 const steps = ['Recipe Details', 'Ingredients and Steps', 'Review & Submit'];
 
 export default function CreateRecipe() {
+
+    const {data: session} = useSession();
+    const [user, setUser] = React.useState<User>(null);
+
+    React.useEffect(() => {
+        async function fetchUser() {
+            const user = await GetUser(session?.user?.name);
+            setUser(user);
+        }
+        fetchUser();
+    }, []);
+
     const [formData, setFormData] = useState({
         name: '',
         creator: 'me', // get this from the user's session
@@ -97,6 +112,7 @@ export default function CreateRecipe() {
         const recipe = new Recipe(
             formData.name,
             formData.creator,
+            user.username,
             Number(formData.prepTime),
             formData.postDate,
             formData.mealType,
