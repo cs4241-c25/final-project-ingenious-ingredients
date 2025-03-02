@@ -181,7 +181,12 @@ export default function CreateRecipe() {
                         <Switch name="isPublic" onChange={handleChange} />
                     </div>
                 )}
-                {activeStep === 1 && <InputIngredient />}
+                {activeStep === 1 && (
+                    <div>
+                        <InputIngredient/>
+                        <TextField id="steps" label="Steps" name="steps" variant="outlined" onChange={handleChange} required />
+                    </div>
+                )}
                 {activeStep === 2 && (
                     <div>
                         <Typography variant="h6">Review your recipe</Typography>
