@@ -11,6 +11,7 @@ import {PostUser} from "@/Get-Post Requests/User/postUser";
 import {User} from "../../../Classes/User";
 import TrendingRecipeSection from "@/components/Hero/TrendingRecipeSection";
 import ImageParallax from "@/components/Hero/ImageParallax";
+import IngredientsTable from "@/components/IngredientsTable";
 
 export default function MyPantryPage() {
     // const [recipes, setRecipes] = useState<Recipe[]>([]);
@@ -43,7 +44,7 @@ export default function MyPantryPage() {
 
 
             <div className="bg-white p-8">
-                <TrendingRecipeSection/>
+                <IngredientsTable/>
             </div>
         </div>
     );

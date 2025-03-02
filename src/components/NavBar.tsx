@@ -56,7 +56,7 @@ const NavBar: React.FC<NavBarProps> = ({stickOrNah}) => {
     };
 
     const toTimer = (event: React.MouseEvent<HTMLElement>) => {
-        redirect("/my-meal-plan");
+        redirect("/timer");
     };
 
     const toCreateRecipes = (event: React.MouseEvent<HTMLElement>) => {

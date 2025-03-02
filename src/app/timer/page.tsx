@@ -9,7 +9,13 @@ export default function MyMealPlanPage() {
         <div>
             <NavBar stickOrNah={"sticky"}/>
             <div className="bg-white caret-black p-8">
-                <h1>My Meal Plan</h1>
+                {/*<RecipeGrid colNum={3}/>*/}
+                {/*<BrowseFilterTags/>*/}
+                {/*<TimerPopup duration={10}/>*/}
+                <CustomTimer
+                    colors={['#FF0000', '#00FF00']}
+                    colorValues={[30, 60]}
+                />
             </div>
         </div>
     );
