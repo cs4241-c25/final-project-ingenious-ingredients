@@ -20,6 +20,7 @@ import {ToggleButton} from "@mui/material";
 import {useSession} from "next-auth/react";
 import {User} from "../../../Classes/User";
 import {GetUser} from "@/Get-Post Requests/User/getUser";
+import SelectTags from "@/components/Create Recipe/SelectTags";
 
 type Step = {
     instruction: string;
@@ -41,12 +42,14 @@ export default function CreateRecipe() {
         fetchUser();
     }, []);
 
+    const [selectedTags, setSelectedTags] = useState<string[]>([]);
+
     const [formData, setFormData] = useState({
         name: '',
         prepTime: '',
         mealType: '',
         ingredients: '',
-        tags: '',
+        tags: selectedTags,
         steps: '',
         image: '',
         likes: 2,
@@ -117,7 +120,8 @@ export default function CreateRecipe() {
             formData.likes,
             new Date().toISOString().split('T')[0],
             ingredientsArray,
-            formData.tags ? formData.tags.split(',').map(tag => tag.trim()) : [],
+            // formData.tags ? formData.tags.split(',').map(tag => tag.trim()) : [],
+            selectedTags,
             formData.slug,
             formData.image,
         );
@@ -215,7 +219,7 @@ export default function CreateRecipe() {
                         <br />
                         <TextField id="mealType" label="Meal Type" name="mealType" variant="outlined" onChange={handleChange} required />
                         <br />
-                        <TextField id="tags" label="Tags" name="tags" variant="outlined" onChange={handleChange} required />
+                        <SelectTags  onTagsChange={setSelectedTags}/>
                         <br />
                         <TextField id="steps" label="Steps" name="steps" variant="outlined" onChange={handleChange} required />
                         <br />
