@@ -16,11 +16,7 @@ export const authOptions = {
     },
     callbacks: {
         async redirect({url, baseUrl}) {
-            // Redirect to a specific page after signout
-            if (url === '/api/auth/signout') {
-                return `${baseUrl}/hero`;  // Replace with your desired redirect URL
-            }
-            return url;  // Default behavior
+            return `${baseUrl}/hero`;  // Default behavior
         },
     }
 }
