@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Let Them Cook",
+  title: "Let Them Cook!",
   description: "A place to share and find your favorite recipes",
 };
 
