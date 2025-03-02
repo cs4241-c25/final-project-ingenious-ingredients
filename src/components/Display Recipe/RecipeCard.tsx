@@ -9,6 +9,11 @@ import '../../app/globals.css';
 import { Chip } from "@mui/material";
 import { Recipe } from "../../../Classes/Recipe";
 import Link from "next/link";
+import LikeRecipeButton from "@/components/LikeRecipeButton";
+import {SessionProvider} from "next-auth/react";
+import {useSession} from "next-auth/react";
+import {User} from "../../../Classes/User";
+import {GetUser} from "@/Get-Post Requests/User/getUser";
 
 interface RecipeCardProps {
     recipe: Recipe;
@@ -16,6 +21,17 @@ interface RecipeCardProps {
 
 export default function RecipeCard({ recipe }: RecipeCardProps) {
     if (!recipe) return null;
+
+    const [user, setUser] = React.useState<User>(null);
+    const { data: session } = useSession();
+
+    React.useEffect(() => {
+        async function fetchUser() {
+            const user = await GetUser(session?.user?.name);
+            setUser(user);
+        }
+        fetchUser();
+    }, []);
 
     function getFirstThreeIngredients() {
         if (!recipe.ingredients) {
@@ -92,6 +108,7 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
                         </CardContent>
                     </CardOverflow>
                     <Typography level="body-sm">Tags: {stylizedTags()}</Typography>
+                    <LikeRecipeButton recipe={recipe} session={session} onClick={(e) => { e.preventDefault(); e.stopPropagation(); }} />
                 </CardContent>
             </Card>
         </Link>
