@@ -45,6 +45,8 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
         ));
     }
 
+
+    // TODO: Cards need to be all the same size, which is not the case because the ingredient list might be too long in some cases.
     return (
         <Link href={`/recipes/${recipe.slug}`}>
             <Card variant="outlined" sx={{ width: 320 }} size="lg">

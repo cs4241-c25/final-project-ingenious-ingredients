@@ -6,38 +6,44 @@ import NavBar from "../../components/NavBar";
 import { PostRecipe } from "@/Get-Post Requests/Recipe/postRecipe";
 import { TextField } from "@mui/material";
 import InputIngredient from "@/components/Create Recipe/InputIngredient";
-import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepButton from '@mui/material/StepButton';
 import Typography from '@mui/material/Typography';
 import Button from "@mui/material/Button";
-import {Recipe} from "../../../Classes/Recipe";
-import {RecipeIngredient} from "../../../Classes/RecipeIngredient";
-import {RecipeStep} from "../../../Classes/Step";
-import {ToggleButtonGroup} from "@mui/material";
-import {ToggleButton} from "@mui/material";
-
-type Step = {
-    instruction: string;
-    ingredients: { name: string; amount: number; unitOfMeasure: string }[];
-};
+import { Recipe } from "../../../Classes/Recipe";
+import { RecipeIngredient } from "../../../Classes/RecipeIngredient";
+import { RecipeStep } from "../../../Classes/Step";
+import { ToggleButtonGroup } from "@mui/material";
+import { ToggleButton } from "@mui/material";
+import { useSession } from "next-auth/react";
+import { User } from "../../../Classes/User";
+import { GetUser } from "@/Get-Post Requests/User/getUser";
+import SelectTags from "@/components/Create Recipe/SelectTags";
+import RecipeStepper from "@/components/Create Recipe/RecipeStepper";
 
 const steps = ['Recipe Details', 'Ingredients and Steps', 'Review & Submit'];
 
 export default function CreateRecipe() {
+    const { data: session } = useSession();
+    const [user, setUser] = React.useState<User>(null);
+
+    React.useEffect(() => {
+        async function fetchUser() {
+            const user = await GetUser(session?.user?.name);
+            setUser(user);
+        }
+        fetchUser();
+    }, []);
+
+    const [selectedTags, setSelectedTags] = useState<string[]>([]);
     const [formData, setFormData] = useState({
         name: '',
-        creator: 'me', // get this from the user's session
         prepTime: '',
-        postDate: new Date(),
         mealType: '',
         ingredients: '',
-        tags: '',
+        tags: selectedTags,
         steps: '',
         image: '',
-        likes: undefined,
-        slug: undefined,
+        likes: 2,
+        slug: "",
         isPublic: false
     });
 
@@ -84,6 +90,19 @@ export default function CreateRecipe() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Check if required fields are filled
+        const missingFields = [];
+        if (!formData.name) missingFields.push('name');
+        if (!formData.prepTime) missingFields.push('prep time');
+        if (selectedTags.length === 0) missingFields.push('tags');
+        if (!formData.steps) missingFields.push('steps');
+
+        if (missingFields.length > 0) {
+            alert(`Please fill in all required fields: ${missingFields.join(', ')}.`);
+            return;
+        }
+
         const ingredientsArray = formData.ingredients.split(',').map(ingredient => {
             const [name, amount, unitOfMeasure] = ingredient.trim().split(' ');
             return new RecipeIngredient(name, Number(amount), unitOfMeasure);
@@ -94,19 +113,20 @@ export default function CreateRecipe() {
             [] // Add an empty ingredients array or populate it as needed
         ));
 
-        const recipe = new Recipe(
-            formData.name,
-            formData.creator,
-            Number(formData.prepTime),
-            formData.postDate,
-            formData.mealType,
-            ingredientsArray,
-            formData.tags.split(',').map(tag => tag.trim()),
+        const recipe = new Recipe (
             stepsArray, // Ensure steps is an array of RecipeStep objects
-            formData.image,
+            formData.name,
+            user.username,
+            formData.isPublic,
+            Number(formData.prepTime),
+            formData.mealType,
             formData.likes,
+            new Date().toISOString().split('T')[0],
+            ingredientsArray,
+            // formData.tags ? formData.tags.split(',').map(tag => tag.trim()) : [],
+            selectedTags,
             formData.slug,
-            formData.isPublic
+            formData.image,
         );
         const result = await PostRecipe(recipe);
         console.log(result);
@@ -124,62 +144,15 @@ export default function CreateRecipe() {
         <div>
             <NavBar stickOrNah={"sticky"} />
             <h1>Create Recipe</h1>
-            <Box sx={{ width: '100%' }}>
-                <Stepper nonLinear activeStep={activeStep}>
-                    {steps.map((label, index) => (
-                        <Step key={label} completed={completed[index]}>
-                            <StepButton color="inherit" onClick={handleStep(index)}>
-                                {label}
-                            </StepButton>
-                        </Step>
-                    ))}
-                </Stepper>
-                <div>
-                    {allStepsCompleted() ? (
-                        <React.Fragment>
-                            <Typography sx={{ mt: 2, mb: 1 }}>
-                                All steps completed - you&apos;re finished
-                            </Typography>
-                            <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                                <Box sx={{ flex: '1 1 auto' }} />
-                                <Button onClick={handleReset}>Reset</Button>
-                            </Box>
-                        </React.Fragment>
-                    ) : (
-                        <React.Fragment>
-                            <Typography sx={{ mt: 2, mb: 1, py: 1 }}>
-                                Step {activeStep + 1}
-                            </Typography>
-                            <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                                <Button
-                                    color="inherit"
-                                    disabled={activeStep === 0}
-                                    onClick={handleBack}
-                                    sx={{ mr: 1 }}
-                                >
-                                    Back
-                                </Button>
-                                <Box sx={{ flex: '1 1 auto' }} />
-                                <Button onClick={handleNext} sx={{ mr: 1 }}>
-                                    Next
-                                </Button>
-                                {activeStep !== steps.length &&
-                                    (completed[activeStep] ? (
-                                        <Typography variant="caption" sx={{ display: 'inline-block' }}>
-                                            Step {activeStep + 1} already completed
-                                        </Typography>
-                                    ) : (
-                                        <Button onClick={handleComplete}>
-                                            {completedSteps() === totalSteps() - 1
-                                                ? 'Finish'
-                                                : 'Complete Step'}
-                                        </Button>
-                                    ))}
-                            </Box>
-                        </React.Fragment>
-                    )}
-                </div>
-            </Box>
+            <RecipeStepper
+                activeStep={activeStep}
+                completed={completed}
+                handleStep={handleStep}
+                handleNext={handleNext}
+                handleBack={handleBack}
+                handleComplete={handleComplete}
+                handleReset={handleReset}
+            />
             <form onSubmit={handleSubmit}>
                 {activeStep === 0 && (
                     <div>
@@ -200,19 +173,20 @@ export default function CreateRecipe() {
                             </ToggleButton>
                         </ToggleButtonGroup>
                         <br />
-                        <TextField id="mealType" label="Meal Type" name="mealType" variant="outlined" onChange={handleChange} required />
+                        <SelectTags onTagsChange={setSelectedTags} />
                         <br />
-                        <TextField id="tags" label="Tags" name="tags" variant="outlined" onChange={handleChange} required />
+                        <TextField id="image" label="Image URL" name="image" variant="outlined" onChange={handleChange} />
                         <br />
-                        <TextField id="steps" label="Steps" name="steps" variant="outlined" onChange={handleChange} required />
-                        <br />
-                        <TextField id="image" label="Image URL" name="image" variant="outlined" onChange={handleChange} required />
-                        <br />
-                        <label htmlFor="isPublic">Share Recipe?</label>
+                        <label htmlFor="isPublic">Would you like this recipe to be public?</label>
                         <Switch name="isPublic" onChange={handleChange} />
                     </div>
                 )}
-                {activeStep === 1 && <InputIngredient />}
+                {activeStep === 1 && (
+                    <div>
+                        <InputIngredient/>
+                        <TextField id="steps" label="Steps" name="steps" variant="outlined" onChange={handleChange} required />
+                    </div>
+                )}
                 {activeStep === 2 && (
                     <div>
                         <Typography variant="h6">Review your recipe</Typography>

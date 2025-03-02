@@ -48,6 +48,7 @@ export default function Author() {
 
     };
 
+    // TODO: Probably should divide the saved recipes into recipes made by you, and recipes that you've liked
     return (
         <div>
             <NavBar stickOrNah={"sticky"}/>

@@ -56,5 +56,8 @@ export class Recipe {
         } else {
             this.ingredients = ingredients;
         }
+        if (image === null) {
+            this.image = "https://t3.ftcdn.net/jpg/01/39/36/90/360_F_139369055_cEuu2JfR1qX8hFEcLb00PZos03g0ci24.jpg";
+        }
     }
 }
