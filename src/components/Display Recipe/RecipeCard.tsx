@@ -10,11 +10,9 @@ import { Chip } from "@mui/material";
 import { Recipe } from "../../../Classes/Recipe";
 import Link from "next/link";
 import LikeRecipeButton from "@/components/LikeRecipeButton";
-import {SessionProvider} from "next-auth/react";
 import {useSession} from "next-auth/react";
 import {User} from "../../../Classes/User";
 import {GetUser} from "@/Get-Post Requests/User/getUser";
-import Grid from '@mui/material/Grid2';
 
 interface RecipeCardProps {
     recipe: Recipe;
@@ -34,39 +32,24 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
         fetchUser();
     }, []);
 
-    function getFirstThreeIngredients() {
-        if (!recipe.ingredients) {
+    function getFirstThreeTags() {
+        if (!recipe.tags) {
             return "No ingredients available";
         }
-        if (!recipe.ingredients || recipe.ingredients.length < 3) {
-            return recipe.ingredients.map(ingredient => ingredient.name).join(", ");
+        if (recipe.tags.length < 3) {
+            return recipe.tags.map((tag, index) => (
+                <Chip key={index} label={tag} sx={{ margin: '2px' }} />
+            ));
         }
-        let firstThreeIngredients = '';
-        for (let i = 0; i < 3; i++) {
-            firstThreeIngredients += recipe.ingredients[i].name;
-            if (i < 2) {
-                firstThreeIngredients += ", ";
-            }
-        }
-        firstThreeIngredients += "...";
-        return firstThreeIngredients;
-    }
-
-    function stylizedTags() {
-        if (!recipe.tags) {
-            return "No tags available";
-        }
-
-        return recipe.tags.map((tag, index) => (
-            <Chip key={index} label={tag} sx={{ margin: '2px' }} />
+        return recipe.tags.slice(0, 3).map((tag, index) => (
+            <Chip key={index} label={tag} sx={{ margin: '2px', color: 'white', fontWeight: 'bold', backgroundColor: '#F06449' }} />
         ));
     }
-
 
     // TODO: Cards need to be all the same size, which is not the case because the ingredient list might be too long in some cases.
     return (
         <Link href={`/recipes/${recipe.slug}`}>
-            <Card variant="outlined" sx={{ width: 320 }} size="lg">
+            <Card variant="plain" sx={{ width: 320, height: 400, boxShadow: 3, outline: '1px solid #000' }}  size="lg">
                 <CardOverflow>
                     <AspectRatio ratio="2">
                         <img
@@ -77,9 +60,10 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
                     </AspectRatio>
                 </CardOverflow>
                 <CardContent>
-                    <Typography level="title-lg">{recipe.name}</Typography>
+                    <Typography level="title-lg" sx={{ minHeight: '2em', overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                        {recipe.name}
+                    </Typography>
                     <Typography level="body-md">By: {recipe.creator}</Typography>
-                    <Typography level="body-sm">Ingredients: {getFirstThreeIngredients()}</Typography>
                     <CardOverflow variant="soft" sx={{ bgcolor: 'background.level1' }}>
                         <Divider inset="context" />
                         <CardContent orientation="horizontal">
@@ -88,7 +72,7 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
                                 textColor="text.secondary"
                                 sx={{ fontWeight: 'md' }}
                             >
-                                {recipe.likes} likes
+                                <LikeRecipeButton recipe={recipe} session={session} onClick={(e) => { e.preventDefault(); e.stopPropagation(); }} />
                             </Typography>
                             <Divider orientation="vertical" />
                             <Typography
@@ -108,14 +92,7 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
                             </Typography>
                         </CardContent>
                     </CardOverflow>
-                    <Grid container spacing={.5}>
-                        <Grid size={9.5}>
-                            <Typography level="body-sm">Tags: {stylizedTags()}</Typography>
-                        </Grid>
-                        <Grid size={1}>
-                            <LikeRecipeButton recipe={recipe} session={session} onClick={(e) => { e.preventDefault(); e.stopPropagation(); }} />
-                        </Grid>
-                    </Grid>
+                    <Typography level="body-sm">Tags: {getFirstThreeTags()}</Typography>
                 </CardContent>
             </Card>
         </Link>
