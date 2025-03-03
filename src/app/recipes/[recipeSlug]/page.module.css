@@ -43,7 +43,7 @@
     font-size: 15px;
 }
 
-.recipeContentIngredients ol {
+.bulletList {
     list-style-type: disc;
     font-size: 15px;
 }
