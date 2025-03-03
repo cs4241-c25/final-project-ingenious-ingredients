@@ -1,6 +1,6 @@
 "use client";
 import NavBar from "@/components/NavBar";
-import React from "react";
+import React, {useState} from "react";
 import CustAvatar from "@/components/CustAvatar";
 import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
@@ -13,6 +13,9 @@ import GetTags from "@/Get-Post Requests/Tags/getTags";
 import {User} from "../../../../Classes/User";
 import {useSession} from "next-auth/react";
 import {ModifyAboutMe} from "@/Get-Post Requests/User/modifyAboutMe";
+import GetRecipesByUser from "@/Get-Post Requests/Recipe/getRecipesByUser";
+import {Recipe} from "../../../../Classes/Recipe";
+import RecipeGrid from "@/components/Display Recipe/RecipeGrid";
 
 
 export default function Author() {
@@ -22,6 +25,7 @@ export default function Author() {
     const [user, setUser] = React.useState<User>(null);
     const [storageName, setStorageName] = React.useState("");
     const [description, setDescription] = React.useState("");
+    const [recipes, setRecipes] = useState<Recipe[]>([]);
 
     React.useEffect(() => {
         async function fetchUser() {
@@ -30,6 +34,8 @@ export default function Author() {
             setStorageName(user.username);
             setDescription(user.aboutMe);
             console.log(user.username);
+            const fetchedRecipes = await GetRecipesByUser(user.username);
+            setRecipes(fetchedRecipes);
         }
         fetchUser();
     }, []);
@@ -89,7 +95,7 @@ export default function Author() {
                 <h1>My Recipes</h1>
 
 
-                {/*<RecipeGrid colNum={3}/>*/}
+                <RecipeGrid colNum={3} recipes={recipes}/>
                 {/*<BrowseFilterTags/>*/}
             </div>
         </div>

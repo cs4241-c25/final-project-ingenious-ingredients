@@ -1,52 +1,89 @@
-// "use client";
+"use client";
 import NavBar from "@/components/NavBar";
-import React from "react";
+import React, {useState, useEffect} from "react";
 import CustAvatar from "@/components/CustAvatar";
 import Divider from '@mui/material/Divider';
-import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import SocialButtons from "@/components/SocialButtons";
-import Stack from "@mui/material/Stack";
-import {black} from "next/dist/lib/picocolors";
 import {GetUser} from "@/Get-Post Requests/User/getUser";
-import GetTags from "@/Get-Post Requests/Tags/getTags";
-import {User} from "../../../../Classes/User";
-import {useSession} from "next-auth/react";
+import GetRecipesByUser from "@/Get-Post Requests/Recipe/getRecipesByUser";
+import RecipeGrid from "@/components/Display Recipe/RecipeGrid";
+import {useParams} from "next/navigation";
+import Button from "@mui/material/Button";
+import {Collapse} from "@mui/material";
+import {Box, Typography} from "@mui/material";
+import BrowseFilterTags from "@/components/Display Recipe/BrowseFilterTags"
+import {GetRecipesByTags} from "@/Get-Post Requests/Recipe/getRecipesByTags";
 
 
-export default async function Author({ params }) {
+export default function Author() {
+    const params = useParams();
+    const authorsSlug = params.authorsSlug;
+    const slug = Array.isArray(authorsSlug) ? authorsSlug[0] : authorsSlug;
 
-    const {authorsSlug } = await params;
-    const user = await GetUser(authorsSlug);
+    const [user, setUser] = useState(null);
+    const [myRecipes, setMyRecipes] = useState([]);
+    const [myRecipeExpanded, setMyRecipeExpanded] = useState(true);
+    const [myLikedExpanded, setMyLikedExpanded] = useState(false);
+    const [likedRecipes, setLikedRecipes] = useState([]);
+    const [selectedTags, setSelectedTags] = useState<string[]>([]);
+    const [filteredMyRecipes, setFilteredMyRecipes] = useState([]);
+    const [filteredLikedRecipes, setFilteredLikedRecipes] = useState([]);
+
+    useEffect(() => {
+        if(!slug) return;
+
+        async function fetchData() {
+            try{
+                const fetchedUser = await GetUser(slug as string);
+                if (fetchedUser) {
+                    setUser(fetchedUser);
+                    const fetchedMyRecipes = await GetRecipesByUser(fetchedUser.username);
+                    const fetchedLikedRecipes = fetchedUser.favoritedRecipes;
+
+                    setMyRecipes(fetchedMyRecipes);
+                    setLikedRecipes(fetchedLikedRecipes);
+
+                    setFilteredMyRecipes(fetchedMyRecipes);
+                    setFilteredLikedRecipes(fetchedLikedRecipes);
+                }
+
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        }
+        fetchData();
+    }, [slug]);
+
+    useEffect(() => {
+       if(selectedTags.length === 0) {
+           setFilteredMyRecipes(myRecipes);
+           setFilteredLikedRecipes(likedRecipes);
+       } else {
+           const filterByTags = (recipes: any[]) =>
+               recipes.filter(recipe => recipe.tags && selectedTags.every(tag => recipe.tags.includes(tag)));
+
+           setFilteredLikedRecipes(filterByTags(likedRecipes));
+           setFilteredMyRecipes(filterByTags(myRecipes));
+       }
+    }, [selectedTags,myRecipes,likedRecipes]);
 
     if (!user) {
         return <p>User not found.</p>;
     }
 
-    // const {data: session} = useSession();
-
-    // const [user, setUser] = React.useState<User>(null);
-    // const [storageName, setStorageName] = React.useState("");
-    // const [description, setDescription] = React.useState("");
-
-    // React.useEffect(() => {
-    //     async function fetchUser() {
-    //         const user = await GetUser(session?.user?.name);
-    //         setUser(user);
-    //         setStorageName(user.username);
-    //         setDescription(user.aboutMe);
-    //         console.log(user.username);
-    //     }
-    //     fetchUser();
-    // }, []);
-
-
-  /*  if(user){
-        let storageName = user.username;
-        let description = user.aboutMe;
-        console.log(storageName, description);
+    const handleTagsChange = (newTags: string[]) =>{
+        setSelectedTags(newTags);
     }
-    console.log(storageName, description);*/
+
+    const handleMyRecipeExpand = () => {
+        setMyRecipeExpanded(!myRecipeExpanded);
+    };
+
+    const handleMyLikedExpand = () => {
+        setMyLikedExpanded(!myLikedExpanded);
+    }
+
 
     return (
         <div>
@@ -85,11 +122,59 @@ export default async function Author({ params }) {
                 <br/>
                 <br/>
                 <Divider id="divide" orientation="horizontal" flexItem/>
-                <h1>My Recipes</h1>
+
+                <Box sx={{display: 'flex', padding: '20px'}}>
+
+                    <Box sx={{display: 'flex', flexDirection: 'column', width: "20%", padding: "20px", bgcolor: "#F2D6C7", borderRadius: "10px", borderTop: "8px solid #F06449",
+                        borderLeft: "3px solid #F06449", borderRight: "3px solid #F06449", borderBottom: "8px solid #F06449"}}>
+
+                        <BrowseFilterTags onTagsChange={handleTagsChange} disabled={!myRecipeExpanded && !myLikedExpanded}/>
+
+                        <Button variant='contained' onClick={handleMyRecipeExpand} sx={{marginTop: '2em', marginBottom: '2em', bgcolor: "#F0B648"}}>
+                            {myRecipeExpanded ? "Hide Recipes" : "Show Recipes"}
+                        </Button>
+
+                        <Button variant='contained' onClick={handleMyLikedExpand} sx={{marginBottom: '2em', bgcolor: "#F09F48"}}>
+                            {myLikedExpanded ? "Hide Liked" : "Show Liked"}
+                        </Button>
+
+                    </Box>
+
+                    <Box sx={{display: 'flex', flexDirection: 'column', marginBottom: "10rem", flex: 1}}>
+
+                        <Collapse in={myRecipeExpanded} timeout='auto' unmountOnExit>
+                            <Box sx={{display: "flex", flexDirection: "column",
+                                bgcolor: "#F2D6C7", padding: "2rem", borderTop: "8px solid #F06449",
+                                borderLeft: "3px solid #F06449", borderRight: "3px solid #F06449", borderBottom: "8px solid #F06449",
+                                borderRadius: "0.3rem", marginLeft: "1.5rem", marginBottom: '1.5rem'}}>
+                                <Typography variant='h2' sx={{marginBottom: "1.5rem",
+                                    fontWeight: "bold", textDecoration:"underline",
+                                    textDecorationColor: "#F0B648", textUnderlineOffset: "4px"
+                                }}>
+                                    {user.username}'s Recipes
+                                </Typography>
+                                <RecipeGrid colNum={3} recipes={filteredMyRecipes}/>
+                            </Box>
+                        </Collapse>
 
 
-                {/*<RecipeGrid colNum={3}/>*/}
-                {/*<BrowseFilterTags/>*/}
+                        <Collapse in={myLikedExpanded} timeout='auto' unmountOnExit>
+                            <Box sx={{display: "flex", flexDirection: "column",
+                                bgcolor: "#F2D6C7", padding: "2rem", borderTop: "8px solid #F06449",
+                                borderLeft: "3px solid #F06449", borderRight: "3px solid #F06449", borderBottom: "8px solid #F06449",
+                                borderRadius: "0.3rem", marginLeft: "1.5rem", marginBottom: '1.5rem'}}>
+                                <Typography variant='h2' sx={{marginBottom: "1.5rem",
+                                    fontWeight: "bold", textDecoration:"underline",
+                                    textDecorationColor: "#F09F48", textUnderlineOffset: "4px"
+                                }}>
+                                    {user.username}'s Liked Recipes
+                                </Typography>
+                                <RecipeGrid colNum={3} recipes={likedRecipes}/>
+                            </Box>
+                        </Collapse>
+                        {/*<BrowseFilterTags/>*/}
+                    </Box>
+                </Box>
             </div>
         </div>
     );
