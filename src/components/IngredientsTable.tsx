@@ -20,8 +20,28 @@ import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
+import {useSession} from "next-auth/react";
+import {User} from "../../Classes/User";
+import {GetUser} from "@/Get-Post Requests/User/getUser";
+import {GetIngredientsByUser} from "@/Get-Post Requests/PantryIngredient/getIngredientsByUser";
+import {PantryIngredient} from "../../Classes/PantryIngredient";
+
+
+
+
+// if(user){
+//     let storageName = user.username;
+//     let description = user.aboutMe;
+//     console.log(storageName, description);
+// }
+// console.log(storageName, description);
+
+
+
+
 
 interface Data {
+    id: number;
     name: string;
     amount: number;
     unitOfMeasure: string;
@@ -30,6 +50,7 @@ interface Data {
 }
 
 function createData(
+    id: number,
     name: string,
     amount: number,
     unitOfMeasure: string,
@@ -37,6 +58,7 @@ function createData(
     userName: string,
 ): Data {
     return {
+        id,
         name,
         amount,
         unitOfMeasure,
@@ -45,23 +67,12 @@ function createData(
     };
 }
 
-const rows = [
+let rows = [
 
 
-/*    createData(1, 'Cupcake', 305, 3.7, 67, 4.3),
-    createData(2, 'Donut', 452, 25.0, 51, 4.9),
-    createData(3, 'Eclair', 262, 16.0, 24, 6.0),
-    createData(4, 'Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData(5, 'Gingerbread', 356, 16.0, 49, 3.9),
-    createData(6, 'Honeycomb', 408, 3.2, 87, 6.5),
-    createData(7, 'Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData(8, 'Jelly Bean', 375, 0.0, 94, 0.0),
-    createData(9, 'KitKat', 518, 26.0, 65, 7.0),
-    createData(10, 'Lollipop', 392, 0.2, 98, 0.0),
-    createData(11, 'Marshmallow', 318, 0, 81, 2.0),
-    createData(12, 'Nougat', 360, 19.0, 9, 37.0),
-    createData(13, 'Oreo', 437, 18.0, 63, 4.0),*/
 ];
+
+let i = 0;
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
     if (b[orderBy] < a[orderBy]) {
@@ -109,35 +120,34 @@ const headCells: readonly HeadCell[] = [
     },
     {
         id: 'unitOfMeasure',
-        numeric: true,
-        disablePadding: false,
+        numeric: false,
+        disablePadding: true,
         label: 'Unit',
     },
     {
         id: 'buyDate',
-        numeric: true,
-        disablePadding: false,
+        numeric: false,
+        disablePadding: true,
         label: 'Date Bought',
     },
     {
         id: 'userName',
-        numeric: true,
-        disablePadding: false,
+        numeric: false,
+        disablePadding: true,
         label: 'Who Bought It',
     },
 ];
 
 interface EnhancedTableProps {
-    numSelected: number;
     onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
-    onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
     order: Order;
     orderBy: string;
     rowCount: number;
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
-    const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
+
+    const { order, orderBy, rowCount, onRequestSort } =
         props;
     const createSortHandler =
         (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
@@ -147,17 +157,6 @@ function EnhancedTableHead(props: EnhancedTableProps) {
     return (
         <TableHead>
             <TableRow>
-                <TableCell padding="checkbox">
-                    <Checkbox
-                        color="primary"
-                        indeterminate={numSelected > 0 && numSelected < rowCount}
-                        checked={rowCount > 0 && numSelected === rowCount}
-                        onChange={onSelectAllClick}
-                        inputProps={{
-                            'aria-label': 'select all desserts',
-                        }}
-                    />
-                </TableCell>
                 {headCells.map((headCell) => (
                     <TableCell
                         key={headCell.id}
@@ -217,7 +216,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
                     id="tableTitle"
                     component="div"
                 >
-                    Nutrition
+                    My Pantry
                 </Typography>
             )}
             {numSelected > 0 ? (
@@ -238,11 +237,78 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
 }
 export default function IngredientsTable() {
     const [order, setOrder] = React.useState<Order>('asc');
-    const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
-    const [selected, setSelected] = React.useState<readonly number[]>([]);
+    const [orderBy, setOrderBy] = React.useState<keyof Data>('buyDate');
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(false);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [rows, setRows] = React.useState<Data[]>([]);
+    // const [newIngredient, setNewIngredient] = React.useState({
+    //     name: '',
+    //     amount: 0,
+    //     unitOfMeasure: '',
+    //     buyDate: '',
+    // });
+
+    const {data: session} = useSession();
+
+    // const [pi, setPantryIngredients] = React.useState<PantryIngredient[]>([]);
+
+    /*const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const {name, value} = event.target;
+        setNewIngredient((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    }
+
+    const handleAddIngredient = async() => {
+        const newPantryIngredient: PantryIngredient = {
+            name: newIngredient.name,
+            amount: newIngredient.amount,
+            unitOfMeasure: newIngredient.unitOfMeasure,
+            buyDate: newIngredient.buyDate,
+            username: session?.user.name || '',
+        };
+        await addIngredientToDatabase(newPantryIngredient);
+
+        setRows((prevRows) => [
+            ...prevRows,
+            createData(
+                i++,
+                newIngredient.name,
+                newIngredient.amount,
+                newIngredient.unitOfMeasure,
+                newIngredient.buyDate,
+                session?.user.name || ''
+            ),
+        ]);
+
+        setNewIngredient({name:'', amount: 0, unitOfMeasure:'', buyDate:''});
+    }*/
+
+    React.useEffect(() => {
+        async function fetchData() {
+
+            if (session?.user.name) {
+                const pantryIngredients: PantryIngredient[] = await GetIngredientsByUser(session.user.name);
+
+                const newRows = pantryIngredients.map((ingredient) =>
+                createData(
+                    i++,
+                    ingredient.name,
+                    ingredient.amount,
+                    ingredient.unitOfMeasure,
+                    ingredient.buyDate,
+                    ingredient.username
+                )
+                );
+                setRows(newRows);
+            }
+        }
+        fetchData();
+    }, [session]);
+
+
 
     const handleRequestSort = (
         event: React.MouseEvent<unknown>,
@@ -251,34 +317,6 @@ export default function IngredientsTable() {
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
         setOrderBy(property);
-    };
-
-    const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target.checked) {
-            const newSelected = rows.map((n) => n.id);
-            setSelected(newSelected);
-            return;
-        }
-        setSelected([]);
-    };
-
-    const handleClick = (event: React.MouseEvent<unknown>, id: number) => {
-        const selectedIndex = selected.indexOf(id);
-        let newSelected: readonly number[] = [];
-
-        if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, id);
-        } else if (selectedIndex === 0) {
-            newSelected = newSelected.concat(selected.slice(1));
-        } else if (selectedIndex === selected.length - 1) {
-            newSelected = newSelected.concat(selected.slice(0, -1));
-        } else if (selectedIndex > 0) {
-            newSelected = newSelected.concat(
-                selected.slice(0, selectedIndex),
-                selected.slice(selectedIndex + 1),
-            );
-        }
-        setSelected(newSelected);
     };
 
     const handleChangePage = (event: unknown, newPage: number) => {
@@ -303,13 +341,13 @@ export default function IngredientsTable() {
             [...rows]
                 .sort(getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-        [order, orderBy, page, rowsPerPage],
+        [order, orderBy, page, rowsPerPage, rows],
     );
 
     return (
         <Box sx={{ width: '100%' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
-                <EnhancedTableToolbar numSelected={selected.length} />
+                <EnhancedTableToolbar numSelected={0} />
                 <TableContainer>
                     <Table
                         sx={{ minWidth: 750 }}
@@ -317,38 +355,26 @@ export default function IngredientsTable() {
                         size={dense ? 'small' : 'medium'}
                     >
                         <EnhancedTableHead
-                            numSelected={selected.length}
                             order={order}
                             orderBy={orderBy}
-                            onSelectAllClick={handleSelectAllClick}
                             onRequestSort={handleRequestSort}
                             rowCount={rows.length}
                         />
                         <TableBody>
                             {visibleRows.map((row, index) => {
-                                const isItemSelected = selected.includes(row.id);
                                 const labelId = `enhanced-table-checkbox-${index}`;
 
                                 return (
                                     <TableRow
                                         hover
-                                        onClick={(event) => handleClick(event, row.id)}
+
                                         role="checkbox"
-                                        aria-checked={isItemSelected}
+
                                         tabIndex={-1}
                                         key={row.id}
-                                        selected={isItemSelected}
+
                                         sx={{ cursor: 'pointer' }}
                                     >
-                                        <TableCell padding="checkbox">
-                                            <Checkbox
-                                                color="primary"
-                                                checked={isItemSelected}
-                                                inputProps={{
-                                                    'aria-labelledby': labelId,
-                                                }}
-                                            />
-                                        </TableCell>
                                         <TableCell
                                             component="th"
                                             id={labelId}
@@ -357,10 +383,10 @@ export default function IngredientsTable() {
                                         >
                                             {row.name}
                                         </TableCell>
-                                        <TableCell align="right">{row.calories}</TableCell>
-                                        <TableCell align="right">{row.fat}</TableCell>
-                                        <TableCell align="right">{row.carbs}</TableCell>
-                                        <TableCell align="right">{row.protein}</TableCell>
+                                        <TableCell align="right">{row.amount}</TableCell>
+                                        <TableCell align="left">{row.unitOfMeasure}</TableCell>
+                                        <TableCell align="left">{row.buyDate}</TableCell>
+                                        <TableCell align="left">{row.userName}</TableCell>
                                     </TableRow>
                                 );
                             })}
@@ -377,7 +403,7 @@ export default function IngredientsTable() {
                     </Table>
                 </TableContainer>
                 <TablePagination
-                    rowsPerPageOptions={[5, 10, 25]}
+                    rowsPerPageOptions={[10, 25, 50]}
                     component="div"
                     count={rows.length}
                     rowsPerPage={rowsPerPage}
