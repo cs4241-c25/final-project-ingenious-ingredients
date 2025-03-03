@@ -18,9 +18,13 @@ import { User } from "../../../Classes/User";
 import { GetUser } from "@/Get-Post Requests/User/getUser";
 import SelectTags from "@/components/Create Recipe/SelectTags";
 import RecipeStepper from "@/components/Create Recipe/RecipeStepper";
+import {Box} from "@material-ui/core";
+import BrowseFilterTags from "@/components/Display Recipe/BrowseFilterTags";
+import RecipeGrid from "@/components/Display Recipe/RecipeGrid";
 
 const steps = ['Recipe Details', 'Ingredients and Steps', 'Review & Submit'];
 
+// TODO: A user must be signed in to access this page. If they are not, show a message saying they must sign in with the button.
 export default function CreateRecipe() {
     const { data: session } = useSession();
     const [user, setUser] = React.useState<User>(null);
@@ -142,29 +146,51 @@ export default function CreateRecipe() {
 
     return (
         <div>
-            <NavBar stickOrNah={"sticky"} />
-            <h1>Create Recipe</h1>
-            <RecipeStepper
-                activeStep={activeStep}
-                completed={completed}
-                handleStep={handleStep}
-                handleNext={handleNext}
-                handleBack={handleBack}
-                handleComplete={handleComplete}
-                handleReset={handleReset}
-            />
-            <form onSubmit={handleSubmit}>
-                {activeStep === 0 && (
-                    <div>
-                        <TextField id="name" label="Recipe Title" name="name" variant="outlined" onChange={handleChange} required />
-                        <br />
-                        <TextField id="prepTime" label="Prep Time" name="prepTime" variant="outlined" onChange={handleChange} required />
-                        <ToggleButtonGroup
-                            value={time}
-                            exclusive
-                            onChange={handleTime}
-                            aria-label="text alignment"
-                        >
+            <NavBar stickOrNah={"sticky"}/>
+    <div id="page-background"
+         style={{
+             marginLeft: "10%",
+             marginRight: "10%",
+             marginBottom: "5%",
+             justifyContent: "flex-start",
+             gap: "3rem",
+             display: "flex"
+         }}>
+        <Box id="main-browse-content" sx={{
+            display: "flex", flexDirection: "column",
+            bgcolor: "#F2D6C7", padding: "2rem", borderTop: "8px solid #F06449",
+            borderLeft: "3px solid #F06449", borderRight: "3px solid #F06449", borderBottom: "8px solid #F06449",
+            borderRadius: "0.3rem"
+        }}>
+            <Typography variant='h2' sx={{marginBottom: "1.5rem",
+                fontWeight: "bold", textDecoration:"underline",
+                textDecorationColor: "#F08148", textUnderlineOffset: "4px"
+            }}>
+                Create Recipe
+            </Typography>
+        <RecipeStepper
+            activeStep={activeStep}
+            completed={completed}
+            handleStep={handleStep}
+            handleNext={handleNext}
+            handleBack={handleBack}
+            handleComplete={handleComplete}
+            handleReset={handleReset}
+        />
+        <form onSubmit={handleSubmit}>
+            {activeStep === 0 && (
+                <div>
+                    <TextField id="name" label="Recipe Title" name="name" variant="outlined" onChange={handleChange}
+                               required/>
+                    <br/>
+                    <TextField id="prepTime" label="Prep Time" name="prepTime" variant="outlined"
+                               onChange={handleChange} required/>
+                    <ToggleButtonGroup
+                        value={time}
+                        exclusive
+                        onChange={handleTime}
+                        aria-label="text alignment"
+                    >
                             <ToggleButton value="minutes" aria-label="left aligned">
                                 Minutes
                             </ToggleButton>
@@ -197,6 +223,8 @@ export default function CreateRecipe() {
                     </div>
                 )}
             </form>
+        </Box>
+        </div>
         </div>
     );
 }
