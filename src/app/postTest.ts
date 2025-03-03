@@ -20,6 +20,7 @@ import {ModifyAboutMe} from "@/Get-Post Requests/User/modifyAboutMe";
 import {PantryIngredient} from "../../Classes/PantryIngredient";
 import {PostIngredient} from "@/Get-Post Requests/PantryIngredient/postIngredient";
 import {GetIngredientsByUser} from "@/Get-Post Requests/PantryIngredient/getIngredientsByUser";
+import {DeleteIngredient} from "@/Get-Post Requests/PantryIngredient/deleteIngredient";
 
 
 export async function PostTest() {
@@ -112,5 +113,8 @@ export async function PostTest() {
     console.log(await GetIngredientsByUser("ThomasBranchaud"));
         //Returns a list of PantryIngredients
 
+        //Delete a PantryIngredient, takes in the name of the Ingredient to delete and the Username of the user who has the ingredient
+    console.log(await DeleteIngredient("Eggs", "ThomasBranchaud"));
+        //Returns true if the call checked the database for the given Ingredient
  */
 }

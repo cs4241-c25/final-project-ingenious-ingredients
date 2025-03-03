@@ -428,6 +428,22 @@ app.post('/getIngredientsByUser', async (req: Request, res: Response) => {
     }
 })
 
+app.post('/deleteIngredient', async (req: Request, res: Response) => {
+    console.log("Delete Ingredient Received");
+    try {
+        if (ingredientCollection) {
+            const result = await ingredientCollection.findOneAndDelete({name: req.body.name, username: req.body.username});
+            res.status(201).send(true);
+        }else{
+            res.status(201).send(false);
+        }
+    }
+    catch(error){
+        console.error(error);
+        res.status(214).send(error);
+    }
+})
+
 const appRun = run();
 
 // Start the server
