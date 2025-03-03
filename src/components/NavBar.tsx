@@ -63,8 +63,6 @@ const NavBar: React.FC<NavBarProps> = ({stickOrNah}) => {
         redirect("/create-recipe");
     };
 
-
-
     const {data: session} = useSession();
 
     if(!session){

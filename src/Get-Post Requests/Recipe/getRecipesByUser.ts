@@ -1,6 +1,6 @@
 import {Recipe} from "../../../Classes/Recipe";
 
-export async function GetRecipesByUser(username: string){
+export default async function GetRecipesByUser(username: string){
     const json = {
         username: username
     }

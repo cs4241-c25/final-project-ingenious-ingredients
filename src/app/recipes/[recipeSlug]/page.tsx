@@ -25,6 +25,7 @@ export default async function RecipeDetailsPage({ params }) {
     }
 
     // TODO: It might look nicer for the properties of the recipe to be displayed as chips
+    // TODO: If session.user === recipe.creator, show an edit button
     return (
         <div>
             <NavBar stickOrNah={"sticky"}/>

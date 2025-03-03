@@ -1,6 +1,7 @@
 import React from 'react';
 import UserNotFound from '@/photos/user_not_found.png';
 import Avatar from '@mui/material/Avatar';
+import Typography from "@mui/material/Typography";
 
 interface MyComponentProps {
     userName: string,
@@ -36,7 +37,8 @@ const NavAvatar: React.FC<MyComponentProps> = ({ userName }) => {
     }
 
     return (
-        <div>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+            <Typography sx={{textAlign: 'center', mr: 2, color: "white"}}>Hi, {userName}!</Typography>
             <Avatar id="navImage" {...stringAvatar(userName)} />
         </div>
     )

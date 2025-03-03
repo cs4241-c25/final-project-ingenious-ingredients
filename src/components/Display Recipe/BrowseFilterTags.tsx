@@ -6,9 +6,10 @@ import GetTags from "../../Get-Post Requests/Tags/getTags";
 
 interface FilterTagsProps {
     onTagsChange: (tags: string[]) => void;
+    disabled?: boolean;
 }
 
-export default function FilterTags({onTagsChange}: FilterTagsProps) {
+export default function FilterTags({onTagsChange}: FilterTagsProps, disabled = false) {
     const [selectedTags, setSelectedTags] = React.useState<string[]>([]);
     const [availableTags, setAvailableTags] = React.useState<string[]>([]);
 
@@ -33,10 +34,12 @@ export default function FilterTags({onTagsChange}: FilterTagsProps) {
             options={availableTags}
             value={selectedTags}
             onChange={handleTagsChange}
+            disabled={disabled}
             renderTags={(value, getTagProps) =>
-                value.map((option, index) => (
-                    <Chip label={option} {...getTagProps({index})} />
-                ))
+                value.map((option, index) => {
+                    const tagProps = getTagProps({ index });
+                    return <Chip key={index} label={option} {...tagProps} />;
+                })
             }
         />
     );
