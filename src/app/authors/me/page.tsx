@@ -62,8 +62,6 @@ export default function Author() {
                 <h1 id="pageTitle">{storageName}'s Page</h1>
                 <br/>
                 <br/>
-
-
                 <div>
                     <div id="authorNameDescrip">
                         <div id="authorName">
