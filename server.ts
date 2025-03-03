@@ -359,6 +359,27 @@ app.post('/likeRecipe', async (req: Request, res: Response) => {
     }
 })
 
+app.post('/unlikeRecipe', async (req: Request, res: Response) => {
+    console.log("Unlike Recipe Received");
+    try {
+        if (recipeCollection) {
+            const recipe = await recipeCollection.findOneAndUpdate({slug: req.body.slug}, {$inc: {likes: -1}});
+        }
+        if (userCollection){
+            const user = await userCollection.findOne({username: req.body.username});
+            if (user !== null){
+                const userList = user.favoritedRecipes.filter(item => item !== req.body.slug);
+                const set = await userCollection.findOneAndUpdate({username: req.body.username}, {$set: {favoritedRecipes: userList}});
+            }
+        }
+        res.status(201).send(true);
+    }
+    catch(error){
+        console.error(error);
+        res.status(215).send(error);
+    }
+})
+
 app.post('/modifyRecipe', async (req: Request, res: Response) => {
     console.log("Modify Recipe Received");
     try {

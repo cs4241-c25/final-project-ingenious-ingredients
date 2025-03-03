@@ -21,6 +21,7 @@ import {PantryIngredient} from "../../Classes/PantryIngredient";
 import {PostIngredient} from "@/Get-Post Requests/PantryIngredient/postIngredient";
 import {GetIngredientsByUser} from "@/Get-Post Requests/PantryIngredient/getIngredientsByUser";
 import {DeleteIngredient} from "@/Get-Post Requests/PantryIngredient/deleteIngredient";
+import {UnlikeRecipe} from "@/Get-Post Requests/Recipe/unlikeRecipe";
 
 
 export async function PostTest() {
@@ -116,5 +117,9 @@ export async function PostTest() {
         //Delete a PantryIngredient, takes in the name of the Ingredient to delete and the Username of the user who has the ingredient
     console.log(await DeleteIngredient("Eggs", "ThomasBranchaud"));
         //Returns true if the call checked the database for the given Ingredient
+
+        //Unlike Recipe, takes in a Username and Slug of recipe to unlike
+    console.log(await UnlikeRecipe("You", "eggs-me"));
+        //Returns true if the recipe was unliked
  */
 }
