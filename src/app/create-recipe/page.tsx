@@ -149,8 +149,8 @@ export default function CreateRecipe() {
             <NavBar stickOrNah={"sticky"}/>
     <div id="page-background"
          style={{
-             marginLeft: "10%",
-             marginRight: "10%",
+             marginLeft: "20%",
+             marginRight: "20%",
              marginBottom: "2%",
              justifyContent: "flex-start",
              gap: "3rem",
