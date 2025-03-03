@@ -168,22 +168,14 @@ export default function CreateRecipe() {
             }}>
                 Create Recipe
             </Typography>
-        <RecipeStepper
-            activeStep={activeStep}
-            completed={completed}
-            handleStep={handleStep}
-            handleNext={handleNext}
-            handleBack={handleBack}
-            handleComplete={handleComplete}
-            handleReset={handleReset}
-        />
         <form onSubmit={handleSubmit}>
             {activeStep === 0 && (
                 <div>
-                    <TextField id="name" label="Recipe Title" name="name" variant="outlined" onChange={handleChange}
+                    <p>Recipe Title</p>
+                    <TextField fullWidth id="name" label="Recipe Title" name="name" variant="outlined" onChange={handleChange}
                                required/>
                     <br/>
-                    <TextField id="prepTime" label="Prep Time" name="prepTime" variant="outlined"
+                    <TextField fullWidth id="prepTime" label="Prep Time" name="prepTime" variant="outlined"
                                onChange={handleChange} required/>
                     <ToggleButtonGroup
                         value={time}
@@ -223,6 +215,15 @@ export default function CreateRecipe() {
                     </div>
                 )}
             </form>
+            <RecipeStepper
+                activeStep={activeStep}
+                completed={completed}
+                handleStep={handleStep}
+                handleNext={handleNext}
+                handleBack={handleBack}
+                handleComplete={handleComplete}
+                handleReset={handleReset}
+            />
         </Box>
         </div>
         </div>
