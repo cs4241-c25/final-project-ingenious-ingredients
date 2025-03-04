@@ -28,7 +28,7 @@ export default function Recipes() {
     }, [selectedTags]);
 
     return (
-        <>
+        <div style={{backgroundImage: "url('/emoji-grid-2.svg')"}}>
             <NavBar stickOrNah={"sticky"}></NavBar>
 
             <div id="page-background"
@@ -36,7 +36,8 @@ export default function Recipes() {
                      margin: "auto",
                      justifyContent: "flex-start",
                      gap: "3rem",
-                     display: "flex"}}>
+                     display: "flex",
+                     backgroundColor: "#fff0",}}>
 
                 <Box id="sidebar" sx={{display: "flex", flexDirection: "column",
                     bgcolor: "#F2D6C7", padding: "2rem", borderTop: "8px solid #F06449",
@@ -52,6 +53,6 @@ export default function Recipes() {
                     <RecipeGrid colNum={3} recipes={recipes} />
                 </Box>
             </div>
-        </>
+        </div>
     );
 }

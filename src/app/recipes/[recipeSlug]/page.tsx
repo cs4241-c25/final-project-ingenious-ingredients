@@ -4,6 +4,9 @@ import { Recipe } from "../../../../Classes/Recipe";
 import NavBar from "@/components/NavBar";
 import classes from "./page.module.css";
 import Link from "next/link";
+import {Box} from "@material-ui/core";
+import IngredientsBox from "@/components/IngredientsBox";
+import EditRecipeButton from "@/components/Edit Recipe/EditRecipeButton";
 
 export async function generateMetadata({ params }) {
     const { recipeSlug } = await params;
@@ -24,6 +27,22 @@ export default async function RecipeDetailsPage({ params }) {
         return <p>Recipe not found or steps are missing.</p>;
     }
 
+    // Convert the Recipe instance to a plain object
+    const recipeObject = {
+        steps: recipe.steps,
+        name: recipe.name,
+        creator: recipe.creator,
+        isPublic: recipe.isPublic,
+        likes: recipe.likes,
+        ingredients: recipe.ingredients,
+        prepTime: recipe.prepTime,
+        mealType: recipe.mealType,
+        postDate: recipe.postDate,
+        tags: recipe.tags,
+        slug: recipe.slug,
+        image: recipe.image
+    };
+
     // TODO: It might look nicer for the properties of the recipe to be displayed as chips
     // TODO: If session.user === recipe.creator, show an edit button
     return (
@@ -34,6 +53,7 @@ export default async function RecipeDetailsPage({ params }) {
                     <img src={recipe.image} alt={recipe.name} className="recipe-image"/>
                 </div>
                 <div className={classes.recipeHeaderRight}>
+                    <EditRecipeButton recipe={recipeObject}/>
                     <h1 className={classes.recipeName}>{recipe.name}</h1>
                     <Link href={`/authors/${recipe.creator}`}>
                         <p>by {recipe.creator}</p>
@@ -46,14 +66,7 @@ export default async function RecipeDetailsPage({ params }) {
             </div>
             <hr className={classes.hr}/>
             <div className={classes.recipeContent}>
-                <div className={classes.recipeContentIngredients}>
-                    <h2 className={classes.recipeContentHeaderName}>Ingredients</h2>
-                    <ol>
-                        {recipe.ingredients.map((ingredient, index) => (
-                            <li key={index}>{ingredient.name}, {ingredient.amount} {ingredient.unitOfMeasure}</li>
-                        ))}
-                    </ol>
-                </div>
+                <IngredientsBox ingredients={recipe.ingredients} />
                 <div className={classes.recipeContentSteps}>
                     <h2 className={classes.recipeContentHeaderName}>Steps</h2>
                     <ul>
