@@ -38,7 +38,6 @@ export default function EditRecipeButton({ recipe }: EditRecipeButtonProps) {
 
 
     if (!user || user.username !== recipe.creator) {
-        console.log("Not showing edit button. User = " + user?.username + ", creator = " + recipe.creator);
         return <></>;
     }
 
