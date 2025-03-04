@@ -450,7 +450,7 @@ app.post('/getIngredientsByUser', async (req: Request, res: Response) => {
     }
 })
 
-app.post('/deleteIngredient', async (req: Request, res: Response) => {
+app.delete('/deleteIngredient', async (req: Request, res: Response) => {
     console.log("Delete Ingredient Received");
     try {
         if (ingredientCollection) {
