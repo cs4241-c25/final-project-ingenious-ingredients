@@ -65,6 +65,7 @@ const CustomTimer = (props) => {
     const [countdownColor, setCountdownColor] = useState("#004082");
     const [timerRunning, setTimerRunning] = useState(false);
     const [intervalId, setIntervalId] = useState(null);
+    const [label, setLabel] = useState<string>();
 
 
     const calculateTotalSeconds = () => hours * 3600 + minutes * 60 + seconds;
@@ -146,7 +147,11 @@ const CustomTimer = (props) => {
     };
 
     function onComplete() {
-        alert("Your Timer is done");
+        alert(`Your ${label} timer is done!`);
+    }
+
+    const handleOnEditLabel = (newLabel) => {
+        setLabel(newLabel);
     }
 
 
@@ -158,72 +163,75 @@ const CustomTimer = (props) => {
         ));
 
     return (
-        <Container>
-            <Root>
-            <Bottom variant="determinate" size={200} thickness={4} value={100} />
-            <Top
-                variant="determinate"
-                size={200}
-                thickness={4}
-                value={countdownPercent}
-                style={{ color: countdownColor }}
-            />
-            </Root>
-            <Box mt={2} sx={{display: 'flex', flexDirection: "column", alignContent: 'center', alignItems: "center"}}>
-                <Text sx={{margin: "1em", alignContent: 'center', alignItems: 'center'}}>{countdownText}</Text>
-                <Box sx={{marginBottom: "1em"}}>
-                    <TextField
-                        select
-                        label="Hours"
-                        value={hours}
-                        onChange={(e) => {setHours(parseInt(e.target.value))}}
-                        variant="outlined"
-                        style={{ width: "5em" }}
-                    >
-                        {generateOptions(25)}
-                    </TextField>
+        <Box>
+                <TextField value={label} disabled={timerRunning} onBlur={(e) => handleOnEditLabel(e.target.value)}>Test</TextField>
+            <Container>
+                <Root>
+                <Bottom variant="determinate" size={200} thickness={4} value={100} />
+                <Top
+                    variant="determinate"
+                    size={200}
+                    thickness={4}
+                    value={countdownPercent}
+                    style={{ color: countdownColor }}
+                />
+                </Root>
+                <Box mt={2} sx={{display: 'flex', flexDirection: "column", alignContent: 'center', alignItems: "center"}}>
+                    <Text sx={{margin: "1em", alignContent: 'center', alignItems: 'center'}}>{countdownText}</Text>
+                    <Box sx={{marginBottom: "1em"}}>
+                        <TextField
+                            select
+                            label="Hours"
+                            value={hours}
+                            onChange={(e) => {setHours(parseInt(e.target.value))}}
+                            variant="outlined"
+                            style={{ width: "5em" }}
+                        >
+                            {generateOptions(25)}
+                        </TextField>
 
-                    <TextField
-                        select
-                        label="Minutes"
-                        value={minutes}
-                        onChange={(e) => {setMinutes(parseInt(e.target.value))}}
-                        variant="outlined"
-                        style={{ width: "5em" }}
-                    >
-                        {generateOptions(61)}
-                    </TextField>
+                        <TextField
+                            select
+                            label="Minutes"
+                            value={minutes}
+                            onChange={(e) => {setMinutes(parseInt(e.target.value))}}
+                            variant="outlined"
+                            style={{ width: "5em" }}
+                        >
+                            {generateOptions(61)}
+                        </TextField>
 
-                    <TextField
-                        select
-                        label="Seconds"
-                        value={seconds}
-                        onChange={(e) => {setSeconds(parseInt(e.target.value))}}
-                        variant="outlined"
-                        style={{ width: "5em" }}
-                    >
-                        {generateOptions(61)}
-                    </TextField>
+                        <TextField
+                            select
+                            label="Seconds"
+                            value={seconds}
+                            onChange={(e) => {setSeconds(parseInt(e.target.value))}}
+                            variant="outlined"
+                            style={{ width: "5em" }}
+                        >
+                            {generateOptions(61)}
+                        </TextField>
+                    </Box>
+                    <Box mt={2}>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={startTimer}
+                            disabled={timerRunning}
+                        >
+                            Start Timer
+                        </Button>
+                        <Button
+                            variant="contained"
+                            onClick={togglePause}
+                            style={{ marginLeft: "1em", backgroundColor: "#F06449"}}
+                        >
+                            {!timerRunning ? "Resume" : "Pause"}
+                        </Button>
+                    </Box>
                 </Box>
-                <Box mt={2}>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={startTimer}
-                        disabled={timerRunning}
-                    >
-                        Start Timer
-                    </Button>
-                    <Button
-                        variant="contained"
-                        onClick={togglePause}
-                        style={{ marginLeft: "1em", backgroundColor: "#F06449"}}
-                    >
-                        {!timerRunning ? "Resume" : "Pause"}
-                    </Button>
-                </Box>
-            </Box>
-        </Container>
+            </Container>
+        </Box>
     );
 };
 

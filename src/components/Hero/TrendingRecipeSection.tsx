@@ -32,11 +32,11 @@ const TrendingSection = () => {
         }}>
             <Box sx={{
               display: "flex", flexDirection: "column",
-              bgcolor: "#F2D6C7", padding: "2rem", borderTop: "8px solid #F06449",
+              bgcolor: "#F2D6C7", padding: "1.2rem", borderTop: "8px solid #F06449",
               borderLeft: "3px solid #F06449", borderRight: "3px solid #F06449",
               borderTopLeftRadius: "0.3rem", borderTopRightRadius: "0.3rem"
             }}>
-              <Typography variant='h2' sx={{marginBottom: "1.5rem",
+              <Typography variant='h3' sx={{marginBottom: "1rem",
                   fontWeight: "bold", textDecoration:"underline",
                   textDecorationColor: "#F08148", textUnderlineOffset: "4px"
               }}>

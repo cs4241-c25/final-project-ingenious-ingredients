@@ -14,6 +14,7 @@ import {Collapse} from "@mui/material";
 import {Box, Typography} from "@mui/material";
 import BrowseFilterTags from "@/components/Display Recipe/BrowseFilterTags"
 import {GetRecipesByTags} from "@/Get-Post Requests/Recipe/getRecipesByTags";
+import {GetRecipeFromSlug} from "@/Get-Post Requests/Recipe/getRecipeFromSlug";
 
 
 export default function Author() {
@@ -39,13 +40,20 @@ export default function Author() {
                 if (fetchedUser) {
                     setUser(fetchedUser);
                     const fetchedMyRecipes = await GetRecipesByUser(fetchedUser.username);
-                    const fetchedLikedRecipes = fetchedUser.favoritedRecipes;
+
+                    let fetchedRecipeArray = [];
+
+                    for (let i = 0; i < fetchedUser.favoritedRecipes.length; i++){
+                        const fetchedLikedRecipes = await GetRecipeFromSlug(fetchedUser.favoritedRecipes[i]);
+                        fetchedRecipeArray.push(fetchedLikedRecipes);
+                    }
+
 
                     setMyRecipes(fetchedMyRecipes);
-                    setLikedRecipes(fetchedLikedRecipes);
+                    setLikedRecipes(fetchedRecipeArray);
 
                     setFilteredMyRecipes(fetchedMyRecipes);
-                    setFilteredLikedRecipes(fetchedLikedRecipes);
+                    setFilteredLikedRecipes(fetchedRecipeArray);
                 }
 
             } catch (error) {
