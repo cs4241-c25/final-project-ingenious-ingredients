@@ -2,13 +2,14 @@
 
 import React from 'react';
 import {useSession} from "next-auth/react";
-import {User} from "../../Classes/User";
+import {User} from "../../../Classes/User";
 import {GetUser} from "@/Get-Post Requests/User/getUser";
-import {Recipe} from "../../Classes/Recipe";
+import {Recipe} from "../../../Classes/Recipe";
 import { useState } from 'react';
 import { Modal, Box } from '@mui/material';
 import Button from "@mui/material/Button";
 import {Typography} from "@mui/material";
+import EditRecipeContent from "@/components/Edit Recipe/EditRecipeContent";
 
 interface EditRecipeButtonProps {
     recipe: Recipe;
@@ -63,7 +64,7 @@ export default function EditRecipeButton({ recipe }: EditRecipeButtonProps) {
                     </Typography>
                     <Typography sx={{mt: 2}}>
                     </Typography>
-                    {/* Add your form or other content here */}
+                    <EditRecipeContent recipe={recipe}/>
                 </Box>
             </Modal>
         </div>

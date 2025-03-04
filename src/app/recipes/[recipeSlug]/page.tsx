@@ -6,7 +6,7 @@ import classes from "./page.module.css";
 import Link from "next/link";
 import {Box} from "@material-ui/core";
 import IngredientsBox from "@/components/IngredientsBox";
-import EditRecipeButton from "@/components/EditRecipeButton";
+import EditRecipeButton from "@/components/Edit Recipe/EditRecipeButton";
 
 export async function generateMetadata({ params }) {
     const { recipeSlug } = await params;
