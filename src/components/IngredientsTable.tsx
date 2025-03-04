@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import {
@@ -20,10 +19,9 @@ import { PantryIngredient } from "../../Classes/PantryIngredient";
 import { GetIngredientsByUser } from "@/Get-Post Requests/PantryIngredient/getIngredientsByUser";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import {Recipe} from "../../Classes/Recipe";
-import {PostRecipe} from "@/Get-Post Requests/Recipe/postRecipe";
-import {useState} from "react";
 import {PostIngredient} from "@/Get-Post Requests/PantryIngredient/postIngredient";
+import {DeleteIngredient} from "@/Get-Post Requests/PantryIngredient/deleteIngredient";
+import {ModifyIngredient} from "@/Get-Post Requests/PantryIngredient/modifyIngredient";
 
 
 
@@ -33,14 +31,6 @@ export default function IngredientsTable() {
     const { data: session } = useSession();
 
 
-
-    const [formData, setFormData] = useState({
-        name: "",
-        amount: 0,
-        unitOfMeasure: "",
-        buyDate: '',
-        userName: "",
-    });
 
     React.useEffect(() => {
         async function fetchData() {
@@ -83,10 +73,7 @@ export default function IngredientsTable() {
     };
 
     const handleSaveClick = (id: GridRowId) => () =>  {
-
         setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
-
-
     };
 
     const processRowUpdate = (newRow: GridRowModel) => {
@@ -115,6 +102,12 @@ export default function IngredientsTable() {
 
 
     const handleDeleteClick = (id: GridRowId) => () => {
+        const ingredientToDelete = rows.find((row) => row.id === id);
+
+        console.log(ingredientToDelete);
+
+        DeleteIngredient(ingredientToDelete.name, ingredientToDelete.username);
+
         setRows(rows.filter((row) => row.id !== id));
     };
 
