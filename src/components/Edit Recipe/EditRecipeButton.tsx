@@ -20,6 +20,7 @@ export default function EditRecipeButton({ recipe }: EditRecipeButtonProps) {
     const {data: session} = useSession();
     const [user, setUser] = React.useState<User>(null);
     const [open, setOpen] = useState(false);
+    const [hasChanges, setHasChanges] = useState(false);
 
     React.useEffect(() => {
         async function fetchUser() {
@@ -31,8 +32,10 @@ export default function EditRecipeButton({ recipe }: EditRecipeButtonProps) {
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => {
-        if (confirm("Are you sure you want to discard your changes?")) {
+        if (!hasChanges || confirm("Are you sure you want to discard your changes?")) {
             setOpen(false);
+            hasChanges && setHasChanges(false);
+            // TODO: Reset the form to the original values
         }
     };
 
@@ -63,7 +66,7 @@ export default function EditRecipeButton({ recipe }: EditRecipeButtonProps) {
                     </Typography>
                     <Typography sx={{mt: 2}}>
                     </Typography>
-                    <EditRecipeContent recipe={recipe}/>
+                    <EditRecipeContent recipe={recipe} onChange={() => setHasChanges(true)} />
                 </Box>
             </Modal>
         </div>
