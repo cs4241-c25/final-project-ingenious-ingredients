@@ -408,6 +408,25 @@ app.post('/modifyRecipe', async (req: Request, res: Response) => {
     }
 })
 
+app.delete('/deleteRecipe', async (req: Request, res: Response) => {
+    console.log("Delete Recipe Received");
+    try {
+        if (recipeCollection) {
+            const result = await recipeCollection.findOneAndDelete({slug: req.body.slug});
+            if (result.value) {
+                res.status(201).send(true);
+            } else {
+                res.status(404).send(false);
+            }
+        } else {
+            res.status(500).send(false);
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send(error);
+    }
+})
+
 app.post('/postIngredient', async (req: Request, res: Response) => {
     console.log("Post Ingredient Received");
     const insert = {

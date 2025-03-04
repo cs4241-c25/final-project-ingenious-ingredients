@@ -76,7 +76,7 @@ const NavBar: React.FC<NavBarProps> = ({stickOrNah}) => {
                             variant="h6"
                             noWrap
                             component="a"
-                            href="/hero"
+                            href="/"
                             sx={{
                                 mr: 2,
                                 display: {xs: 'none', md: 'flex'},
@@ -171,7 +171,7 @@ const NavBar: React.FC<NavBarProps> = ({stickOrNah}) => {
                             variant="h6"
                             noWrap
                             component="a"
-                            href="/hero"
+                            href="/"
                             sx={{
                                 mr: 2,
                                 display: {xs: 'none', md: 'flex'},
