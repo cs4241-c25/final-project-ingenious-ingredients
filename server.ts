@@ -4,6 +4,7 @@ import express from "express";
 import {Request, Response} from 'express';
 import cors from "cors";
 import {Collection} from 'mongodb';
+import {PantryIngredient} from "./Classes/PantryIngredient";
 
 
 
@@ -359,6 +360,27 @@ app.post('/likeRecipe', async (req: Request, res: Response) => {
     }
 })
 
+app.post('/unlikeRecipe', async (req: Request, res: Response) => {
+    console.log("Unlike Recipe Received");
+    try {
+        if (recipeCollection) {
+            const recipe = await recipeCollection.findOneAndUpdate({slug: req.body.slug}, {$inc: {likes: -1}});
+        }
+        if (userCollection){
+            const user = await userCollection.findOne({username: req.body.username});
+            if (user !== null){
+                const userList = user.favoritedRecipes.filter(item => item !== req.body.slug);
+                const set = await userCollection.findOneAndUpdate({username: req.body.username}, {$set: {favoritedRecipes: userList}});
+            }
+        }
+        res.status(201).send(true);
+    }
+    catch(error){
+        console.error(error);
+        res.status(215).send(error);
+    }
+})
+
 app.post('/modifyRecipe', async (req: Request, res: Response) => {
     console.log("Modify Recipe Received");
     try {
@@ -425,6 +447,49 @@ app.post('/getIngredientsByUser', async (req: Request, res: Response) => {
     catch (error){
         console.error(error);
         res.status(214).send(error);
+    }
+})
+
+app.post('/deleteIngredient', async (req: Request, res: Response) => {
+    console.log("Delete Ingredient Received");
+    try {
+        if (ingredientCollection) {
+            const result = await ingredientCollection.findOneAndDelete({name: req.body.name, username: req.body.username});
+            res.status(201).send(true);
+        }else{
+            res.status(201).send(false);
+        }
+    }
+    catch(error){
+        console.error(error);
+        res.status(214).send(error);
+    }
+})
+
+app.post('/modifyIngredient', async (req: Request, res: Response) => {
+    console.log("Modify Ingredient Received");
+    try {
+        if (ingredientCollection) {
+            const insert = {
+                name: req.body.ingredient.name,
+                amount: req.body.ingredient.amount,
+                unitOfMeasure: req.body.ingredient.unitOfMeasure,
+                buyDate: req.body.ingredient.buyDate,
+                username: req.body.ingredient.username
+            }
+            const result = await ingredientCollection.findOneAndReplace({username: req.body.username, name: req.body.name}, {
+                name: insert.name,
+                amount: insert.amount,
+                unitOfMeasure: insert.unitOfMeasure,
+                buyDate: insert.buyDate,
+                username: insert.username
+            });
+            res.status(201).send(true)
+        }
+    }
+    catch (error){
+        console.error(error);
+        res.status(216).send(error);
     }
 })
 
