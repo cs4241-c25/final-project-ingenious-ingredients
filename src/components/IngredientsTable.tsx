@@ -2,9 +2,18 @@ import * as React from 'react';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import { DataGrid, GridColDef, GridRowsProp, GridActionsCellItem, GridRowId, GridRowModes, GridRowModesModel } from '@mui/x-data-grid';
+import {
+    DataGrid,
+    GridColDef,
+    GridRowsProp,
+    GridActionsCellItem,
+    GridRowId,
+    GridRowModes,
+    GridRowModesModel,
+    GridRowModel
+} from '@mui/x-data-grid';
 import EditIcon from '@mui/icons-material/Edit';
-import AddIcon from "@mui/icons-material/Add";
+import AddIcon from '@mui/icons-material/Add';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { useSession } from 'next-auth/react';
 import { PantryIngredient } from "../../Classes/PantryIngredient";
@@ -14,6 +23,7 @@ import Typography from "@mui/material/Typography";
 import {Recipe} from "../../Classes/Recipe";
 import {PostRecipe} from "@/Get-Post Requests/Recipe/postRecipe";
 import {useState} from "react";
+import {PostIngredient} from "@/Get-Post Requests/PantryIngredient/postIngredient";
 
 
 
@@ -22,12 +32,14 @@ export default function IngredientsTable() {
     const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({});
     const { data: session } = useSession();
 
+
+
     const [formData, setFormData] = useState({
-        name: '',
+        name: "",
         amount: 0,
-        unitOfMeasure: '',
+        unitOfMeasure: "",
         buyDate: '',
-        userName: ''
+        userName: "",
     });
 
     React.useEffect(() => {
@@ -51,7 +63,8 @@ export default function IngredientsTable() {
         fetchData();
     }, [session]);
 
-    // Add a new row (ingredient)
+
+
     const handleAddClick = () => {
         const newId = rows.length + 1;
         const newRow = {
@@ -60,7 +73,7 @@ export default function IngredientsTable() {
             amount: 0,
             unitOfMeasure: '',
             buyDate: '',
-            userName: session?.user.name || '',
+            userName: session.user.name,
         };
         setRows([...rows, newRow]);
         setRowModesModel({
@@ -69,35 +82,42 @@ export default function IngredientsTable() {
         });
     };
 
-    // Save an edited row
-    const handleSaveClick = async (id: GridRowId) => () => {
+    const handleSaveClick = (id: GridRowId) => () =>  {
+
         setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
-
-        //
-        // const ingredient = new PantryIngredient (
-        //     formData.name,
-        //     formData.amount,
-        //     formData.unitOfMeasure,
-        //     formData.buyDate,
-        //     formData.userName,
-        // );
-        //
-        // console.log(ingredient);
-        // const result = await PostRecipe(ingredient);
-        //
-        //
-        //
-
 
 
     };
 
-    // Handle deleting a row
+    const processRowUpdate = (newRow: GridRowModel) => {
+        const updatedRow = { ...newRow, isNew: false };
+
+
+
+        setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
+
+        const ingredient = new PantryIngredient (
+            newRow.name,
+            newRow.amount,
+            newRow.unitOfMeasure,
+
+            session.user.name,
+        );
+
+        console.log(ingredient);
+
+        PostIngredient(ingredient);
+
+
+        return updatedRow;
+
+    };
+
+
     const handleDeleteClick = (id: GridRowId) => () => {
         setRows(rows.filter((row) => row.id !== id));
     };
 
-    // Handle editing a row
     const handleEditClick = (id: GridRowId) => () => {
         setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
     };
@@ -185,6 +205,8 @@ export default function IngredientsTable() {
                     columns={columns}
                     rowModesModel={rowModesModel}
                     onRowModesModelChange={setRowModesModel}
+                    processRowUpdate={processRowUpdate}
+
                     sx={{
                         '.MuiDataGrid-columnHeaders': {
                             backgroundColor: '#F04D51',
