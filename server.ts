@@ -4,6 +4,7 @@ import express from "express";
 import {Request, Response} from 'express';
 import cors from "cors";
 import {Collection} from 'mongodb';
+import {PantryIngredient} from "./Classes/PantryIngredient";
 
 
 
@@ -462,6 +463,33 @@ app.post('/deleteIngredient', async (req: Request, res: Response) => {
     catch(error){
         console.error(error);
         res.status(214).send(error);
+    }
+})
+
+app.post('/modifyIngredient', async (req: Request, res: Response) => {
+    console.log("Modify Ingredient Received");
+    try {
+        if (ingredientCollection) {
+            const insert = {
+                name: req.body.ingredient.name,
+                amount: req.body.ingredient.amount,
+                unitOfMeasure: req.body.ingredient.unitOfMeasure,
+                buyDate: req.body.ingredient.buyDate,
+                username: req.body.ingredient.username
+            }
+            const result = await ingredientCollection.findOneAndReplace({username: req.body.username, name: req.body.name}, {
+                name: insert.name,
+                amount: insert.amount,
+                unitOfMeasure: insert.unitOfMeasure,
+                buyDate: insert.buyDate,
+                username: insert.username
+            });
+            res.status(201).send(true)
+        }
+    }
+    catch (error){
+        console.error(error);
+        res.status(216).send(error);
     }
 })
 

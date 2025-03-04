@@ -22,6 +22,7 @@ import {PostIngredient} from "@/Get-Post Requests/PantryIngredient/postIngredien
 import {GetIngredientsByUser} from "@/Get-Post Requests/PantryIngredient/getIngredientsByUser";
 import {DeleteIngredient} from "@/Get-Post Requests/PantryIngredient/deleteIngredient";
 import {UnlikeRecipe} from "@/Get-Post Requests/Recipe/unlikeRecipe";
+import {ModifyIngredient} from "@/Get-Post Requests/PantryIngredient/modifyIngredient";
 
 
 export async function PostTest() {
@@ -121,5 +122,10 @@ export async function PostTest() {
         //Unlike Recipe, takes in a Username and Slug of recipe to unlike
     console.log(await UnlikeRecipe("You", "eggs-me"));
         //Returns true if the recipe was unliked
+
+        //Modify an existing Ingredient, takes in the Username and name of Ingredient, then a new ingredient that contains the changes
+    console.log(await ModifyIngredient("ThomasBranchaud", "Cheese", new PantryIngredient("Cheese", 15, "Slices", "ThomasBranchaud")));
+        //Returns true if the database was searched for the ingredient
+
  */
 }
