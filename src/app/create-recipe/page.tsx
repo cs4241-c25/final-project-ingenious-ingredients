@@ -145,7 +145,7 @@ export default function CreateRecipe() {
     };
 
     return (
-        <div>
+        <div style={{backgroundImage: "url('/emoji-grid-2.svg')"}}>
             <NavBar stickOrNah={"sticky"}/>
     <div id="page-background"
          style={{
@@ -154,7 +154,8 @@ export default function CreateRecipe() {
              marginBottom: "2%",
              justifyContent: "flex-start",
              gap: "3rem",
-             display: "flex"
+             display: "flex",
+             backgroundColor: "#fff0",
          }}>
         <Box id="main-browse-content" sx={{
             display: "flex", flexDirection: "column",
