@@ -201,7 +201,7 @@ export default function Author() {
                                     }}>
                                         {user.username}'s Liked Recipes
                                     </Typography>
-                                    <RecipeGrid colNum={3} recipes={likedRecipes}/>
+                                    <RecipeGrid colNum={3} recipes={filteredLikedRecipes}/>
                                 </Box>
                             </Collapse>
                             {/*<BrowseFilterTags/>*/}

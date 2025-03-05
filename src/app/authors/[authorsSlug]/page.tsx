@@ -46,6 +46,7 @@ export default function Author() {
                     for (let i = 0; i < fetchedUser.favoritedRecipes.length; i++){
                         const fetchedLikedRecipes = await GetRecipeFromSlug(fetchedUser.favoritedRecipes[i]);
                         fetchedRecipeArray.push(fetchedLikedRecipes);
+                        console.log(fetchedRecipeArray[i]);
                     }
 
 
@@ -206,7 +207,7 @@ export default function Author() {
                                 }}>
                                     {user.username}'s Liked Recipes
                                 </Typography>
-                                <RecipeGrid colNum={3} recipes={likedRecipes}/>
+                                <RecipeGrid colNum={3} recipes={filteredLikedRecipes}/>
                             </Box>
                         </Collapse>
                         {/*<BrowseFilterTags/>*/}
