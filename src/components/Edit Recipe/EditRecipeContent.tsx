@@ -162,7 +162,18 @@ export default function EditRecipeContent({ recipe, onChange, onClose, onResetCh
                     {steps.map((step, index) => (
                         <div key={index} style={{marginBottom: '8px', whiteSpace: 'pre-line'}}>
                             <span style={{marginRight: '8px'}}>{index + 1}.</span>
-                            <Chip label={step} onDelete={() => handleDeleteStep(step)}/>
+                            <Chip
+                                sx={{
+                                    height: 'auto',
+                                    marginLeft: '8px',
+                                    '& .MuiChip-label': {
+                                        display: 'block',
+                                        whiteSpace: 'normal',
+                                    },
+                                }}
+                                label={step}
+                                onDelete={() => handleDeleteStep(step)}
+                            />
                         </div>
                     ))}
                 </div>
@@ -175,12 +186,24 @@ export default function EditRecipeContent({ recipe, onChange, onClose, onResetCh
                 <div>
                     {ingredients.map((ingredient, index) => (
                         <div key={index} style={{marginBottom: '8px', whiteSpace: 'pre-line'}}>
-                            <Chip label={ingredient} onDelete={() => handleDeleteIngredient(ingredient)}/>
+                            <Chip
+                                sx={{
+                                    height: 'auto',
+                                    marginLeft: '8px',
+                                    '& .MuiChip-label': {
+                                        display: 'block',
+                                        whiteSpace: 'normal',
+                                    },
+                                }}
+                                label={ingredient}
+                                onDelete={() => handleDeleteIngredient(ingredient)}
+                            />
                         </div>
                     ))}
                 </div>
                 <p>Image URL</p>
-                <TextField id="image" name="image" variant="outlined" onChange={handleChange} value={formData.image} fullWidth/>
+                <TextField id="image" name="image" variant="outlined" onChange={handleChange} value={formData.image}
+                           fullWidth/>
                 <p>Public</p>
                 <Switch name="isPublic" onChange={handleChange} checked={formData.isPublic}/>
             </div>
