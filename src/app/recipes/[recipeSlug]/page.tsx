@@ -10,6 +10,8 @@ import EditRecipeButton from "@/components/Edit Recipe/EditRecipeButton";
 import {Chip} from "@mui/material";
 import Button from "@mui/material/Button";
 import StepsBox from "@/components/Display Recipe/StepsBox";
+import Typography from "@mui/material/Typography";
+import React from "react";
 
 export async function generateMetadata({ params }) {
     const { recipeSlug } = await params;
@@ -46,31 +48,52 @@ export default async function RecipeDetailsPage({ params }) {
         image: recipe.image
     };
 
+    function stylizedTags() {
+        if (!recipe.tags) {
+            return "No ingredients available";
+        }
+        return recipe.tags.map((tag, index) => (
+            <Chip key={index} label={tag} sx={{ margin: '2px', color: 'white', fontWeight: 'bold', backgroundColor: '#F06449' }} />
+        ));
+    }
+
     // TODO: It might look nicer for the properties of the recipe to be displayed as chips
     // TODO: If session.user === recipe.creator, show an edit button
     return (
         <div style={{backgroundImage: "url('/emoji-grid-2.svg')", minHeight: "110vh"}}>
             <div style={{backgroundColor: "#fff0"}}>
                 <NavBar stickOrNah={"sticky"}/>
-                <div className={classes.recipeHeader}>
-                    <div className={classes.recipeHeaderLeft}>
-                        <img src={recipe.image} alt={recipe.name} className="recipe-image"/>
+                <div className={classes.recipeHeader} style={{marginBottom: "2rem", borderBottom: "#F06449", borderBottomWidth: "8px", borderBottomStyle: "solid"}}>
+                    <div style={{marginRight: "5rem"}}>
+                        <img src={recipe.image} alt={recipe.name}
+                             style={{maxWidth: "100%", maxHeight: "100%", objectFit: "cover"}}/>
                     </div>
                     <div className={classes.recipeHeaderRight}>
-                        <EditRecipeButton recipe={recipeObject}/>
-                        <h1 className={classes.recipeName}>{recipe.name}</h1>
+                    <div style={{position: "absolute", top: "5rem", right: "1rem"}}>
+                            <EditRecipeButton recipe={recipeObject}/>
+                        </div>
+                        <Typography variant='h2' sx={{
+                            marginBottom: "1.5rem",
+                            fontWeight: "bold", textDecoration:"underline",
+                            textDecorationColor: "#F08148", textUnderlineOffset: "4px"
+                        }}>
+                            {recipe.name}
+                        </Typography>
                         <Link href={`/authors/${recipe.creator}`}>
                             <Button>by {recipe.creator}</Button>
                         </Link>
-                        <p>Prep Time: <Chip label={recipe.prepTime} color="primary" style={{ backgroundColor: "#F06449" }}/></p>
-                        <p>Likes: <Chip label={recipe.likes} color="primary" style={{ backgroundColor: "#F06449" }}/></p>
-                        <p>Posted
-                            on: <Chip label={recipe.postDate ? new Date(recipe.postDate).toDateString() : "No date available"} color="primary" style={{ backgroundColor: "#F06449" }}/></p>
+                        <p>Prep Time: <Chip label={<b>{recipe.prepTime}</b>} color="primary"
+                                            style={{backgroundColor: "#F06449"}}/></p>
+                        <p>Likes: <Chip label={<b>{recipe.likes}</b>} color="primary"
+                                        style={{backgroundColor: "#F06449"}}/></p>
+                        <p>Posted on: <Chip label={
+                            <b>{recipe.postDate ? new Date(recipe.postDate).toDateString() : "No date available"}</b>}
+                                            color="primary" style={{backgroundColor: "#F06449"}}/></p>
+                        <Typography level="body-sm">Tags: {stylizedTags()}</Typography>
                     </div>
                 </div>
-                <hr className={classes.hr}/>
                 <div className={classes.recipeContent}>
-                    <IngredientsBox ingredients={recipe.ingredients}/>
+                <IngredientsBox ingredients={recipe.ingredients}/>
                     <StepsBox steps={recipe.steps}/>
                 </div>
             </div>

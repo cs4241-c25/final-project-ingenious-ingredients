@@ -48,7 +48,7 @@ export default function LikeRecipeButton({ recipe, session, onClick }: LikeRecip
     return (
         <Button
             onClick={(e) => { onClick?.(e); handleLikeRecipe(); }}
-            style={{ color: liked ? 'grey' : 'inherit' }}
+            style={{ color: liked ? 'blue' : 'grey' }}
         >
             <RecommendIcon /> {likes}
         </Button>
