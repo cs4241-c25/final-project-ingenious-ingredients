@@ -144,3 +144,25 @@ body {
   padding-left: 15px;
   justify-content: right;
 }
+#addIconButtons {
+  font-size: 16px;
+  color: black;
+}
+#editIconButtons {
+  font-size: 16px;
+  color: black;
+}
+#deleteIconButtons {
+  font-size: 16px;
+  color: black;
+}
+
+#gridBox {
+  border-width: 5px;
+  border-color: #F06449;
+  background-color: #F2D6C7;
+}
+
+#gridCell {
+  background-color: #F2D6C7;
+}
