@@ -94,14 +94,10 @@ export default function Author() {
 
 
     return (
-        <div>
+        <div style={{backgroundImage: "url('/emoji-grid-2.svg')"}}>
+            <div style={{backgroundColor: "#fff0"}}>
             <NavBar stickOrNah={"sticky"}/>
             <div className="page-background">
-                <h1 id="pageTitle">{user.username}'s Page</h1>
-                <br/>
-                <br/>
-
-
                 <div>
                     <div id="authorNameDescrip">
                         <div id="authorName">
@@ -133,16 +129,29 @@ export default function Author() {
 
                 <Box sx={{display: 'flex', padding: '20px'}}>
 
-                    <Box sx={{display: 'flex', flexDirection: 'column', width: "20%", padding: "20px", bgcolor: "#F2D6C7", borderRadius: "10px", borderTop: "8px solid #F06449",
-                        borderLeft: "3px solid #F06449", borderRight: "3px solid #F06449", borderBottom: "8px solid #F06449"}}>
+                    <Box sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        width: "20%",
+                        padding: "20px",
+                        bgcolor: "#F2D6C7",
+                        borderRadius: "10px",
+                        borderTop: "8px solid #F06449",
+                        borderLeft: "3px solid #F06449",
+                        borderRight: "3px solid #F06449",
+                        borderBottom: "8px solid #F06449"
+                    }}>
 
-                        <BrowseFilterTags onTagsChange={handleTagsChange} disabled={!myRecipeExpanded && !myLikedExpanded}/>
+                        <BrowseFilterTags onTagsChange={handleTagsChange}
+                                          disabled={!myRecipeExpanded && !myLikedExpanded}/>
 
-                        <Button variant='contained' onClick={handleMyRecipeExpand} sx={{marginTop: '2em', marginBottom: '2em', bgcolor: "#F0B648"}}>
+                        <Button variant='contained' onClick={handleMyRecipeExpand}
+                                sx={{marginTop: '2em', marginBottom: '2em', bgcolor: "#F0B648"}}>
                             {myRecipeExpanded ? "Hide Recipes" : "Show Recipes"}
                         </Button>
 
-                        <Button variant='contained' onClick={handleMyLikedExpand} sx={{marginBottom: '2em', bgcolor: "#F09F48"}}>
+                        <Button variant='contained' onClick={handleMyLikedExpand}
+                                sx={{marginBottom: '2em', bgcolor: "#F09F48"}}>
                             {myLikedExpanded ? "Hide Liked" : "Show Liked"}
                         </Button>
 
@@ -151,12 +160,22 @@ export default function Author() {
                     <Box sx={{display: 'flex', flexDirection: 'column', marginBottom: "10rem", flex: 1}}>
 
                         <Collapse in={myRecipeExpanded} timeout='auto' unmountOnExit>
-                            <Box sx={{display: "flex", flexDirection: "column",
-                                bgcolor: "#F2D6C7", padding: "2rem", borderTop: "8px solid #F06449",
-                                borderLeft: "3px solid #F06449", borderRight: "3px solid #F06449", borderBottom: "8px solid #F06449",
-                                borderRadius: "0.3rem", marginLeft: "1.5rem", marginBottom: '1.5rem'}}>
-                                <Typography variant='h2' sx={{marginBottom: "1.5rem",
-                                    fontWeight: "bold", textDecoration:"underline",
+                            <Box sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                bgcolor: "#F2D6C7",
+                                padding: "2rem",
+                                borderTop: "8px solid #F06449",
+                                borderLeft: "3px solid #F06449",
+                                borderRight: "3px solid #F06449",
+                                borderBottom: "8px solid #F06449",
+                                borderRadius: "0.3rem",
+                                marginLeft: "1.5rem",
+                                marginBottom: '1.5rem'
+                            }}>
+                                <Typography variant='h2' sx={{
+                                    marginBottom: "1.5rem",
+                                    fontWeight: "bold", textDecoration: "underline",
                                     textDecorationColor: "#F0B648", textUnderlineOffset: "4px"
                                 }}>
                                     {user.username}'s Recipes
@@ -167,12 +186,22 @@ export default function Author() {
 
 
                         <Collapse in={myLikedExpanded} timeout='auto' unmountOnExit>
-                            <Box sx={{display: "flex", flexDirection: "column",
-                                bgcolor: "#F2D6C7", padding: "2rem", borderTop: "8px solid #F06449",
-                                borderLeft: "3px solid #F06449", borderRight: "3px solid #F06449", borderBottom: "8px solid #F06449",
-                                borderRadius: "0.3rem", marginLeft: "1.5rem", marginBottom: '1.5rem'}}>
-                                <Typography variant='h2' sx={{marginBottom: "1.5rem",
-                                    fontWeight: "bold", textDecoration:"underline",
+                            <Box sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                bgcolor: "#F2D6C7",
+                                padding: "2rem",
+                                borderTop: "8px solid #F06449",
+                                borderLeft: "3px solid #F06449",
+                                borderRight: "3px solid #F06449",
+                                borderBottom: "8px solid #F06449",
+                                borderRadius: "0.3rem",
+                                marginLeft: "1.5rem",
+                                marginBottom: '1.5rem'
+                            }}>
+                                <Typography variant='h2' sx={{
+                                    marginBottom: "1.5rem",
+                                    fontWeight: "bold", textDecoration: "underline",
                                     textDecorationColor: "#F09F48", textUnderlineOffset: "4px"
                                 }}>
                                     {user.username}'s Liked Recipes
@@ -183,6 +212,7 @@ export default function Author() {
                         {/*<BrowseFilterTags/>*/}
                     </Box>
                 </Box>
+            </div>
             </div>
         </div>
     );

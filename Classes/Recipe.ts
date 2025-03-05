@@ -24,8 +24,7 @@ export class Recipe {
         this.prepTime = prepTime;
         this.mealType = mealType;
         this.image = image;
-        const slugVal = name + "-" + creator;
-        this.slug = slugify(slugVal, { lower: true });
+        this.slug = slug && slug.trim() !== "" ? slug : slugify(name + "-" + creator, { lower: true });
         this.tags = tags;
         if (postDate === null) {
             this.postDate = new Date();
