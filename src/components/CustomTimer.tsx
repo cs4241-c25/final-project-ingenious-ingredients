@@ -24,7 +24,7 @@ const Container = styled(Box)({
     padding: "0.2rem",
     borderTop: "8px solid #F06449",
     borderLeft: "3px solid #F06449", borderRight: "3px solid #F06449", borderBottom: "8px solid #F06449",
-    borderRadius: "0.3rem",
+    borderTopRightRadius: "0.3rem", borderBottomRightRadius: "0.3rem", borderBottomLeftRadius: "0.3rem"
 });
 
 const Root = styled(Box)({
@@ -164,7 +164,12 @@ const CustomTimer = (props) => {
 
     return (
         <Box>
-                <TextField value={label} disabled={timerRunning} onBlur={(e) => handleOnEditLabel(e.target.value)}>Test</TextField>
+                <TextField value={label} label="Name your timer:" disabled={timerRunning} onBlur={(e) => handleOnEditLabel(e.target.value)}
+                sx={{borderTop: "8px solid #F06449",
+                    borderLeft: "3px solid #F06449", borderRight: "3px solid #F06449",
+                    borderTopLeftRadiusRadius: "0.3rem", borderTopRightRadius: "0.3rem", bgcolor: "#F2D6C7"}}
+                >Test
+                </TextField>
             <Container>
                 <Root>
                 <Bottom variant="determinate" size={200} thickness={4} value={100} />

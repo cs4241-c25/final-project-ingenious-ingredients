@@ -88,6 +88,8 @@ body {
   justify-content: center;
   padding-left: 15%;
   background-color: #F2D6C7;
+  outline-color: red;
+  outline-width: thick;
 }
 
 
@@ -133,6 +135,8 @@ body {
   flex-direction: column;
   justify-content: center;
   padding-left: 10%;
+  outline-color: #F06449;
+  outline-width: thick;
 }
 
 #changeDescripButton {

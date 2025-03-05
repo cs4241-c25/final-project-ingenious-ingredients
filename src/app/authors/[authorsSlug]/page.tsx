@@ -100,7 +100,14 @@ export default function Author() {
             <NavBar stickOrNah={"sticky"}/>
             <div className="page-background">
                 <div>
-                    <div id="authorNameDescrip">
+                    <Box id="authorNameDescrip" sx={{
+                        borderTop: "8px solid #F06449",
+                        borderLeft: "3px solid #F06449",
+                        borderRight: "3px solid #F06449",
+                        borderBottom: "8px solid #F06449",
+                        borderRadiusBottomLeft: "0.3rem",
+                        borderRadiusBottomRight: "0.3rem"
+                    }}>
                         <div id="authorName">
                             <CustAvatar userName={user.username}/>
                         </div>
@@ -119,7 +126,7 @@ export default function Author() {
                             />
                             <SocialButtons/>
                         </div>
-                    </div>
+                    </Box>
                 </div>
 
 
