@@ -13,20 +13,20 @@ import {
     Typography
 } from "@material-ui/core";
 
-const TimerPopup = ({ duration }) => {
+const TimerPopup = () => {
     const openTimerWindow = () => {
         const timerWindow = window.open(
             "",
             "",
-            "width=600,height=600,resizable=no"
+            "width=450,height=450,resizable=0"
         );
 
         if (timerWindow) {
             timerWindow.document.write(`
-        <html>
+        <html lang="en">
           <head>
             <title>Timer</title>
-            <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="global.css">
             <style>
               body {
                 display: flex;
@@ -54,14 +54,12 @@ const TimerPopup = ({ duration }) => {
                     root.render(
                         <>
                             <CustomTimer
-                                duration={40}
                                 colors={['#FF0000', '#00FF00']}
                                 colorValues={[30, 60]}
                                 onComplete={() => {
                                     console.log('Timer Completed');
                                 }}
                             />
-                            <Typography> kill </Typography>
                         </>
                     );
                 }
