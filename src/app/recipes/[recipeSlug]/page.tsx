@@ -94,7 +94,7 @@ export default async function RecipeDetailsPage({ params }) {
                     </div>
                 </div>
                 <div className={classes.recipeContent}>
-                <IngredientsBox ingredients={recipe.ingredients}/>
+                    <IngredientsBox ingredients={recipe.ingredients}/>
                     <StepsBox steps={recipe.steps}/>
                 </div>
             </div>
