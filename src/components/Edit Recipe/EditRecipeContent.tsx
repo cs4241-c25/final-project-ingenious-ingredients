@@ -11,6 +11,7 @@ import {RecipeIngredient} from "../../../Classes/RecipeIngredient";
 import {RecipeStep} from "../../../Classes/Step";
 import {PostRecipe} from "@/Get-Post Requests/Recipe/postRecipe";
 import {ModifyRecipe} from "@/Get-Post Requests/Recipe/modifyRecipe";
+import {Accordion} from "@mui/material";
 
 interface EditRecipeContentProps {
     recipe: Recipe;
@@ -23,13 +24,14 @@ export default function EditRecipeContent({ recipe, onChange, onClose, onResetCh
 
     const [selectedTags, setSelectedTags] = useState<string[]>(recipe.tags);
     const [steps, setSteps] = useState<string[]>(recipe.steps.map(step => step.instruction));
+    const [ingredients, setIngredients] = useState<string[]>(recipe.ingredients.map(ingredient => ingredient.name));
     const [newStep, setNewStep] = useState<string>("");
+    const [newIngredient, setNewIngredient] = useState<string>("");
 
     const [formData, setFormData] = useState({
         name: recipe.name,
         prepTime: recipe.prepTime,
         mealType: recipe.mealType,
-        ingredients: recipe.ingredients.map(ingredient => `${ingredient.name}`).join(', '),
         tags: recipe.tags,
         image: recipe.image,
         likes: recipe.likes,
@@ -69,14 +71,25 @@ export default function EditRecipeContent({ recipe, onChange, onClose, onResetCh
         setSteps(steps.filter(step => step !== stepToDelete));
     };
 
+    const handleIngredientChange = (e) => {
+        setNewIngredient(e.target.value);
+    };
+
+    const handleAddIngredient = () => {
+        if (newIngredient.trim() !== "") {
+            setIngredients([...ingredients, newIngredient.trim()]);
+            setNewIngredient("");
+        }
+    };
+
+    const handleDeleteIngredient = (ingredientToDelete) => {
+        setIngredients(ingredients.filter(ingredient => ingredient !== ingredientToDelete));
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const ingredientsArray = formData.ingredients.split(',').map(ingredient => {
-            const [name] = ingredient.trim().split(' ');
-            return new RecipeIngredient(name, 0, '');
-        });
-
+        const ingredientsArray = ingredients.map(ingredient => new RecipeIngredient(ingredient, []));
         const stepsArray = steps.map(step => new RecipeStep(step, []));
 
         const updatedRecipe = new Recipe(
@@ -122,6 +135,9 @@ export default function EditRecipeContent({ recipe, onChange, onClose, onResetCh
 
     const handleDeleteButton = () => {
         if (confirm("Are you sure you want to delete this recipe?")) {
+
+            // TODO: Unlike recipe
+
             DeleteRecipe(recipe.slug).then(() => {
                 window.location.href = '/recipes';
             });
@@ -129,29 +145,45 @@ export default function EditRecipeContent({ recipe, onChange, onClose, onResetCh
     };
 
     return (
-        <>
-            <p>Recipe Title</p>
-            <TextField name="name" onChange={handleChange} value={formData.name}/><br/>
-            <p>Prep Time</p>
-            <TextField name="prepTime" onChange={handleChange} value={formData.prepTime}/><br/>
-            {/*TODO: (above) prep time will be stored as # hours # minutes. Will need to address this later on.*/}
-            <p>Select Tags for your Recipe</p>
-            <SelectTags onTagsChange={setSelectedTags} defaultTags={recipe.tags}/><br/>
-            <p>Recipe Steps</p>
-            <TextField name="newStep" onChange={handleStepChange} value={newStep} placeholder="Type a step and press Add" fullWidth/><br/>
-            <Button onClick={handleAddStep}>Add Step</Button>
+        <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '50px'}}>
             <div>
-                {steps.map((step, index) => (
-                    <div key={index} style={{ marginBottom: '8px', whiteSpace: 'pre-line' }}>
-                        <Chip label={step} onDelete={() => handleDeleteStep(step)} />
-                    </div>
-                ))}
+                <p>Recipe Title</p>
+                <TextField name="name" onChange={handleChange} value={formData.name} fullWidth/><br/>
+                <p>Prep Time</p>
+                <TextField name="prepTime" onChange={handleChange} value={formData.prepTime} fullWidth/><br/>
+                {/*TODO: (above) prep time will be stored as # hours # minutes. Will need to address this later on.*/}
+                <p>Select Tags for your Recipe</p>
+                <SelectTags onTagsChange={setSelectedTags} defaultTags={recipe.tags}/><br/>
+                <p>Recipe Steps</p>
+                <TextField name="newStep" onChange={handleStepChange} value={newStep}
+                           placeholder="Type a step and press Add" fullWidth/><br/>
+                <Button onClick={handleAddStep}>Add Step</Button>
+                <div>
+                    {steps.map((step, index) => (
+                        <div key={index} style={{marginBottom: '8px', whiteSpace: 'pre-line'}}>
+                            <Chip label={step} onDelete={() => handleDeleteStep(step)}/>
+                        </div>
+                    ))}
+                </div>
             </div>
-            <p>Image URL</p>
-            <TextField id="image" name="image" variant="outlined" onChange={handleChange} value={formData.image}/>
-            <p>Public</p>
-            <Switch name="isPublic" onChange={handleChange} checked={formData.isPublic}/>
             <div>
+                <p>Recipe Ingredients</p>
+                <TextField name="newIngredient" onChange={handleIngredientChange} value={newIngredient}
+                           placeholder="Type an ingredient and press Add" fullWidth/><br/>
+                <Button onClick={handleAddIngredient}>Add Ingredient</Button>
+                <div>
+                    {ingredients.map((ingredient, index) => (
+                        <div key={index} style={{marginBottom: '8px', whiteSpace: 'pre-line'}}>
+                            <Chip label={ingredient} onDelete={() => handleDeleteIngredient(ingredient)}/>
+                        </div>
+                    ))}
+                </div>
+                <p>Image URL</p>
+                <TextField id="image" name="image" variant="outlined" onChange={handleChange} value={formData.image} fullWidth/>
+                <p>Public</p>
+                <Switch name="isPublic" onChange={handleChange} checked={formData.isPublic}/>
+            </div>
+            <div style={{gridColumn: 'span 2', textAlign: 'center'}}>
                 <Button onClick={handleSubmit}>
                     Save Changes
                 </Button>
@@ -163,6 +195,6 @@ export default function EditRecipeContent({ recipe, onChange, onClose, onResetCh
                     Delete Recipe
                 </Button>
             </div>
-        </>
+        </div>
     );
 }
