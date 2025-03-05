@@ -106,7 +106,7 @@ export default function IngredientsTable() {
 
         console.log(ingredientToDelete);
 
-        DeleteIngredient(ingredientToDelete.name, ingredientToDelete.username);
+        // DeleteIngredient(ingredientToDelete.name, ingredientToDelete.username);
 
         setRows(rows.filter((row) => row.id !== id));
     };
