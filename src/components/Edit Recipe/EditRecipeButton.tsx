@@ -31,11 +31,11 @@ export default function EditRecipeButton({ recipe }: EditRecipeButtonProps) {
     }, []);
 
     const handleOpen = () => setOpen(true);
-    const handleClose = () => {
-        if (!hasChanges || confirm("Are you sure you want to discard your changes?")) {
+    const handleClose = (savedChanges = false) => {
+        if (savedChanges || !hasChanges || confirm("Are you sure you want to discard your changes?")) {
             setOpen(false);
             hasChanges && setHasChanges(false);
-            // TODO: Reset the form to the original values
+            // TODO: Reset the form to the original values if changes were not saved
         }
     };
 
@@ -66,7 +66,12 @@ export default function EditRecipeButton({ recipe }: EditRecipeButtonProps) {
                     </Typography>
                     <Typography sx={{mt: 2}}>
                     </Typography>
-                    <EditRecipeContent recipe={recipe} onChange={() => setHasChanges(true)} />
+                    <EditRecipeContent
+                        recipe={recipe}
+                        onChange={() => setHasChanges(true)}
+                        onClose={handleClose}
+                        onResetChanges={() => setHasChanges(false)}
+                    />
                 </Box>
             </Modal>
         </div>
