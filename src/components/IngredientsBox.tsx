@@ -10,7 +10,7 @@ const IngredientsBox = ({ ingredients }) => (
         <h2 className={classes.recipeContentHeaderName}>Ingredients</h2>
         <ol className={classes.bulletList} style={{marginLeft: "1rem"}}>
             {ingredients.map((ingredient, index) => (
-                <li key={index}>{ingredient.name}, {ingredient.amount} {ingredient.unitOfMeasure}</li>
+                <li key={index} style={{ marginBottom: "1rem" }}>{ingredient.name}</li>
             ))}
         </ol>
     </Box>

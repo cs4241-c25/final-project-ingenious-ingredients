@@ -93,7 +93,7 @@ export default async function RecipeDetailsPage({ params }) {
                         <Typography level="body-sm">Tags: {stylizedTags()}</Typography>
                     </div>
                 </div>
-                <div className={classes.recipeContent}>
+                <div className={classes.recipeContent} style={{marginBottom: "2rem"}}>
                     <IngredientsBox ingredients={recipe.ingredients}/>
                     <StepsBox steps={recipe.steps}/>
                 </div>

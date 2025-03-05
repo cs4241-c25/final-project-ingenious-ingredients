@@ -161,6 +161,7 @@ export default function EditRecipeContent({ recipe, onChange, onClose, onResetCh
                 <div>
                     {steps.map((step, index) => (
                         <div key={index} style={{marginBottom: '8px', whiteSpace: 'pre-line'}}>
+                            <span style={{marginRight: '8px'}}>{index + 1}.</span>
                             <Chip label={step} onDelete={() => handleDeleteStep(step)}/>
                         </div>
                     ))}
