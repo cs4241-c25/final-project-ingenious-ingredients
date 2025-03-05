@@ -94,7 +94,14 @@ export default function Author() {
                 <NavBar stickOrNah={"sticky"}/>
                 <div className="page-background">
                     <div>
-                        <div id="authorNameDescrip">
+                        <Box id="authorNameDescrip" sx={{
+                            borderTop: "8px solid #F06449",
+                            borderLeft: "3px solid #F06449",
+                            borderRight: "3px solid #F06449",
+                            borderBottom: "8px solid #F06449",
+                            borderRadiusBottomLeft: "0.3rem",
+                            borderRadiusBottomRight: "0.3rem"
+                        }}>
                             <div id="authorName">
                                 <CustAvatar userName={user.username}/>
                             </div>
@@ -113,7 +120,7 @@ export default function Author() {
                                 />
                                 <SocialButtons/>
                             </div>
-                        </div>
+                        </Box>
                     </div>
 
 
@@ -201,7 +208,7 @@ export default function Author() {
                                     }}>
                                         {user.username}'s Liked Recipes
                                     </Typography>
-                                    <RecipeGrid colNum={3} recipes={likedRecipes}/>
+                                    <RecipeGrid colNum={3} recipes={filteredLikedRecipes}/>
                                 </Box>
                             </Collapse>
                             {/*<BrowseFilterTags/>*/}

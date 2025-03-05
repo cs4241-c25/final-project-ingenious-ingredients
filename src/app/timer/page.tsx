@@ -9,9 +9,7 @@ export default function MyMealPlanPage() {
         <div style={{backgroundImage: "url('/emoji-grid-2.svg')", minHeight: "110vh"}}>
             <NavBar stickOrNah={"sticky"}/>
             <div className="bg-white caret-black p-8" style={{backgroundColor: "#fff0"}}>
-                {/*<RecipeGrid colNum={3}/>*/}
-                {/*<BrowseFilterTags/>*/}
-                <TimerPopup/>
+                {/*<TimerPopup/>*/}
                 <CustomTimer/>
             </div>
         </div>
