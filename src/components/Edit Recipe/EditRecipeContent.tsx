@@ -21,14 +21,14 @@ interface EditRecipeContentProps {
 
 export default function EditRecipeContent({ recipe, onChange, onClose, onResetChanges }: EditRecipeContentProps) {
 
-    const [selectedTags, setSelectedTags] = useState<string[]>([]);
+    const [selectedTags, setSelectedTags] = useState<string[]>(recipe.tags);
 
     const [formData, setFormData] = useState({
         name: recipe.name,
         prepTime: recipe.prepTime,
         mealType: recipe.mealType,
         ingredients: recipe.ingredients.map(ingredient => `${ingredient.name}`).join(', '),
-        tags: selectedTags,
+        tags: recipe.tags,
         steps: recipe.steps.map(step => step.instruction).join('. '),
         image: recipe.image,
         likes: recipe.likes,
@@ -37,6 +37,10 @@ export default function EditRecipeContent({ recipe, onChange, onClose, onResetCh
     });
 
     useEffect(() => {
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            tags: selectedTags
+        }));
         onChange();
     }, [selectedTags]);
 
@@ -91,7 +95,7 @@ export default function EditRecipeContent({ recipe, onChange, onClose, onResetCh
             prepTime: recipe.prepTime,
             mealType: recipe.mealType,
             ingredients: recipe.ingredients.map(ingredient => `${ingredient.name}`).join(', '),
-            tags: selectedTags,
+            tags: recipe.tags,
             steps: recipe.steps.map(step => step.instruction).join('. '),
             image: recipe.image,
             likes: recipe.likes,
@@ -120,7 +124,6 @@ export default function EditRecipeContent({ recipe, onChange, onClose, onResetCh
             {/*TODO: (above) prep time will be stored as # hours # minutes. Will need to address this later on.*/}
             <p>Select Tags for your Recipe</p>
             <SelectTags onTagsChange={setSelectedTags} defaultTags={recipe.tags}/><br/>
-            {/*TODO: ^^ default should be recipe.tags*/}
             <p>Image URL</p>
             <TextField id="image" name="image" variant="outlined" onChange={handleChange} value={formData.image}/>
             <p>Public</p>
