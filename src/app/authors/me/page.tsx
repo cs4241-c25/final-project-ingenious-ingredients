@@ -1,99 +1,183 @@
 "use client";
 import NavBar from "@/components/NavBar";
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import CustAvatar from "@/components/CustAvatar";
 import Divider from '@mui/material/Divider';
-import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import SocialButtons from "@/components/SocialButtons";
-import Stack from "@mui/material/Stack";
-import {black} from "next/dist/lib/picocolors";
 import {GetUser} from "@/Get-Post Requests/User/getUser";
-import GetTags from "@/Get-Post Requests/Tags/getTags";
-import {User} from "../../../../Classes/User";
-import {useSession} from "next-auth/react";
-import {ModifyAboutMe} from "@/Get-Post Requests/User/modifyAboutMe";
 import GetRecipesByUser from "@/Get-Post Requests/Recipe/getRecipesByUser";
-import {Recipe} from "../../../../Classes/Recipe";
 import RecipeGrid from "@/components/Display Recipe/RecipeGrid";
+import Button from "@mui/material/Button";
+import {Collapse} from "@mui/material";
+import {Box, Typography} from "@mui/material";
+import BrowseFilterTags from "@/components/Display Recipe/BrowseFilterTags"
+import {useSession} from "next-auth/react";
+import {GetRecipeFromSlug} from "@/Get-Post Requests/Recipe/getRecipeFromSlug";
 
 
 export default function Author() {
 
     const {data: session} = useSession();
+    const [user, setUser] = useState(null);
+    const [myRecipes, setMyRecipes] = useState([]);
+    const [myRecipeExpanded, setMyRecipeExpanded] = useState(true);
+    const [myLikedExpanded, setMyLikedExpanded] = useState(false);
+    const [likedRecipes, setLikedRecipes] = useState([]);
+    const [selectedTags, setSelectedTags] = useState<string[]>([]);
+    const [filteredMyRecipes, setFilteredMyRecipes] = useState([]);
+    const [filteredLikedRecipes, setFilteredLikedRecipes] = useState([]);
 
-    const [user, setUser] = React.useState<User>(null);
-    const [storageName, setStorageName] = React.useState("");
-    const [description, setDescription] = React.useState("");
-    const [recipes, setRecipes] = useState<Recipe[]>([]);
+    useEffect(() => {
+        async function fetchData() {
+            try{
+                const fetchedUser = await GetUser(session?.user?.name);
+                if (fetchedUser) {
+                    setUser(fetchedUser);
+                    const fetchedMyRecipes = await GetRecipesByUser(fetchedUser.username);
 
-    React.useEffect(() => {
-        async function fetchUser() {
-            const user = await GetUser(session?.user?.name);
-            setUser(user);
-            setStorageName(user.username);
-            setDescription(user.aboutMe);
-            console.log(user.username);
-            const fetchedRecipes = await GetRecipesByUser(user.username);
-            setRecipes(fetchedRecipes);
+                    let fetchedRecipeArray = [];
+
+                    for (let i = 0; i < fetchedUser.favoritedRecipes.length; i++){
+                        const fetchedLikedRecipes = await GetRecipeFromSlug(fetchedUser.favoritedRecipes[i]);
+                        fetchedRecipeArray.push(fetchedLikedRecipes);
+                    }
+
+
+                    setMyRecipes(fetchedMyRecipes);
+                    setLikedRecipes(fetchedRecipeArray);
+
+                    setFilteredMyRecipes(fetchedMyRecipes);
+                    setFilteredLikedRecipes(fetchedRecipeArray);
+                }
+
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
         }
-        fetchUser();
+        fetchData();
     }, []);
 
+    useEffect(() => {
+        if(selectedTags.length === 0) {
+            setFilteredMyRecipes(myRecipes);
+            setFilteredLikedRecipes(likedRecipes);
+        } else {
+            const filterByTags = (recipes: any[]) =>
+                recipes.filter(recipe => recipe.tags && selectedTags.every(tag => recipe.tags.includes(tag)));
 
-    if(user){
-        let storageName = user.username;
-        let description = user.aboutMe;
-        console.log(storageName, description);
+            setFilteredLikedRecipes(filterByTags(likedRecipes));
+            setFilteredMyRecipes(filterByTags(myRecipes));
+        }
+    }, [selectedTags,myRecipes,likedRecipes]);
+
+    if (!user) {
+        return <p>User not found.</p>;
     }
-    console.log(storageName, description);
 
-    const handleChange = (event, id) => {
-        const updatedValue = event.target.value;
-        ModifyAboutMe(id, updatedValue);
+    const handleTagsChange = (newTags: string[]) =>{
+        setSelectedTags(newTags);
+    }
 
+    const handleMyRecipeExpand = () => {
+        setMyRecipeExpanded(!myRecipeExpanded);
     };
 
-    // TODO: Probably should divide the saved recipes into recipes made by you, and recipes that you've liked
-    return (
-        <div style={{backgroundImage: "url('/emoji-grid-2.svg')"}}>
-            <div style={{backgroundColor: "#fff0"}}>
-                <NavBar stickOrNah={"sticky"}/>
-                <div className="page-background">
-                    <div>
-                        <div id="authorNameDescrip">
-                            <div id="authorName">
-                                <CustAvatar userName={storageName}/>
-                            </div>
-                            <div id="authorDescrip" onBlur={(event) => handleChange(event, storageName)}>
-                                <p color="black ">About Me</p>
-                                <TextField
+    const handleMyLikedExpand = () => {
+        setMyLikedExpanded(!myLikedExpanded);
+    }
 
-                                    multiline
-                                    rows={5}
-                                    defaultValue={description}
-                                    sx={{
-                                        width: 650,
-                                        backgroundColor: '#F2D6C7',
-                                        color: 'black',
-                                    }}
-                                />
-                                <SocialButtons/>
-                            </div>
+
+    return (
+        <div>
+            <NavBar stickOrNah={"sticky"}/>
+            <div className="page-background">
+                <h1 id="pageTitle">{user.username}'s Page</h1>
+                <br/>
+                <br/>
+
+
+                <div>
+                    <div id="authorNameDescrip">
+                        <div id="authorName">
+                            <CustAvatar userName={user.username}/>
+                        </div>
+                        <div id="authorDescrip">
+                            <p color="black ">About Me</p>
+                            <TextField
+                                multiline
+                                rows={5}
+                                defaultValue={user.aboutMe}
+                                disabled
+                                sx={{
+                                    width: 650,
+                                    backgroundColor: '#F2D6C7',
+                                    color: 'black',
+                                }}
+                            />
+                            <SocialButtons/>
                         </div>
                     </div>
-
-
-                    <br/>
-                    <br/>
-                    <br/>
-                    <Divider id="divide" orientation="horizontal" flexItem/>
-                    <h1>My Recipes</h1>
-
-
-                    <RecipeGrid colNum={3} recipes={recipes}/>
-                    {/*<BrowseFilterTags/>*/}
                 </div>
+
+
+                <br/>
+                <br/>
+                <br/>
+                <Divider id="divide" orientation="horizontal" flexItem/>
+
+                <Box sx={{display: 'flex', padding: '20px'}}>
+
+                    <Box sx={{display: 'flex', flexDirection: 'column', width: "20%", padding: "20px", bgcolor: "#F2D6C7", borderRadius: "10px", borderTop: "8px solid #F06449",
+                        borderLeft: "3px solid #F06449", borderRight: "3px solid #F06449", borderBottom: "8px solid #F06449"}}>
+
+                        <BrowseFilterTags onTagsChange={handleTagsChange} disabled={!myRecipeExpanded && !myLikedExpanded}/>
+
+                        <Button variant='contained' onClick={handleMyRecipeExpand} sx={{marginTop: '2em', marginBottom: '2em', bgcolor: "#F0B648"}}>
+                            {myRecipeExpanded ? "Hide Recipes" : "Show Recipes"}
+                        </Button>
+
+                        <Button variant='contained' onClick={handleMyLikedExpand} sx={{marginBottom: '2em', bgcolor: "#F09F48"}}>
+                            {myLikedExpanded ? "Hide Liked" : "Show Liked"}
+                        </Button>
+
+                    </Box>
+
+                    <Box sx={{display: 'flex', flexDirection: 'column', marginBottom: "10rem", flex: 1}}>
+
+                        <Collapse in={myRecipeExpanded} timeout='auto' unmountOnExit>
+                            <Box sx={{display: "flex", flexDirection: "column",
+                                bgcolor: "#F2D6C7", padding: "2rem", borderTop: "8px solid #F06449",
+                                borderLeft: "3px solid #F06449", borderRight: "3px solid #F06449", borderBottom: "8px solid #F06449",
+                                borderRadius: "0.3rem", marginLeft: "1.5rem", marginBottom: '1.5rem'}}>
+                                <Typography variant='h2' sx={{marginBottom: "1.5rem",
+                                    fontWeight: "bold", textDecoration:"underline",
+                                    textDecorationColor: "#F0B648", textUnderlineOffset: "4px"
+                                }}>
+                                    {user.username}'s Recipes
+                                </Typography>
+                                <RecipeGrid colNum={3} recipes={filteredMyRecipes}/>
+                            </Box>
+                        </Collapse>
+
+
+                        <Collapse in={myLikedExpanded} timeout='auto' unmountOnExit>
+                            <Box sx={{display: "flex", flexDirection: "column",
+                                bgcolor: "#F2D6C7", padding: "2rem", borderTop: "8px solid #F06449",
+                                borderLeft: "3px solid #F06449", borderRight: "3px solid #F06449", borderBottom: "8px solid #F06449",
+                                borderRadius: "0.3rem", marginLeft: "1.5rem", marginBottom: '1.5rem'}}>
+                                <Typography variant='h2' sx={{marginBottom: "1.5rem",
+                                    fontWeight: "bold", textDecoration:"underline",
+                                    textDecorationColor: "#F09F48", textUnderlineOffset: "4px"
+                                }}>
+                                    {user.username}'s Liked Recipes
+                                </Typography>
+                                <RecipeGrid colNum={3} recipes={likedRecipes}/>
+                            </Box>
+                        </Collapse>
+                        {/*<BrowseFilterTags/>*/}
+                    </Box>
+                </Box>
             </div>
         </div>
     );

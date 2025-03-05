@@ -11,11 +11,8 @@ export default function MyMealPlanPage() {
             <div className="bg-white caret-black p-8" style={{backgroundColor: "#fff0"}}>
                 {/*<RecipeGrid colNum={3}/>*/}
                 {/*<BrowseFilterTags/>*/}
-                {/*<TimerPopup duration={10}/>*/}
-                <CustomTimer
-                    colors={['#FF0000', '#00FF00']}
-                    colorValues={[30, 60]}
-                />
+                <TimerPopup/>
+                <CustomTimer/>
             </div>
         </div>
     );
