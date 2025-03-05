@@ -7,6 +7,8 @@ import Link from "next/link";
 import {Box} from "@material-ui/core";
 import IngredientsBox from "@/components/IngredientsBox";
 import EditRecipeButton from "@/components/Edit Recipe/EditRecipeButton";
+import {Chip} from "@mui/material";
+import Button from "@mui/material/Button";
 
 export async function generateMetadata({ params }) {
     const { recipeSlug } = await params;
@@ -56,7 +58,7 @@ export default async function RecipeDetailsPage({ params }) {
                     <EditRecipeButton recipe={recipeObject}/>
                     <h1 className={classes.recipeName}>{recipe.name}</h1>
                     <Link href={`/authors/${recipe.creator}`}>
-                        <p>by {recipe.creator}</p>
+                        <Button>by {recipe.creator}</Button>
                     </Link>
                     <p>Prep Time: {recipe.prepTime}</p>
                     <p>Meal Type: {recipe.mealType}</p>
