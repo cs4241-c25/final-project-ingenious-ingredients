@@ -10,7 +10,6 @@ export async function DeleteRecipe(slug: string): Promise<boolean> {
     });
 
     if (!results.ok) {
-        console.log(`Deleting recipe with slug: ${slug}`);
         console.error(`Error deleting recipe: ${results.statusText}`);
         return false;
     }

@@ -46,7 +46,7 @@ export default function CreateRecipe() {
         tags: selectedTags,
         steps: '',
         image: '',
-        likes: 2,
+        likes: 0,
         slug: "",
         isPublic: false
     });
@@ -93,6 +93,7 @@ export default function CreateRecipe() {
     };
 
     const handleSubmit = async (e) => {
+        // Prevent the form from refreshing the page
         e.preventDefault();
 
         // Check if required fields are filled
@@ -127,7 +128,6 @@ export default function CreateRecipe() {
             formData.likes,
             new Date().toISOString().split('T')[0],
             ingredientsArray,
-            // formData.tags ? formData.tags.split(',').map(tag => tag.trim()) : [],
             selectedTags,
             formData.slug,
             formData.image,
@@ -182,12 +182,14 @@ export default function CreateRecipe() {
                             <TextField
                                 id="outlined-number"
                                 type="number"
+                                name="prepTime"
                                 defaultValue={0}
                                 slotProps={{
                                     inputLabel: {
                                         shrink: true,
                                     },
                                 }}
+                                onChange={handleChange}
                             />
                             <p style={{ margin: '0 10px' }}>Hours</p>
                             <TextField
@@ -209,7 +211,7 @@ export default function CreateRecipe() {
                     <br/>
                     <p>Paste a link to an image URL to use for your recipe</p>
                     <TextField id="image" label="Image URL" name="image" variant="outlined" onChange={handleChange}/>
-                    <br/>
+                    <br/><br/>
                     <label htmlFor="isPublic">Would you like this recipe to be public?</label>
                     <Switch name="isPublic" onChange={handleChange}/>
                 </div>
