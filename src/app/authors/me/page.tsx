@@ -56,45 +56,44 @@ export default function Author() {
 
     // TODO: Probably should divide the saved recipes into recipes made by you, and recipes that you've liked
     return (
-        <div>
-            <NavBar stickOrNah={"sticky"}/>
-            <div className="page-background">
-                <h1 id="pageTitle">{storageName}'s Page</h1>
-                <br/>
-                <br/>
-                <div>
-                    <div id="authorNameDescrip">
-                        <div id="authorName">
-                            <CustAvatar userName={storageName}/>
-                        </div>
-                        <div id="authorDescrip" onBlur={(event) => handleChange(event, storageName)}>
-                            <p color ="black ">About Me</p>
-                            <TextField
+        <div style={{backgroundImage: "url('/emoji-grid-2.svg')"}}>
+            <div style={{backgroundColor: "#fff0"}}>
+                <NavBar stickOrNah={"sticky"}/>
+                <div className="page-background">
+                    <div>
+                        <div id="authorNameDescrip">
+                            <div id="authorName">
+                                <CustAvatar userName={storageName}/>
+                            </div>
+                            <div id="authorDescrip" onBlur={(event) => handleChange(event, storageName)}>
+                                <p color="black ">About Me</p>
+                                <TextField
 
-                                multiline
-                                rows={5}
-                                defaultValue={description}
-                                sx={{
-                                    width: 650,
-                                    backgroundColor: '#F2D6C7',
-                                    color: 'black',
-                                }}
-                            />
-                            <SocialButtons/>
+                                    multiline
+                                    rows={5}
+                                    defaultValue={description}
+                                    sx={{
+                                        width: 650,
+                                        backgroundColor: '#F2D6C7',
+                                        color: 'black',
+                                    }}
+                                />
+                                <SocialButtons/>
+                            </div>
                         </div>
                     </div>
+
+
+                    <br/>
+                    <br/>
+                    <br/>
+                    <Divider id="divide" orientation="horizontal" flexItem/>
+                    <h1>My Recipes</h1>
+
+
+                    <RecipeGrid colNum={3} recipes={recipes}/>
+                    {/*<BrowseFilterTags/>*/}
                 </div>
-
-
-                <br/>
-                <br/>
-                <br/>
-                <Divider id="divide" orientation="horizontal" flexItem/>
-                <h1>My Recipes</h1>
-
-
-                <RecipeGrid colNum={3} recipes={recipes}/>
-                {/*<BrowseFilterTags/>*/}
             </div>
         </div>
     );

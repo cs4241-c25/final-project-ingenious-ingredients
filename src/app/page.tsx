@@ -40,8 +40,8 @@ export default function Hero() {
     }, []);
     
     return (
-        <div className={"bg-fixed bg-cover"} style={{backgroundImage: "url('/emoji-grid.svg')"}}>
-            <div style={{backgroundColor: "#fff0"}}>
+        <div className={"bg-fixed bg-cover"}>
+            <div>
                 <NavBar stickOrNah={'static'}/>
                 <ImageParallax/>
                 <div className="bg-white p-8">
