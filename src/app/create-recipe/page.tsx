@@ -145,16 +145,17 @@ export default function CreateRecipe() {
     };
 
     return (
-        <div>
+        <div style={{backgroundImage: "url('/emoji-grid-2.svg')"}}>
             <NavBar stickOrNah={"sticky"}/>
     <div id="page-background"
          style={{
-             marginLeft: "10%",
-             marginRight: "10%",
-             marginBottom: "5%",
+             marginLeft: "20%",
+             marginRight: "20%",
+             marginBottom: "2%",
              justifyContent: "flex-start",
              gap: "3rem",
-             display: "flex"
+             display: "flex",
+             backgroundColor: "#fff0",
          }}>
         <Box id="main-browse-content" sx={{
             display: "flex", flexDirection: "column",
@@ -168,49 +169,55 @@ export default function CreateRecipe() {
             }}>
                 Create Recipe
             </Typography>
-        <RecipeStepper
-            activeStep={activeStep}
-            completed={completed}
-            handleStep={handleStep}
-            handleNext={handleNext}
-            handleBack={handleBack}
-            handleComplete={handleComplete}
-            handleReset={handleReset}
-        />
         <form onSubmit={handleSubmit}>
             {activeStep === 0 && (
                 <div>
-                    <TextField id="name" label="Recipe Title" name="name" variant="outlined" onChange={handleChange}
+                    <p>Recipe Title</p>
+                    <TextField fullWidth id="name" label="Recipe Title" name="name" variant="outlined" onChange={handleChange}
                                required/>
-                    <br/>
-                    <TextField id="prepTime" label="Prep Time" name="prepTime" variant="outlined"
-                               onChange={handleChange} required/>
-                    <ToggleButtonGroup
-                        value={time}
-                        exclusive
-                        onChange={handleTime}
-                        aria-label="text alignment"
-                    >
-                            <ToggleButton value="minutes" aria-label="left aligned">
-                                Minutes
-                            </ToggleButton>
-                            <ToggleButton value="hours" aria-label="centered">
-                                Hours
-                            </ToggleButton>
-                        </ToggleButtonGroup>
-                        <br />
-                        <SelectTags onTagsChange={setSelectedTags} />
-                        <br />
-                        <TextField id="image" label="Image URL" name="image" variant="outlined" onChange={handleChange} />
-                        <br />
-                        <label htmlFor="isPublic">Would you like this recipe to be public?</label>
-                        <Switch name="isPublic" onChange={handleChange} />
-                    </div>
-                )}
-                {activeStep === 1 && (
+                    <br/><br/>
                     <div>
-                        <InputIngredient/>
-                        <TextField id="steps" label="Steps" name="steps" variant="outlined" onChange={handleChange} required />
+                        <p>Prep Time</p>
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <TextField
+                                id="outlined-number"
+                                type="number"
+                                defaultValue={0}
+                                slotProps={{
+                                    inputLabel: {
+                                        shrink: true,
+                                    },
+                                }}
+                            />
+                            <p style={{ margin: '0 10px' }}>Hours</p>
+                            <TextField
+                                id="outlined-number"
+                                type="number"
+                                defaultValue={0}
+                                slotProps={{
+                                    inputLabel: {
+                                        shrink: true,
+                                    },
+                                }}
+                            />
+                            <p style={{ margin: '0 10px' }}>Minutes</p>
+                        </div>
+                    </div>
+                                        <br/>
+                    <p>Select Tags for your Recipe</p>
+                    <SelectTags onTagsChange={setSelectedTags}/>
+                    <br/>
+                    <p>Paste a link to an image URL to use for your recipe</p>
+                    <TextField id="image" label="Image URL" name="image" variant="outlined" onChange={handleChange}/>
+                    <br/>
+                    <label htmlFor="isPublic">Would you like this recipe to be public?</label>
+                    <Switch name="isPublic" onChange={handleChange}/>
+                </div>
+            )}
+            {activeStep === 1 && (
+                <div>
+                    <InputIngredient/>
+                    <TextField id="steps" label="Steps" name="steps" variant="outlined" onChange={handleChange} required />
                     </div>
                 )}
                 {activeStep === 2 && (
@@ -223,6 +230,15 @@ export default function CreateRecipe() {
                     </div>
                 )}
             </form>
+            <RecipeStepper
+                activeStep={activeStep}
+                completed={completed}
+                handleStep={handleStep}
+                handleNext={handleNext}
+                handleBack={handleBack}
+                handleComplete={handleComplete}
+                handleReset={handleReset}
+            />
         </Box>
         </div>
         </div>

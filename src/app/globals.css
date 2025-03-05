@@ -46,7 +46,7 @@ body {
 }
 
 #page-background {
-  background-color: #ffffff;
+  background-color: #ffffff; /*TODO: wtf!!*/
   display: flex;
   justify-content: flex-start;
   gap: 2rem;

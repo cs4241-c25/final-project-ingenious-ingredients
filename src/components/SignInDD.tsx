@@ -46,7 +46,7 @@ function SignInDD() {
         redirect("/my-recipes");
     };
     const logOut = (event: React.MouseEvent<HTMLElement>) => {
-        signOut({callbackUrl: '/hero'});
+        signOut({callbackUrl: '/'});
     };
 
     const logIn = (event: React.MouseEvent<HTMLElement>) => {

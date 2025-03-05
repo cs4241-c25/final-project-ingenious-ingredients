@@ -12,11 +12,11 @@ export const authOptions = {
         }),
     ],
     pages: {
-        signOut: '/hero',
+        signOut: '/',
     },
     callbacks: {
         async redirect({url, baseUrl}) {
-            return `${baseUrl}/hero`;  // Default behavior
+            return `${baseUrl}/`;  // Default behavior
         },
     }
 }
