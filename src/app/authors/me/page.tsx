@@ -209,6 +209,6 @@ export default function Author() {
                     </Box>
                 </div>
             </div>
-            </div>
-            );
-            }
+        </div>
+    );
+}

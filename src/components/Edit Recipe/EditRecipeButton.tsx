@@ -35,7 +35,6 @@ export default function EditRecipeButton({ recipe }: EditRecipeButtonProps) {
         if (savedChanges || !hasChanges || confirm("Are you sure you want to discard your changes?")) {
             setOpen(false);
             hasChanges && setHasChanges(false);
-            // TODO: Reset the form to the original values if changes were not saved
         }
     };
 

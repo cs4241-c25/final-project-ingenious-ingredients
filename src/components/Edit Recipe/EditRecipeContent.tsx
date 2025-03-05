@@ -79,6 +79,7 @@ export default function EditRecipeContent({ recipe, onChange, onClose, onResetCh
 
         const result = await ModifyRecipe(updatedRecipe, recipe.slug);
         onClose(true);
+        window.location.reload();
     }
 
     const handleDiscard = (e) => {
