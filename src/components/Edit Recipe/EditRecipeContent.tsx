@@ -1,5 +1,5 @@
 import {Recipe} from "../../../Classes/Recipe";
-import {TextField} from "@mui/material";
+import {Chip, TextField} from "@mui/material";
 import DeleteRecipeButton from "@/components/DeleteRecipeButton";
 import Button from "@mui/material/Button";
 import React, {useEffect, useState} from "react";
@@ -22,6 +22,8 @@ interface EditRecipeContentProps {
 export default function EditRecipeContent({ recipe, onChange, onClose, onResetChanges }: EditRecipeContentProps) {
 
     const [selectedTags, setSelectedTags] = useState<string[]>(recipe.tags);
+    const [steps, setSteps] = useState<string[]>(recipe.steps.map(step => step.instruction));
+    const [newStep, setNewStep] = useState<string>("");
 
     const [formData, setFormData] = useState({
         name: recipe.name,
@@ -29,7 +31,6 @@ export default function EditRecipeContent({ recipe, onChange, onClose, onResetCh
         mealType: recipe.mealType,
         ingredients: recipe.ingredients.map(ingredient => `${ingredient.name}`).join(', '),
         tags: recipe.tags,
-        steps: recipe.steps.map(step => step.instruction).join('. '),
         image: recipe.image,
         likes: recipe.likes,
         slug: recipe.slug,
@@ -53,6 +54,21 @@ export default function EditRecipeContent({ recipe, onChange, onClose, onResetCh
         onChange();
     };
 
+    const handleStepChange = (e) => {
+        setNewStep(e.target.value);
+    };
+
+    const handleAddStep = () => {
+        if (newStep.trim() !== "") {
+            setSteps([...steps, newStep.trim()]);
+            setNewStep("");
+        }
+    };
+
+    const handleDeleteStep = (stepToDelete) => {
+        setSteps(steps.filter(step => step !== stepToDelete));
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -61,10 +77,7 @@ export default function EditRecipeContent({ recipe, onChange, onClose, onResetCh
             return new RecipeIngredient(name, 0, '');
         });
 
-        const stepsArray = formData.steps.split('.').map(step => new RecipeStep(
-            step.trim(),
-            [] // Add an empty ingredients array or populate it as needed
-        ));
+        const stepsArray = steps.map(step => new RecipeStep(step, []));
 
         const updatedRecipe = new Recipe(
             stepsArray,
@@ -96,12 +109,12 @@ export default function EditRecipeContent({ recipe, onChange, onClose, onResetCh
             mealType: recipe.mealType,
             ingredients: recipe.ingredients.map(ingredient => `${ingredient.name}`).join(', '),
             tags: recipe.tags,
-            steps: recipe.steps.map(step => step.instruction).join('. '),
             image: recipe.image,
             likes: recipe.likes,
             slug: recipe.slug,
             isPublic: recipe.isPublic
         });
+        setSteps(recipe.steps.map(step => step.instruction));
 
         onResetChanges();
         onClose(false);
@@ -124,6 +137,16 @@ export default function EditRecipeContent({ recipe, onChange, onClose, onResetCh
             {/*TODO: (above) prep time will be stored as # hours # minutes. Will need to address this later on.*/}
             <p>Select Tags for your Recipe</p>
             <SelectTags onTagsChange={setSelectedTags} defaultTags={recipe.tags}/><br/>
+            <p>Recipe Steps</p>
+            <TextField name="newStep" onChange={handleStepChange} value={newStep} placeholder="Type a step and press Add" fullWidth/><br/>
+            <Button onClick={handleAddStep}>Add Step</Button>
+            <div>
+                {steps.map((step, index) => (
+                    <div key={index} style={{ marginBottom: '8px', whiteSpace: 'pre-line' }}>
+                        <Chip label={step} onDelete={() => handleDeleteStep(step)} />
+                    </div>
+                ))}
+            </div>
             <p>Image URL</p>
             <TextField id="image" name="image" variant="outlined" onChange={handleChange} value={formData.image}/>
             <p>Public</p>

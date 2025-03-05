@@ -74,6 +74,7 @@ export default async function RecipeDetailsPage({ params }) {
                         </div>
                         <Typography variant='h2' sx={{
                             marginBottom: "1.5rem",
+                            marginTop: "1rem",
                             fontWeight: "bold", textDecoration:"underline",
                             textDecorationColor: "#F08148", textUnderlineOffset: "4px"
                         }}>
