@@ -86,6 +86,20 @@ export default function EditRecipeContent({ recipe, onChange, onClose, onResetCh
         setIngredients(ingredients.filter(ingredient => ingredient !== ingredientToDelete));
     };
 
+    const handlePrepTimeChange = (e) => {
+        const { name, value } = e.target;
+        if (name === "prepTimeHours") {
+            const minutes = formData.prepTime.match(/(\d+)\s*minutes/);
+            const newPrepTime = value === "0" ? `${minutes ? minutes[1] : 0} minutes` : `${value} hours ${minutes ? minutes[1] : 0} minutes`;
+            setFormData({ ...formData, prepTime: newPrepTime });
+        } else if (name === "prepTimeMinutes") {
+            const hours = formData.prepTime.match(/(\d+)\s*hours/);
+            const newPrepTime = hours && hours[1] !== "0" ? `${hours[1]} hours ${value} minutes` : `${value} minutes`;
+            setFormData({ ...formData, prepTime: newPrepTime });
+        }
+        onChange();
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -97,7 +111,7 @@ export default function EditRecipeContent({ recipe, onChange, onClose, onResetCh
             formData.name,
             recipe.creator,
             formData.isPublic,
-            Number(formData.prepTime),
+            formData.prepTime,
             formData.mealType,
             formData.likes,
             recipe.postDate,
@@ -150,7 +164,8 @@ export default function EditRecipeContent({ recipe, onChange, onClose, onResetCh
                 <p>Recipe Title</p>
                 <TextField name="name" onChange={handleChange} value={formData.name} fullWidth/><br/>
                 <p>Prep Time</p>
-                <TextField name="prepTime" onChange={handleChange} value={formData.prepTime} fullWidth/><br/>
+                <TextField name="prepTimeHours" onChange={handlePrepTimeChange} value={formData.prepTime.match(/(\d+)\s*hours/)?.[1] || '0'}/> Hours
+                <TextField name="prepTimeMinutes" onChange={handlePrepTimeChange} value={formData.prepTime.match(/(\d+)\s*minutes/)?.[1] || '0'}/> Minutes<br/>
                 {/*TODO: (above) prep time will be stored as # hours # minutes. Will need to address this later on.*/}
                 <p>Select Tags for your Recipe</p>
                 <SelectTags onTagsChange={setSelectedTags} defaultTags={recipe.tags}/><br/>
