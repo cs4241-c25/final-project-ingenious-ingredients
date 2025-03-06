@@ -28,7 +28,7 @@ export default function FilterTags({onTagsChange, defaultTags = []}: FilterTagsP
     
     return (
         <Autocomplete
-            renderInput={(params) => <TextField {...params} label="Filter by tags"/>}
+            renderInput={(params) => <TextField {...params}/>}
             multiple
             options={availableTags}
             value={selectedTags}

@@ -49,7 +49,7 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
     // TODO: Cards need to be all the same size, which is not the case because the ingredient list might be too long in some cases.
     return (
         <Link href={`/recipes/${recipe.slug}`}>
-            <Card variant="plain" sx={{ width: 320, height: 400, boxShadow: '0px 2px 15px rgba(0, 0, 0, 0.5)', outline: '1px solid #000' }} size="lg">
+            <Card variant="plain" sx={{ width: 320, height: 410, boxShadow: '0px 2px 15px rgba(0, 0, 0, 0.5)', outline: '1px solid #000' }} size="lg">
                 <CardOverflow>
                     <AspectRatio ratio="2">
                         <img
@@ -92,7 +92,9 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
                             </Typography>
                         </CardContent>
                     </CardOverflow>
-                    <Typography level="body-sm">Tags: {getFirstThreeTags()}</Typography>
+                    <div style={{ marginBottom: '8px' }}>
+                        <Typography level="body-sm">Tags: {getFirstThreeTags()}</Typography>
+                    </div>
                 </CardContent>
             </Card>
         </Link>

@@ -386,6 +386,12 @@ app.post('/modifyRecipe', async (req: Request, res: Response) => {
     try {
         if (recipeCollection) {
             const num = await recipeCollection.findOne({slug: req.body.slug});
+
+            if (!num) {
+                res.status(404).send("Recipe not found");
+                return;
+            }
+
             const results = await recipeCollection.findOneAndReplace({slug: req.body.slug}, {
                 steps: req.body.recipe.steps,
                 name: req.body.recipe.name,
@@ -412,20 +418,30 @@ app.delete('/deleteRecipe', async (req: Request, res: Response) => {
     console.log("Delete Recipe Received");
     try {
         if (recipeCollection) {
-            const result = await recipeCollection.findOneAndDelete({slug: req.body.slug});
-            if (result.value) {
-                res.status(201).send(true);
+            const result = await recipeCollection.findOneAndDelete({ slug: req.body.slug });
+            if (result && result.value) {
+                if (userCollection){
+                    const users = await userCollection.find({ favoritedRecipes: req.body.slug }).toArray();
+                    for (const user of users) {
+                        const updatedFavorites = user.favoritedRecipes.filter((item: string) => item !== req.body.slug);
+                        await userCollection.updateOne(
+                            { _id: user._id },
+                            { $set: { favoritedRecipes: updatedFavorites } }
+                        );
+                    }
+                }
+                res.status(201).send("Recipe deleted and removed from users' favorite list");
             } else {
-                res.status(404).send(false);
+                res.status(404).send("Recipe not found");
             }
         } else {
-            res.status(500).send(false);
+            res.status(500).send("Recipe collection not found");
         }
     } catch (error) {
         console.error(error);
         res.status(500).send(error);
     }
-})
+});
 
 app.post('/postIngredient', async (req: Request, res: Response) => {
     console.log("Post Ingredient Received");

@@ -9,14 +9,14 @@ export class Recipe {
     isPublic: boolean;
     likes: number = 0;
     ingredients: RecipeIngredient[];
-    prepTime: number;
+    prepTime: string;
     mealType: string;
     postDate: Date;
     tags: string[];
     slug: string;
     image: string;
 
-    constructor(steps: RecipeStep[], name: string, creator: string, isPublic: boolean, prepTime: number, mealType: string, likes: number = 0, postDate: Date | string = null, ingredients: RecipeIngredient[] = null, tags: string[] = null, slug: string = null, image: string) {
+    constructor(steps: RecipeStep[], name: string, creator: string, isPublic: boolean, prepTime: string, mealType: string, likes: number = 0, postDate: Date | string = null, ingredients: RecipeIngredient[] = null, tags: string[] = null, slug: string = null, image: string) {
         this.steps = steps;
         this.name = name;
         this.creator = creator;

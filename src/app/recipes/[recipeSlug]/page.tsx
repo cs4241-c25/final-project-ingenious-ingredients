@@ -74,6 +74,7 @@ export default async function RecipeDetailsPage({ params }) {
                         </div>
                         <Typography variant='h2' sx={{
                             marginBottom: "1.5rem",
+                            marginTop: "1rem",
                             fontWeight: "bold", textDecoration:"underline",
                             textDecorationColor: "#F08148", textUnderlineOffset: "4px"
                         }}>
@@ -92,8 +93,8 @@ export default async function RecipeDetailsPage({ params }) {
                         <Typography level="body-sm">Tags: {stylizedTags()}</Typography>
                     </div>
                 </div>
-                <div className={classes.recipeContent}>
-                <IngredientsBox ingredients={recipe.ingredients}/>
+                <div className={classes.recipeContent} style={{marginBottom: "2rem"}}>
+                    <IngredientsBox ingredients={recipe.ingredients}/>
                     <StepsBox steps={recipe.steps}/>
                 </div>
             </div>
