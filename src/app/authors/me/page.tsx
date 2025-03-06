@@ -182,7 +182,7 @@ export default function Author() {
                                     }}>
                                         {user.username}'s Recipes
                                     </Typography>
-                                    <RecipeGrid colNum={3} recipes={filteredMyRecipes}/>
+                                    <RecipeGrid colNum={3} recipes={filteredMyRecipes} sortingType={"name"}/>
                                 </Box>
                             </Collapse>
 
@@ -208,7 +208,7 @@ export default function Author() {
                                     }}>
                                         {user.username}'s Liked Recipes
                                     </Typography>
-                                    <RecipeGrid colNum={3} recipes={filteredLikedRecipes}/>
+                                    <RecipeGrid colNum={3} recipes={filteredLikedRecipes} sortingType={"name"}/>
                                 </Box>
                             </Collapse>
                             {/*<BrowseFilterTags/>*/}
