@@ -96,7 +96,7 @@ export default function CreateRecipe() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const ingredientsArray = ingredients.map(ingredient => new RecipeIngredient(ingredient, '', ''));
+        const ingredientsArray = ingredients.map(ingredient => new RecipeIngredient(ingredient, 0, ''));
         const stepsArray = steps.map(step => new RecipeStep(step, []));
 
         const recipe = new Recipe(
