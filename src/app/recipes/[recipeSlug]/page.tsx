@@ -1,10 +1,8 @@
 import { notFound } from 'next/navigation';
 import { GetRecipeFromSlug } from "@/Get-Post Requests/Recipe/getRecipeFromSlug";
-import { Recipe } from "../../../../Classes/Recipe";
 import NavBar from "@/components/NavBar";
 import classes from "./page.module.css";
 import Link from "next/link";
-import {Box} from "@material-ui/core";
 import IngredientsBox from "@/components/IngredientsBox";
 import EditRecipeButton from "@/components/Edit Recipe/EditRecipeButton";
 import {Chip} from "@mui/material";
@@ -90,7 +88,7 @@ export default async function RecipeDetailsPage({ params }) {
                         <p>Posted on: <Chip label={
                             <b>{recipe.postDate ? new Date(recipe.postDate).toDateString() : "No date available"}</b>}
                                             color="primary" style={{backgroundColor: "#F06449"}}/></p>
-                        <Typography level="body-sm">Tags: {stylizedTags()}</Typography>
+                        <Typography variant="body1">Tags: {stylizedTags()}</Typography>
                     </div>
                 </div>
                 <div className={classes.recipeContent} style={{marginBottom: "2rem"}}>
